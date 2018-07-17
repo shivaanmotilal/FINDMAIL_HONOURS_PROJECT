@@ -18,6 +18,47 @@ class FINDMAILMbox:
         self.data = {}
         self.raw_parts = []
         self.encoding = "utf-8" # output encoding 
+    
+    def create_mbox(self,path):
+        from_addr = email.utils.formataddr(('Author', 'author@example.com'))
+        to_addr = email.utils.formataddr(('Recipient', 'recipient@example.com'))
+        
+        #Note ReRunning this programm adds more mails to the existing mbox file
+        mbox = mailbox.mbox(path)
+        """Prepare messages to be removed from existing mbox file"""
+        to_remove = []
+        for key, msg in mbox.iteritems():
+            if not msg['subject'] == None: #Tag every existing message with subject in mbox
+                print 'Removing:', key
+                to_remove.append(key)
+                
+        mbox.lock()
+        try:
+            """-Delete items pre-specified to be removed"""
+            for key in to_remove:
+                mbox.remove(key)
+                
+            msg = mailbox.mboxMessage()
+            msg.set_unixfrom('author Sat Feb  7 01:05:34 2009')
+            msg['From'] = from_addr
+            msg['To'] = to_addr
+            msg['Subject'] = 'Sample message 1'
+            msg.set_payload('This is the body.\nFrom (should be escaped).\nThere are 3 lines in this body.\n')
+            mbox.add(msg)
+            mbox.flush()
+        
+            msg = mailbox.mboxMessage()
+            msg.set_unixfrom('author')
+            msg['From'] = from_addr
+            msg['To'] = to_addr
+            msg['Subject'] = 'Sample message 2'
+            msg.set_payload('This is the second body.\n')
+            mbox.add(msg)
+            mbox.flush()
+        finally:
+            mbox.unlock()
+        
+        print (open('FINDMAIL/mailboxes/mbox/example.mbox', 'r').read())
         
     '''-Specifically gets message body for each mail in mbox'''
     def getbody(self,message): #getting plain text 'email body'
@@ -163,9 +204,17 @@ class FINDMAILMbox:
             count2= count2+1
             """TO-DO: Prints to JSON files and stores all mails as a list"""
     def printToJSONFiles(self,mbox):
-        data = {}
-        data['key'] = 'value'
-        json_data = json.dumps(data) 
+        
+        self.data['from'] 
+        json_data = json.dumps(data)
+        count2=1;
+        for message in mbox:  
+            """Get from, to and subject field from email"""
+            msgFrom= message["from"]
+            msgTo= message["to"]
+            msgSubject= message["subject"]
+            msgID= message["message-id"]
+            msgTime= message["date"]        
     
     @staticmethod
     def main(self):
@@ -188,6 +237,7 @@ class FINDMAILMbox:
 
 if __name__ == '__main__':
     mbox=FINDMAILMbox()
+    #mbox.create_mbox('FINDMAIL/mailboxes/mbox/example.mbox')
     mbox.main(mbox)
 
 
