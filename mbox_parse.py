@@ -8,6 +8,7 @@ import errno
 import webbrowser #for testing purposes
 import email.utils #REDUNDANT
 import time
+import xml.etree.cElementTree as ET
 
 """imports for JSON Conversion"""
 import sys, urllib2, email, re, csv, StringIO, base64, json, datetime, pprint
@@ -18,6 +19,7 @@ class FINDMAILMbox:
         self.data = {}
         self.raw_parts = []
         self.encoding = "utf-8" # output encoding 
+        self.hasImage = False
     
     def create_mbox(self,path):
         from_addr = email.utils.formataddr(('Author', 'author@example.com'))
@@ -77,11 +79,33 @@ class FINDMAILMbox:
             body = message.get_payload(decode=True)
         return body
     
+    def get_decoded_email_body(self, msg):
+        """ Decode email body.
+        Detect character set if the header is not set.
+        We try to get text/plain, but if there is not one then fallback to text/html.
+        :param message_body: Raw 7-bit message body input e.g. from imaplib. Double encoded in quoted-printable and latin-1
+        :return: Message body as unicode string
+        """
+        text = ""
+        if msg.is_multipart():
+            html = None
+            for part in msg.get_payload():
+                print "%s, %s" % (part.get_content_type(), part.get_content_charset())
+                if part.get_content_charset() is None:
+                    # We cannot know the character set, so return decoded "something"
+                    text = part.get_payload(decode=True)
+                    continue
+                charset = part.get_content_charset()
+                if part.get_content_type() == 'text/plain':
+                    text = unicode(part.get_payload(decode=True), str(charset), "ignore").encode('utf8', 'replace')
+                if part.get_content_type() == 'text/html':
+                    html = unicode(part.get_payload(decode=True), str(charset), "ignore").encode('utf8', 'replace')
+                    
     '''-Gets attachment from an email of html and png types'''
     def getAttachment(self,message): 
         #What if there are multiple attachments?
         attach = []
-        print len(message.get_payload())
+        #print len(message.get_payload())
         if message.is_multipart():
             for part in message.walk():
                 if part.is_multipart():
@@ -89,7 +113,8 @@ class FINDMAILMbox:
                         if subpart.get_content_type() == 'text/html': #can also use .get_filename() to get ...
                             attach.append(subpart.get_payload(decode=True))
                         if subpart.get_content_type() == 'image/png':
-                            attach.append(subpart.get_payload(decode=True))                   
+                            attach.append(subpart.get_payload(decode=True)) 
+                            self.hasImage= True
                 elif part.get_content_type() == 'text/plain':
                     continue
         elif message.get_content_type() == 'text/plain':
@@ -165,15 +190,12 @@ class FINDMAILMbox:
             
             strBody = str(self.getbody(message)) 
             
-            
             """Derive attachment part of HTML File"""
-            
             msgATT=""""""
             for att in self.getAttachment(message):
                 strAttach= str(att)
                 msgATT=msgATT+ """<p id= ATTACHMENT>"""+strAttach+"""</p>"""
                 
-            
             """Create html message"""
             msgHTML = """<html>
             <head> FINDMAIL</head>
@@ -202,19 +224,82 @@ class FINDMAILMbox:
                 f.write(msgHTML )   
             f.close()  
             count2= count2+1
-            """TO-DO: Prints to JSON files and stores all mails as a list"""
+            
+    """TO-DO: Prints to JSON files and stores all mails as a list"""
     def printToJSONFiles(self,mbox):
-        
-        self.data['from'] 
-        json_data = json.dumps(data)
-        count2=1;
+        count3=1;
         for message in mbox:  
             """Get from, to and subject field from email"""
-            msgFrom= message["from"]
-            msgTo= message["to"]
-            msgSubject= message["subject"]
-            msgID= message["message-id"]
-            msgTime= message["date"]        
+            self.data['from']= message["from"]
+            self.data['to']= message["to"]
+            self.data['subject']= message["subject"]
+            self.data['message-id']= message["message-id"]
+            self.data['date']= message["date"]  
+            json_data = json.dumps(self.data)
+            
+            filename = "FINDMAIL/JSON files/"+ str(count3)+".json"
+            if not os.path.exists(os.path.dirname(filename)):
+                try:
+                    os.makedirs(os.path.dirname(filename))
+                except OSError as exc: # Guard against race condition
+                    if exc.errno != errno.EEXIST:
+                        raise
+                    print exc 
+        
+            with open(filename, "w") as f: #Write message to single file
+                f.write(json_data )   
+            f.close()  
+            count3= count3+1            
+        
+       #json_val = json.load(open('file.json'))
+       
+    """Create directory of all emails in mbox as XML files"""
+    def printToXMLFiles(self, mbox):
+        #Set default encoding to UTF-8 so system can parse email body
+        reload(sys)  
+        sys.setdefaultencoding('utf8')        
+        
+        count4=1;
+        for message in mbox:  
+            #print message
+            """Get from, to and subject fields etc. from email"""  
+            root = ET.Element("root")
+            doc = ET.SubElement(root, "doc")
+            
+            ET.SubElement(doc, "from", name="FROM").text = message["from"]
+            ET.SubElement(doc, "to", name="TO").text = message["to"]
+            ET.SubElement(doc, "subject", name="SUBJECT").text = message["subject"]
+            ET.SubElement(doc, "message-id", name="MESSAGE-ID").text = message["message-id"]        
+            ET.SubElement(doc, "date", name="DATE").text = message["date"]
+            if self.getbody(message):
+                ET.SubElement(doc, "body", name="BODY").text = self.getbody(message).encode('utf-8')
+            else:
+                ET.SubElement(doc, "body", name="BODY").text =""
+            
+            """Derive attachment part of XML File"""
+            attachCount=0
+            for att in self.getAttachment(message):
+                """ Cannot encode image file as UTF-8"""
+                if self.hasImage==True: #Skip all attachments for that email if it has attachments
+                    ET.SubElement(doc, "attachment"+str(attachCount), name="ATTACHMENT"+ str(attachCount)).text = "No attachment"
+                else:
+                    ET.SubElement(doc, "attachment"+str(attachCount), name="ATTACHMENT"+ str(attachCount)).text =att.encode('utf-8')
+                attachCount= attachCount+1
+            
+            self.hasImage= False #Re-initialise to false
+            
+            filename = "FINDMAIL/XML files/"+ str(count4)+".xml"
+            if not os.path.exists(os.path.dirname(filename)):
+                try:
+                    os.makedirs(os.path.dirname(filename))
+                except OSError as exc: # Guard against race condition
+                    if exc.errno != errno.EEXIST:
+                        raise
+                    print exc        
+                    
+            tree = ET.ElementTree(root)
+            tree.write(filename) 
+            count4=count4+1            
     
     @staticmethod
     def main(self):
@@ -230,7 +315,9 @@ class FINDMAILMbox:
         mbox = mailbox.mbox(args.path)
         #printToTextFiles(mbox)        
         #printToTextFiles(mbox)
-        self.printToHTMLFiles(mbox)
+        #self.printToHTMLFiles(mbox)
+        #self.printToJSONFiles(mbox)
+        self.printToXMLFiles(mbox)
             #with open('/index/'+ str(count)+'.txt', 'w') as f:
                 #print >> f, 'Filename:', filename  # Python 2.x 
             #count=count +1
