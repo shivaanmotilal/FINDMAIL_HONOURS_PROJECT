@@ -79,6 +79,7 @@ class FINDMAILMbox:
             body = message.get_payload(decode=True)
         return body
     
+    #Delete this
     def get_decoded_email_body(self, msg):
         """ Decode email body.
         Detect character set if the header is not set.
@@ -263,28 +264,28 @@ class FINDMAILMbox:
         for message in mbox:  
             #print message
             """Get from, to and subject fields etc. from email"""  
-            root = ET.Element("root")
-            doc = ET.SubElement(root, "doc")
+            root = ET.Element("doc")
+            #doc = ET.SubElement(root, "doc")
             
-            ET.SubElement(doc, "from", name="FROM").text = message["from"]
-            ET.SubElement(doc, "to", name="TO").text = message["to"]
-            ET.SubElement(doc, "subject", name="SUBJECT").text = message["subject"]
-            ET.SubElement(doc, "message-id", name="MESSAGE-ID").text = message["message-id"]        
-            ET.SubElement(doc, "date", name="DATE").text = message["date"]
+            ET.SubElement(root, "from", name="FROM").text = message["from"]
+            ET.SubElement(root, "to", name="TO").text = message["to"]
+            ET.SubElement(root, "subject", name="SUBJECT").text = message["subject"]
+            ET.SubElement(root, "message-id", name="MESSAGE-ID").text = message["message-id"]        
+            ET.SubElement(root, "date", name="DATE").text = message["date"]
             if self.getbody(message):
-                ET.SubElement(doc, "body", name="BODY").text = self.getbody(message).encode('utf-8')
+                ET.SubElement(root, "body", name="BODY").text = self.getbody(message).encode('utf-8')
             else:
-                ET.SubElement(doc, "body", name="BODY").text =""
+                ET.SubElement(root, "body", name="BODY").text =""
             
-            """Derive attachment part of XML File"""
-            attachCount=0
-            for att in self.getAttachment(message):
-                """ Cannot encode image file as UTF-8"""
-                if self.hasImage==True: #Skip all attachments for that email if it has attachments
-                    ET.SubElement(doc, "attachment"+str(attachCount), name="ATTACHMENT"+ str(attachCount)).text = "No attachment"
-                else:
-                    ET.SubElement(doc, "attachment"+str(attachCount), name="ATTACHMENT"+ str(attachCount)).text =att.encode('utf-8')
-                attachCount= attachCount+1
+            #"""Derive attachment part of XML File"""
+            #attachCount=0
+            #for att in self.getAttachment(message):
+                #""" Cannot encode image file as UTF-8"""
+                #if self.hasImage==True: #Skip all attachments for that email if it has attachments
+                    #ET.SubElement(root, "attachment"+str(attachCount), name="ATTACHMENT"+ str(attachCount)).text = "No attachment"
+                #else:
+                    #ET.SubElement(root, "attachment"+str(attachCount), name="ATTACHMENT"+ str(attachCount)).text =att.encode('utf-8')
+                #attachCount= attachCount+1
             
             self.hasImage= False #Re-initialise to false
             
