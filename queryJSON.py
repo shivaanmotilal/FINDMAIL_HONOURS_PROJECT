@@ -6,6 +6,7 @@ import re #imports regex expressions
 import json
 from pprint import pprint
 import create_inverted_index
+import os
 
 def main():
     query=raw_input("Enter query below:\n") 
@@ -131,11 +132,26 @@ def find_doc(name):
     doc_list= name.split(" ")
     for doc in doc_list:
         doc_num= doc[1:]
-        print doc_num
-        create_inverted_index.folders_in("FINDMAIL/XML files/")
-        
+        path= create_inverted_index.folders_in("FINDMAIL/XML files/")
+        for dirname, subdirs, files in os.walk(path):
+            for filename in files:
+                if filename==(doc_num+".xml"):
+                    print ('*' * 40),filename,('*' * 40) 
+                    fullpath= dirname+"/"+filename
+                    with open(fullpath, 'r') as myfile:
+                        data=myfile.read() 
+                    print data
+                    print ('*' * 86)
+                    print 
+                    print
         
     
 if __name__ == '__main__':
-    find_doc("D7")
-    #main()
+    main()
+    choice= raw_input("Would you like to open certain documents?y/n\n")
+    if(choice.lower() =="y"):
+        docs= raw_input("Enter name of docs you want to open separated by space. ie. \"D1 D2\" :\n")
+        find_doc(docs)
+    else:
+        print "Bye!"
+    
