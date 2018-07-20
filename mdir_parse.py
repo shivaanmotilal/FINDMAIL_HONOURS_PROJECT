@@ -12,6 +12,7 @@ import argparse
 import os
 import errno
 import email.utils
+import xml.etree.cElementTree as ET
 
 """imports for JSON Conversion"""
 import sys, urllib2, email, re, csv, StringIO, base64, json, datetime, pprint
@@ -22,6 +23,7 @@ class parseMDIR:
         self.data = {}
         self.raw_parts = []
         self.encoding = "utf-8" # output encoding 
+        self.hasImage= False
         
     def make_message(
                 self,
@@ -77,7 +79,8 @@ class parseMDIR:
                         if subpart.get_content_type() == 'text/html': #can also use .get_filename() to get ...
                             attach.append(subpart.get_payload(decode=True))
                         if subpart.get_content_type() == 'image/png':
-                            attach.append(subpart.get_payload(decode=True))                   
+                            attach.append(subpart.get_payload(decode=True))  
+                            self.hasImage= True                            
                 elif part.get_content_type() == 'text/plain':
                     continue
         elif message.get_content_type() == 'text/plain':
@@ -110,14 +113,14 @@ class parseMDIR:
                 #except LookupError:
                     ## Sometimes an encoding isn't recognised - not much to be done
                     #pass
-    
-    
+      
     """For emails that comply with RFC 2822"""
-    def printToHTMLfiles(self,count2,file):
+    def printToHTMLfiles(self,file):
         """-Is it over-writing files of same name eg 1,2?"""
         mailbox.Maildir.colon = '!' #Another character to use as colon in mdir files
         mdir =mailbox.Maildir(file, factory=None)
         #print file
+        count2=1
         for message in mdir:
             #message = mailbox.mboxMessage(file) # has to comply with RFC 2822
             #print message
@@ -128,8 +131,7 @@ class parseMDIR:
             msgID= message["message-id"]
             msgTime= message["date"]
             
-            """Convert date-time to usable time format"""
-            
+            #"""Convert date-time to usable time format"""
             #print "From: ", msgFrom
             #print "To: ", msgTo
             #print "Subject: ", msgSubject
@@ -138,13 +140,10 @@ class parseMDIR:
             
             #REMOTE_TIME_ZONE_OFFSET = -2 * 60 * 60  #Take into account local time difference
             #varTime= (time.mktime(email.utils.parsedate(msgTime)) +time.timezone - REMOTE_TIME_ZONE_OFFSET)            
-            #print "Time: ", time.strftime('%Y/%m/%d --- Time %H:%M:%S', time.localtime(varTime))
+            #print "Time: ", time.strftime('%Y/%m/%d --- Time %H:%M:%S', time.localtime(varTime)) 
+            strBody = str(self.getbody(message))   
             
-            strBody = str(self.getbody(message)) 
-            
-            
-            """Derive attachment part of HTML File"""
-            
+            """Derive attachment part of HTML File"""  
             msgATT=""""""
             for att in self.getAttachment(message):
                 strAttach= str(att)
@@ -220,6 +219,83 @@ class parseMDIR:
             msgID= message["message-id"]
             msgTime= message["date"]
             
+    """Create directory of all emails in mdir as XML files. 
+    Specify path to mdir directory"""
+    def printToXMLFiles(self, path):
+        #Set default encoding to UTF-8 so system can parse email body
+        reload(sys)  
+        sys.setdefaultencoding('utf8')   
+        count4=1
+        for dirname, subdirs, files in os.walk(path):
+            for name in files:
+                print dirname
+                sublist= dirname.split("\\")
+                subdir=sublist[len(sublist)-1]
+                pathlist=path.split("/")
+                maindir= pathlist[len(pathlist)-1]
+                print subdir
+                filename = os.path.join(dirname, name)
+                fullname = os.path.join("FINDMAIL/XML files/"+maindir+"/"+subdir, str(count4)+".xml")
+                print fullname
+                if not os.path.exists(os.path.dirname(fullname)):
+                    try:
+                        os.makedirs(os.path.dirname(fullname))
+                    except OSError as exc: # Guard against race condition
+                        if exc.errno != errno.EEXIST:
+                            raise
+                        print exc 
+                data=""
+                with open(filename, 'r') as myfile:
+                    data=myfile.read()  #.replace('\n', '')  to remove newline
+                message=  email.message_from_string(data)
+                root = ET.Element("doc")
+                #doc = ET.SubElement(root, "doc")
+                ET.SubElement(root, "from", name="FROM").text = message["from"]
+                ET.SubElement(root, "to", name="TO").text = message["to"]
+                ET.SubElement(root, "subject", name="SUBJECT").text = message["subject"]
+                ET.SubElement(root, "message-id", name="MESSAGE-ID").text = message["message-id"]        
+                ET.SubElement(root, "date", name="DATE").text = message["date"]
+                if self.getbody(message):
+                    ET.SubElement(root, "body", name="BODY").text = self.getbody(message).encode('utf-8')
+                else:
+                    ET.SubElement(root, "body", name="BODY").text =""
+                self.hasImage= False #Re-initialise to false   
+                
+                tree = ET.ElementTree(root)
+                tree.write(fullname)
+                count4= count4+1
+                #with open(fullname, "w") as f: #Write message to single file
+                    #f.write(msgHTML )   
+                #f.close()                      
+                
+        #count4=1;
+        #for message in mbox:  
+            ##print message
+            #"""Get from, to and subject fields etc. from email"""  
+            #root = ET.Element("doc")
+            ##doc = ET.SubElement(root, "doc")
+            #ET.SubElement(root, "from", name="FROM").text = message["from"]
+            #ET.SubElement(root, "to", name="TO").text = message["to"]
+            #ET.SubElement(root, "subject", name="SUBJECT").text = message["subject"]
+            #ET.SubElement(root, "message-id", name="MESSAGE-ID").text = message["message-id"]        
+            #ET.SubElement(root, "date", name="DATE").text = message["date"]
+            #if self.getbody(message):
+                #ET.SubElement(root, "body", name="BODY").text = self.getbody(message).encode('utf-8')
+            #else:
+                #ET.SubElement(root, "body", name="BODY").text =""
+            #self.hasImage= False #Re-initialise to false
+            #filename = "FINDMAIL/XML files/"+ str(count4)+".xml"
+            #if not os.path.exists(os.path.dirname(filename)):
+                #try:
+                    #os.makedirs(os.path.dirname(filename))
+                #except OSError as exc: # Guard against race condition
+                    #if exc.errno != errno.EEXIST:
+                        #raise
+                    #print exc           
+            #tree = ET.ElementTree(root)
+            #tree.write(filename) 
+            #count4=count4+1    
+            
     """determine if mailbox is purely maildir with new, cur and tmp directories"""
     def isPureMaildir(self,path):
         counter=0;
@@ -251,7 +327,8 @@ class parseMDIR:
                 #count=count+1
                 #print ('*' * 40) 
         print self.isPureMaildir("FINDMAIL/mailboxes/maildir/test1")
-        self.printToHTMLfiles(1,"FINDMAIL/mailboxes/maildir/test1")
+        #self.printToHTMLfiles("FINDMAIL/mailboxes/maildir/test1")
+        self.printToXMLFiles("FINDMAIL/mailboxes/maildir/test1")
 
 if __name__ == '__main__':
     maildir= parseMDIR()

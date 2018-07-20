@@ -26,7 +26,20 @@ import operator
 nltk.download('punkt')
 path = "FINDMAIL/XML files/"
 
-def main():
+def folders_in(path_to_parent):
+            for dirname, subdirs, files in os.walk(path_to_parent):
+                        if not subdirs:
+                                    print "No subfolders!"
+                                    return path_to_parent
+                        else:
+                                    print "At least 1 subfolder"
+                                    path_to_child= dirname+ subdirs[0]
+                                    return path_to_child #first subdir in path
+    #for fname in os.path.listdir(path_to_parent):
+        #if os.path.isdir(os.path.join(path_to_parent,fname)):
+            #yield os.path.join(path_to_parent,fname)
+
+def main(path):
             doc_id=1
             index_list = []
             doc_info = {}            
@@ -38,8 +51,7 @@ def main():
                                     #print '***', file_path
                                     #print '*' * 40 
                                     
-                                    final_tokens=[]
-                                                                        
+                                    final_tokens=[]                      
                                     """Extract content from documents"""
                                     tree = ET.parse(file_path)
                                     root = tree.getroot()
@@ -82,9 +94,9 @@ def main():
                                                                                     doc_info[doc_id] = (doc_id, len(final_tokens))              
                                     doc_id=doc_id+1
             
-            if not os.path.exists(os.path.dirname("JSON index/indexB.json")):
+            if not os.path.exists(os.path.dirname("JSON index/indexC.json")):
                         try:
-                                    os.makedirs(os.path.dirname("JSON index/indexB.json"))
+                                    os.makedirs(os.path.dirname("JSON index/indexC.json"))
                         except OSError as exc: # Guard against race condition
                                     if exc.errno != errno.EEXIST:
                                                 raise
@@ -92,13 +104,18 @@ def main():
                                     
             #Store files to JSON Format
             index_list.sort(key=operator.itemgetter(0,1))
-            with open('JSON index/indexB.json', 'w') as outfile:
+            with open('JSON index/indexC.json', 'w') as outfile:
                         json.dump(index_list, outfile)                                    
                                                             
             
                                                 
 if __name__ == '__main__':
-            main()
+            #main()
+            
+            """Check Mbox or Mdir. Diverge the path depending on there being a subfolder """
+            path = folders_in("FINDMAIL/XML files/")
+            print path
+            main(path)
 
         ##D1 : red red blue black red
         ##D2 : white red white white

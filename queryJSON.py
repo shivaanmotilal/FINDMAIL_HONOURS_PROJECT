@@ -5,10 +5,11 @@ from nltk.stem.snowball import SnowballStemmer
 import re #imports regex expressions
 import json
 from pprint import pprint
+import create_inverted_index
 
 def main():
     query=raw_input("Enter query below:\n") 
-    with open('JSON index/indexB.json') as f:
+    with open('JSON index/indexC.json') as f:
         index_data = json.load(f)
     
     #pprint(index_data)  
@@ -124,6 +125,17 @@ def main():
     for sc in score:
         #Rank is if there are multiple words, which doc has most
         print "DOC: "+sc, " RANK: "+str(score[sc])
-
+        
+def find_doc(name):
+    print name
+    doc_list= name.split(" ")
+    for doc in doc_list:
+        doc_num= doc[1:]
+        print doc_num
+        create_inverted_index.folders_in("FINDMAIL/XML files/")
+        
+        
+    
 if __name__ == '__main__':
-    main()
+    find_doc("D7")
+    #main()
