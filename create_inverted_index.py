@@ -66,24 +66,33 @@ def main():
                                                                         word = final_tokens[i]
                                                                         #print word
                                                                         index_found = 0
-                                                                        """index_list has len 0 so not looping"""
-                                                                        #print len(index_list)
-                                                                        for index in range(len(index_list)):
-                                                                                    #Check if it already exists in index_list, shouldn't
-                                                                                    if index_list[index][0]==word:
-                                                                                                item = index_list[index][1]
-                                                                                                item.append(["D"+str(doc_id), pos])
-                                                                                                index_list[index][1] = item
-                                                                                                index_found = 1
-                                                                                                break
-                                                                        if index_found == 0:
-                                                                                    index_list.append([word,[["D"+str(doc_id),pos]]])
-                                                                        doc_info[doc_id] = (doc_id, len(final_tokens))              
+                                                                        if word not in "''":
+                                                                                    """index_list has len 0 so not looping"""
+                                                                                    #print len(index_list)
+                                                                                    for index in range(len(index_list)):
+                                                                                                #Check if it already exists in index_list, shouldn't
+                                                                                                if index_list[index][0]==word:
+                                                                                                            item = index_list[index][1]
+                                                                                                            item.append(["D"+str(doc_id), pos])
+                                                                                                            index_list[index][1] = item
+                                                                                                            index_found = 1
+                                                                                                            break
+                                                                                    if index_found == 0:
+                                                                                                index_list.append([word,[["D"+str(doc_id),pos]]])
+                                                                                    doc_info[doc_id] = (doc_id, len(final_tokens))              
                                     doc_id=doc_id+1
+            
+            if not os.path.exists(os.path.dirname("JSON index/indexB.json")):
+                        try:
+                                    os.makedirs(os.path.dirname("JSON index/indexB.json"))
+                        except OSError as exc: # Guard against race condition
+                                    if exc.errno != errno.EEXIST:
+                                                raise
+                                    print exc     
                                     
             #Store files to JSON Format
             index_list.sort(key=operator.itemgetter(0,1))
-            with open('indexA.json', 'w') as outfile:
+            with open('JSON index/indexB.json', 'w') as outfile:
                         json.dump(index_list, outfile)                                    
                                                             
             
