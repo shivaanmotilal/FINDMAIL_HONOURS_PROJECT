@@ -76,11 +76,13 @@ class parseMDIR:
             for part in message.walk():
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.get_content_type() == 'text/html': #can also use .get_filename() to get ...
-                            attach.append(subpart.get_payload(decode=True))
+                        #if subpart.get_content_type() == 'text/html': #can also use .get_filename() to get ...
+                            #attach.append(subpart.get_payload(decode=True))
                         if subpart.get_content_type() == 'image/png':
                             attach.append(subpart.get_payload(decode=True))  
-                            self.hasImage= True                            
+                            self.hasImage= True   
+                        else:
+                            attach.append(subpart.get_payload(decode=True))
                 elif part.get_content_type() == 'text/plain':
                     continue
         elif message.get_content_type() == 'text/plain':
@@ -187,37 +189,119 @@ class parseMDIR:
     """Other type refers to maildirs that do not have the traditional
     new, cur and tmp folders. For emails that comply with RFC 2822"""
     def otherTypePrintToHTMLfiles(self,path):
+        count5=1;
         for dirname, subdirs, files in os.walk(path):
-            print (dirname)
-            print ('\tDirectories:', subdirs)
+            for name in files:               
+                sublist= dirname.split("\\")
+                subdir=sublist[len(sublist)-1]
+                pathlist=path.split("/")
+                maindir= pathlist[len(pathlist)-1]                
+                fullname = os.path.join(dirname, name)
+                with open(fullname, 'r') as myfile:
+                    text=myfile.read()  #.replace('\n', '')  to remove newline
+                message=  email.message_from_string(text)
+                msgFrom= message["from"]
+                msgTo= message["to"]
+                msgSubject= message["subject"]
+                msgID= message["message-id"]
+                msgTime= message["date"]
+                strBody = str(self.getbody(message))
+                """Derive attachment part of HTML File"""  
+                msgATT=""""""
+                for att in self.getAttachment(message):
+                    strAttach= str(att)
+                    msgATT=msgATT+ """<p>"""+strAttach+"""</p>"""
+                if msgATT=="""""":
+                    msgATT="""<p> NO ATTACHMENTS</p>"""   
+                """Create html message"""
+                msgHTML = """<html>
+                <head> FINDMAIL</head>
+                <body>
+                <p id= FROM>"""+msgFrom +""" </p>
+                <p id= SUBJECT>"""+msgSubject+"""</p>
+                <p id= TO>"""+msgTo+"""</p>
+                <p id= MESSAGE-ID>"""+msgID+"""</p>
+                <p id= DATE-TIME>"""+msgTime+"""</p>
+                <p id= BODY >"""+ strBody+"""</p>
+                """+msgATT+"""</body> 
+                </html>"""        
+                
+                """File paths"""
+                filename = "FINDMAIL/MDIR HTML indices/"+ str(count5)+".html"
+                
+                if not os.path.exists(os.path.dirname(filename)):
+                    try:
+                        os.makedirs(os.path.dirname(filename))
+                    except OSError as exc: # Guard against race condition
+                        if exc.errno != errno.EEXIST:
+                            raise
+                        print exc 
+                        
+                with open(filename, "w") as f: #Write message to single file
+                    f.write(msgHTML )   
+                f.close()  
+                count5= count5+1                
+                
+                    
+    #"""TO-DO: Prints to JSON files and stores all mails as a list"""
+    #def printToJSONfiles(self,count2,file):
+        #data = {}
+        #data['key'] = 'value'
+        #json_data = json.dumps(data)    
+        #"""-Is it over-writing files of same name eg 1,2?"""
+        #mailbox.Maildir.colon = '!' #Another character to use as colon in mdir files
+        #mdir =mailbox.Maildir(file, factory=None)
+        ##print file
+        #for message in mdir:
+            ##message = mailbox.mboxMessage(file) # has to comply with RFC 2822
+            ##print message
+            #"""Get from, to and subject field from email"""
+            #msgFrom= message["from"]
+            #msgTo= message["to"]
+            #msgSubject= message["subject"]
+            #msgID= message["message-id"]
+            #msgTime= message["date"]
+            #"""TO-DO: Prints to JSON files and stores all mails as a list"""
+    def printToJSONFiles(self,path):
+        count3=1;
+        for dirname, subdirs, files in os.walk(path):
             count=1
             for name in files:
+                sublist= dirname.split("\\")
+                subdir=sublist[len(sublist)-1]
+                pathlist=path.split("/")
+                maindir= pathlist[len(pathlist)-1]                
                 fullname = os.path.join(dirname, name)
-                print ()
-                print ('***', fullname)
-                #print (open(fullname).read())
-                self.printToHTMLfiles(count,fullname)
-                count=count+1
-                print ('*' * 40)        
-        
-    """TO-DO: Prints to JSON files and stores all mails as a list"""
-    def printToJSONfiles(self,count2,file):
-        data = {}
-        data['key'] = 'value'
-        json_data = json.dumps(data)    
-        """-Is it over-writing files of same name eg 1,2?"""
-        mailbox.Maildir.colon = '!' #Another character to use as colon in mdir files
-        mdir =mailbox.Maildir(file, factory=None)
-        #print file
-        for message in mdir:
-            #message = mailbox.mboxMessage(file) # has to comply with RFC 2822
-            #print message
-            """Get from, to and subject field from email"""
-            msgFrom= message["from"]
-            msgTo= message["to"]
-            msgSubject= message["subject"]
-            msgID= message["message-id"]
-            msgTime= message["date"]
+                with open(fullname, 'r') as myfile:
+                    text=myfile.read()  #.replace('\n', '')  to remove newline
+                message=  email.message_from_string(text)                
+                """Get from, to and subject field etc.from email"""
+                self.data['folder']= subdir
+                self.data['from']= message["from"]
+                self.data['to']= message["to"]
+                self.data['subject']= message["subject"]
+                self.data['message-id']= message["message-id"]
+                self.data['date']= message["date"]  
+                if self.getbody(message):
+                    self.data['body']= self.getbody(message)
+                else:
+                    self.data['body']= ""
+                self.data['attachment']= self.getAttachment(message)
+                json_data = json.dumps(self.data, ensure_ascii=False)
+                filename = "FINDMAIL/MDIR JSON files/"+ str(count3)+".json"
+                if not os.path.exists(os.path.dirname(filename)):
+                    try:
+                        os.makedirs(os.path.dirname(filename))
+                    except OSError as exc: # Guard against race condition
+                        if exc.errno != errno.EEXIST:
+                            raise
+                        print exc 
+            
+                with open(filename, "w") as f: #Write message to single file
+                    f.write(json_data )   
+                f.close()  
+                count3= count3+1                  
+              
             
     """Create directory of all emails in mdir as XML files. 
     Specify path to mdir directory"""
@@ -328,7 +412,9 @@ class parseMDIR:
                 #print ('*' * 40) 
         print self.isPureMaildir("FINDMAIL/mailboxes/maildir/test1")
         #self.printToHTMLfiles("FINDMAIL/mailboxes/maildir/test1")
-        self.printToXMLFiles("FINDMAIL/mailboxes/maildir/test1")
+        #self.printToXMLFiles("FINDMAIL/mailboxes/maildir/test1")
+        self.otherTypePrintToHTMLfiles("FINDMAIL/mailboxes/maildir/test1")
+        #self.printToJSONFiles("FINDMAIL/mailboxes/maildir/test1")
 
 if __name__ == '__main__':
     maildir= parseMDIR()

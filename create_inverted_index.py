@@ -26,13 +26,12 @@ import operator
 nltk.download('punkt')
 path = "FINDMAIL/XML files/"
 
+"""If there are subfolders. Checks if MBOX or maildir."""
 def folders_in(path_to_parent):
             for dirname, subdirs, files in os.walk(path_to_parent):
                         if not subdirs:
-                                    print "No subfolders!"
                                     return path_to_parent
                         else:
-                                    print "At least 1 subfolder"
                                     path_to_child= dirname+ subdirs[0]
                                     return path_to_child #first subdir in path
     #for fname in os.path.listdir(path_to_parent):
@@ -94,9 +93,9 @@ def main(path):
                                                                                     doc_info[doc_id] = (doc_id, len(final_tokens))              
                                     doc_id=doc_id+1
             
-            if not os.path.exists(os.path.dirname("JSON index/indexC.json")):
+            if not os.path.exists(os.path.dirname("JSON index/indexD.json")):
                         try:
-                                    os.makedirs(os.path.dirname("JSON index/indexC.json"))
+                                    os.makedirs(os.path.dirname("JSON index/indexD.json"))
                         except OSError as exc: # Guard against race condition
                                     if exc.errno != errno.EEXIST:
                                                 raise
@@ -104,7 +103,7 @@ def main(path):
                                     
             #Store files to JSON Format
             index_list.sort(key=operator.itemgetter(0,1))
-            with open('JSON index/indexC.json', 'w') as outfile:
+            with open('JSON index/indexD.json', 'w') as outfile:
                         json.dump(index_list, outfile)                                    
                                                             
             

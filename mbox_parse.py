@@ -123,6 +123,25 @@ class FINDMAILMbox:
             print "no attachment"
         return attach   
     
+    def get_undecoded_attachment(self, message):
+        attach = []
+        #print len(message.get_payload())
+        if message.is_multipart():
+            for part in message.walk():
+                if part.is_multipart():
+                    for subpart in part.walk():
+                        if subpart.get_content_type() == 'text/html': #can also use .get_filename() to get ...
+                            attach.append(subpart)
+                        if subpart.get_content_type() == 'image/png':
+                            attach.append(subpart) 
+                            self.hasImage= True
+                elif part.get_content_type() == 'text/plain':
+                    continue
+        elif message.get_content_type() == 'text/plain':
+            #Do nothing
+            print "no attachment"
+        return attach
+    
     def printToTextFiles(self,mbox):
         count1=1;
         for message in mbox:
@@ -134,8 +153,8 @@ class FINDMAILMbox:
             
             
             """File paths"""
-            filename = "FINDMAIL/Plain text indices/"+ str(count1)+".txt"
-            body= "FINDMAIL/Plain text indices/body/"+ str(count1)+".txt"
+            filename = "FINDMAIL/Plain text files/"+ str(count1)+".txt"
+            body= "FINDMAIL/Plain text files/body/"+ str(count1)+".txt"
             #print filename
             if not os.path.exists(os.path.dirname(filename)):
                 try:
@@ -211,7 +230,7 @@ class FINDMAILMbox:
             </html>"""   
             
             """File paths"""
-            filename = "FINDMAIL/HTML indices/"+ str(count2)+".html"
+            filename = "FINDMAIL/HTML files/"+ str(count2)+".html"
             
             if not os.path.exists(os.path.dirname(filename)):
                 try:
@@ -236,9 +255,15 @@ class FINDMAILMbox:
             self.data['subject']= message["subject"]
             self.data['message-id']= message["message-id"]
             self.data['date']= message["date"]  
-            json_data = json.dumps(self.data)
-            
+            if self.getbody(message):
+                self.data['body']= self.getbody(message)
+            else:
+                self.data['body']= ""
+            self.data['attachment']= self.getAttachment(message)
+            json_data = json.dumps(self.data, ensure_ascii=False)
             filename = "FINDMAIL/JSON files/"+ str(count3)+".json"
+            
+            
             if not os.path.exists(os.path.dirname(filename)):
                 try:
                     os.makedirs(os.path.dirname(filename))
@@ -313,12 +338,11 @@ class FINDMAILMbox:
         print
             
         """FINDMAIL/mailboxes/mbox/test.mbox"""
-        mbox = mailbox.mbox(args.path)
-        #printToTextFiles(mbox)        
+        mbox = mailbox.mbox(args.path)       
         #printToTextFiles(mbox)
         #self.printToHTMLFiles(mbox)
-        #self.printToJSONFiles(mbox)
-        self.printToXMLFiles(mbox)
+        self.printToJSONFiles(mbox)
+        #self.printToXMLFiles(mbox)
             #with open('/index/'+ str(count)+'.txt', 'w') as f:
                 #print >> f, 'Filename:', filename  # Python 2.x 
             #count=count +1
