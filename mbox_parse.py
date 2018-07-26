@@ -103,41 +103,164 @@ class FINDMAILMbox:
                     html = unicode(part.get_payload(decode=True), str(charset), "ignore").encode('utf8', 'replace')
                     
     '''-Gets attachment from an email of html and png types'''
-    def getAttachment(self,message): 
+    def getAttachment(self,message, path): 
         #What if there are multiple attachments?
         attach = []
         #print len(message.get_payload())
         if message.is_multipart():
-            for part in message.walk():
+            for part in message.walk():               
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.get_content_type() == 'image/png':
+                        if subpart.is_multipart():
+                            for subsubpart in subpart.walk():
+                                if subsubpart.get_content_type() == 'image/png':
+                                    attach.append(subsubpart.get_payload(decode=True)) 
+                                    self.hasImage= True
+                                else:
+                                    payload = subsubpart.get_payload(decode=True)
+                                    attach.append(payload)
+                                    if not subsubpart.get_filename():
+                                        continue
+                                    else:
+                                        filename = path+subsubpart.get_filename()
+                                        # Save the file.
+                                        if payload and filename:
+                                            if not os.path.exists(os.path.dirname(filename)):
+                                                try:
+                                                    os.makedirs(os.path.dirname(filename))
+                                                except OSError as exc: # Guard against race condition
+                                                    if exc.errno != errno.EEXIST:
+                                                        raise
+                                                    print exc                                     
+                                            with open(filename, 'wb') as f:
+                                                f.write(payload) 
+                        elif subpart.get_content_type() == 'image/png':
                             attach.append(subpart.get_payload(decode=True)) 
                             self.hasImage= True
                         else:
-                            attach.append(subpart.get_payload(decode=True))
+                            payload = subpart.get_payload(decode=True)
+                            attach.append(payload)
+                            if not subpart.get_filename():
+                                continue
+                            else:
+                                filename = path+subpart.get_filename()
+                                # Save the file.
+                                if payload and filename:
+                                    if not os.path.exists(os.path.dirname(filename)):
+                                        try:
+                                            os.makedirs(os.path.dirname(filename))
+                                        except OSError as exc: # Guard against race condition
+                                            if exc.errno != errno.EEXIST:
+                                                raise
+                                            print exc                                     
+                                    with open(filename, 'wb') as f:
+                                        f.write(payload)                                
                 elif part.get_content_type() == 'text/plain':
                     continue
+                else:
+                    # When decode=True, get_payload will return None if part.is_multipart()
+                    # and the decoded content otherwise.
+                    payload = part.get_payload(decode=True)
+            
+                    # Default filename can be passed as an argument to get_filename()
+                    if not part.get_filename():
+                        continue
+                    else:
+                        filename = path+part.get_filename()
+                        # Save the file.
+                        if payload and filename:
+                            if not os.path.exists(os.path.dirname(filename)):
+                                try:
+                                    os.makedirs(os.path.dirname(filename))
+                                except OSError as exc: # Guard against race condition
+                                    if exc.errno != errno.EEXIST:
+                                        raise
+                                    print exc                             
+                            with open(filename, 'wb') as f:
+                                f.write(payload)                     
         elif message.get_content_type() == 'text/plain':
             #Do nothing
             print "no attachment"
         return attach   
     
-    def get_undecoded_attachment(self, message):
+    def get_undecoded_attachment(self, message, path):
+        #What if there are multiple attachments?
         attach = []
         #print len(message.get_payload())
         if message.is_multipart():
-            for part in message.walk():
+            for part in message.walk():               
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.get_content_type() == 'text/plain':
-                            #attach.append(subpart) 
-                            #self.hasImage= True
-                            continue
-                        else:
+                        if subpart.is_multipart():
+                            for subsubpart in subpart.walk():
+                                if subsubpart.get_content_type() == 'image/png':
+                                    attach.append(subsubpart) 
+                                    self.hasImage= True
+                                elif part.get_content_type() == 'text/plain':
+                                    attach.append(subsubpart)
+                                else:
+                                    payload = subsubpart.get_payload(decode=True)
+                                    attach.append(subsubpart)
+                                    if not subsubpart.get_filename():
+                                        continue
+                                    else:
+                                        filename = path+subsubpart.get_filename()
+                                        # Save the file.
+                                        if payload and filename:
+                                            if not os.path.exists(os.path.dirname(filename)):
+                                                try:
+                                                    os.makedirs(os.path.dirname(filename))
+                                                except OSError as exc: # Guard against race condition
+                                                    if exc.errno != errno.EEXIST:
+                                                        raise
+                                                    print exc                                     
+                                            with open(filename, 'wb') as f:
+                                                f.write(payload) 
+                            break
+                        elif part.get_content_type() == 'text/plain':
                             attach.append(subpart)
+                        else:
+                            payload = subpart.get_payload(decode=True)
+                            attach.append(subpart)
+                            if not subpart.get_filename():
+                                continue
+                            else:
+                                filename = path+subpart.get_filename()
+                                # Save the file.
+                                if payload and filename:
+                                    if not os.path.exists(os.path.dirname(filename)):
+                                        try:
+                                            os.makedirs(os.path.dirname(filename))
+                                        except OSError as exc: # Guard against race condition
+                                            if exc.errno != errno.EEXIST:
+                                                raise
+                                            print exc                                     
+                                    with open(filename, 'wb') as f:
+                                        f.write(payload) 
+                    break
                 elif part.get_content_type() == 'text/plain':
                     continue
+                else:
+                    # When decode=True, get_payload will return None if part.is_multipart()
+                    # and the decoded content otherwise.
+                    payload = part.get_payload(decode=True)
+                    attach.append(part)
+                    # Default filename can be passed as an argument to get_filename()
+                    if not part.get_filename():
+                        continue
+                    else:
+                        filename = path+part.get_filename()
+                        # Save the file.
+                        if payload and filename:
+                            if not os.path.exists(os.path.dirname(filename)):
+                                try:
+                                    os.makedirs(os.path.dirname(filename))
+                                except OSError as exc: # Guard against race condition
+                                    if exc.errno != errno.EEXIST:
+                                        raise
+                                    print exc                             
+                            with open(filename, 'wb') as f:
+                                f.write(payload)
         elif message.get_content_type() == 'text/plain':
             #Do nothing
             print "no attachment"
@@ -216,9 +339,13 @@ class FINDMAILMbox:
             
             """Derive attachment part of HTML File"""
             msgATT=""""""
-            for att in self.getAttachment(message):
+            for att in self.get_undecoded_attachment(message, "FINDMAIL/HTML files/"+ str(count2)+"/"):
                 strAttach= str(att)
-                msgATT=msgATT+ """<p id= ATTACHMENT>"""+strAttach+"""</p>"""
+                if not att.get_filename():
+                    pass
+                else:
+                    print att.get_filename()
+                    msgATT=msgATT+ """<p><a target= "_blank" href= "FINDMAIL/HTML files/"""+ str(count2)+"""/"""+att.get_filename()+""" "><img src="FINDMAIL/HTML files/ """+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
                 
             """Create html message"""
             msgHTML = """<html>
@@ -347,9 +474,9 @@ class FINDMAILMbox:
         """FINDMAIL/mailboxes/mbox/test.mbox"""
         #mbox = mailbox.mbox(args.path)       
         #self.printToTextFiles(mbox)
-        #self.printToHTMLFiles(args.path)
+        self.printToHTMLFiles(args.path)
         #self.printToJSONFiles(mbox)
-        self.printToXMLFiles(args.path)
+        #self.printToXMLFiles(args.path)
             #with open('/index/'+ str(count)+'.txt', 'w') as f:
                 #print >> f, 'Filename:', filename  # Python 2.x 
             #count=count +1
