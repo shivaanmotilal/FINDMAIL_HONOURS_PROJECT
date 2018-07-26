@@ -111,11 +111,11 @@ class FINDMAILMbox:
             for part in message.walk():
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.get_content_type() == 'text/html': #can also use .get_filename() to get ...
-                            attach.append(subpart.get_payload(decode=True))
                         if subpart.get_content_type() == 'image/png':
                             attach.append(subpart.get_payload(decode=True)) 
                             self.hasImage= True
+                        else:
+                            attach.append(subpart.get_payload(decode=True))
                 elif part.get_content_type() == 'text/plain':
                     continue
         elif message.get_content_type() == 'text/plain':
@@ -130,11 +130,12 @@ class FINDMAILMbox:
             for part in message.walk():
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.get_content_type() == 'text/html': #can also use .get_filename() to get ...
+                        if subpart.get_content_type() == 'text/plain':
+                            #attach.append(subpart) 
+                            #self.hasImage= True
+                            continue
+                        else:
                             attach.append(subpart)
-                        if subpart.get_content_type() == 'image/png':
-                            attach.append(subpart) 
-                            self.hasImage= True
                 elif part.get_content_type() == 'text/plain':
                     continue
         elif message.get_content_type() == 'text/plain':
@@ -144,7 +145,7 @@ class FINDMAILMbox:
     
     def printToTextFiles(self,mbox):
         count1=1;
-        for message in mbox:
+        for message in mbox.iteritems():
             #if message.is_multipart():
                 #content = ''.join(part.get_payload(decode=True) for part in message.get_payload())
             #else:
@@ -186,9 +187,12 @@ class FINDMAILMbox:
             #print getbody(message)
             count1=count1+1    
     
-    def printToHTMLFiles(self,mbox):
+    def printToHTMLFiles(self,path):
         count2=1;
+        mbox = mailbox.mbox(path)
+        
         for message in mbox:  
+            print message
             """Get from, to and subject field from email"""
             msgFrom= message["from"]
             msgTo= message["to"]
@@ -246,9 +250,10 @@ class FINDMAILMbox:
             count2= count2+1
             
     """TO-DO: Prints to JSON files and stores all mails as a list"""
-    def printToJSONFiles(self,mbox):
+    def printToJSONFiles(self,path):
         count3=1;
-        for message in mbox:  
+        mbox = mailbox.mbox(path)
+        for message in mbox.iteritems():  
             """Get from, to and subject field from email"""
             self.data['from']= message["from"]
             self.data['to']= message["to"]
@@ -280,18 +285,19 @@ class FINDMAILMbox:
        #json_val = json.load(open('file.json'))
        
     """Create directory of all emails in mbox as XML files"""
-    def printToXMLFiles(self, mbox):
+    def printToXMLFiles(self, path):
         #Set default encoding to UTF-8 so system can parse email body
         reload(sys)  
         sys.setdefaultencoding('utf8')        
         
         count4=1;
+        mbox = mailbox.mbox(path)
+        print path
         for message in mbox:  
-            #print message
+            print message
             """Get from, to and subject fields etc. from email"""  
             root = ET.Element("doc")
-            #doc = ET.SubElement(root, "doc")
-            
+            #doc = ET.SubElement(root, "doc")    
             ET.SubElement(root, "from", name="FROM").text = message["from"]
             ET.SubElement(root, "to", name="TO").text = message["to"]
             ET.SubElement(root, "subject", name="SUBJECT").text = message["subject"]
@@ -302,15 +308,16 @@ class FINDMAILMbox:
             else:
                 ET.SubElement(root, "body", name="BODY").text =""
             
-            #"""Derive attachment part of XML File"""
-            #attachCount=0
-            #for att in self.getAttachment(message):
-                #""" Cannot encode image file as UTF-8"""
-                #if self.hasImage==True: #Skip all attachments for that email if it has attachments
-                    #ET.SubElement(root, "attachment"+str(attachCount), name="ATTACHMENT"+ str(attachCount)).text = "No attachment"
-                #else:
-                    #ET.SubElement(root, "attachment"+str(attachCount), name="ATTACHMENT"+ str(attachCount)).text =att.encode('utf-8')
-                #attachCount= attachCount+1
+            """Derive attachment part of XML File"""
+            attachCount=0
+            for att in self.get_undecoded_attachment(message):
+                if att==None:
+                    pass #Skip all attachments for that email if it has attachments 
+                elif self.hasImage==True: 
+                    pass #Cannot encode image file as UTF-8
+                else:
+                    ET.SubElement(root, "attachment"+str(attachCount), name="ATTACHMENT"+ str(attachCount)).text =att.as_string()
+                attachCount= attachCount+1  
             
             self.hasImage= False #Re-initialise to false
             
@@ -338,11 +345,11 @@ class FINDMAILMbox:
         print
             
         """FINDMAIL/mailboxes/mbox/test.mbox"""
-        mbox = mailbox.mbox(args.path)       
-        #printToTextFiles(mbox)
-        #self.printToHTMLFiles(mbox)
-        self.printToJSONFiles(mbox)
-        #self.printToXMLFiles(mbox)
+        #mbox = mailbox.mbox(args.path)       
+        #self.printToTextFiles(mbox)
+        #self.printToHTMLFiles(args.path)
+        #self.printToJSONFiles(mbox)
+        self.printToXMLFiles(args.path)
             #with open('/index/'+ str(count)+'.txt', 'w') as f:
                 #print >> f, 'Filename:', filename  # Python 2.x 
             #count=count +1
