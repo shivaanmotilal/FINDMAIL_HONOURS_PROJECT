@@ -345,7 +345,7 @@ class FINDMAILMbox:
                     pass
                 else:
                     print att.get_filename()
-                    msgATT=msgATT+ """<p><a target= "_blank" href= "FINDMAIL/HTML files/"""+ str(count2)+"""/"""+att.get_filename()+""" "><img src="FINDMAIL/HTML files/ """+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
+                    msgATT=msgATT+ """<p><a target= "_blank" href= " """+ str(count2)+"""/"""+att.get_filename()+""" "><img src=" """+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
                 
             """Create html message"""
             msgHTML = """<html>
