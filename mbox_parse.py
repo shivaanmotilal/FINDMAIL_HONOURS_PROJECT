@@ -91,7 +91,7 @@ class FINDMAILMbox:
         if msg.is_multipart():
             html = None
             for part in msg.get_payload():
-                print "%s, %s" % (part.get_content_type(), part.get_content_charset())
+                #print "%s, %s" % (part.get_content_type(), part.get_content_charset())
                 if part.get_content_charset() is None:
                     # We cannot know the character set, so return decoded "something"
                     text = part.get_payload(decode=True)
@@ -213,9 +213,12 @@ class FINDMAILMbox:
                                                 except OSError as exc: # Guard against race condition
                                                     if exc.errno != errno.EEXIST:
                                                         raise
-                                                    print exc                                     
-                                            with open(filename, 'wb') as f:
-                                                f.write(payload) 
+                                                    print exc 
+                                            try:
+                                                with open(filename, 'wb') as f:
+                                                    f.write(payload)
+                                            except  IOError:
+                                                print('An error occured trying to read the file.')
                             break
                         elif part.get_content_type() == 'text/plain':
                             attach.append(subpart)
@@ -235,8 +238,11 @@ class FINDMAILMbox:
                                             if exc.errno != errno.EEXIST:
                                                 raise
                                             print exc                                     
-                                    with open(filename, 'wb') as f:
-                                        f.write(payload) 
+                                    try:
+                                        with open(filename, 'wb') as f:
+                                            f.write(payload)
+                                    except  IOError:
+                                        print('An error occured trying to read the file.')                                     
                     break
                 elif part.get_content_type() == 'text/plain':
                     continue
@@ -259,8 +265,11 @@ class FINDMAILMbox:
                                     if exc.errno != errno.EEXIST:
                                         raise
                                     print exc                             
-                            with open(filename, 'wb') as f:
-                                f.write(payload)
+                            try:
+                                with open(filename, 'wb') as f:
+                                    f.write(payload)
+                            except  IOError:
+                                print('An error occured trying to read the file.')                        
         elif message.get_content_type() == 'text/plain':
             #Do nothing
             print "no attachment"
@@ -315,7 +324,7 @@ class FINDMAILMbox:
         mbox = mailbox.mbox(path)
         
         for message in mbox:  
-            print message
+            #print message
             """Get from, to and subject field from email"""
             msgFrom= message["from"]
             msgTo= message["to"]
@@ -334,33 +343,276 @@ class FINDMAILMbox:
             #REMOTE_TIME_ZONE_OFFSET = -2 * 60 * 60  #Take into account local time difference
             #varTime= (time.mktime(email.utils.parsedate(msgTime)) +time.timezone - REMOTE_TIME_ZONE_OFFSET)            
             #print "Time: ", time.strftime('%Y/%m/%d --- Time %H:%M:%S', time.localtime(varTime))
-            
-            strBody = str(self.getbody(message)) 
+            strBody= """"""
+            strBody = strBody+str(self.getbody(message)) 
             
             """Derive attachment part of HTML File"""
-            msgATT=""""""
+            msgATT="""<p>ATTACHMENTS:</p>"""
+            embedHTML=""""""
             for att in self.get_undecoded_attachment(message, "FINDMAIL/HTML files/"+ str(count2)+"/"):
+                content_type=att.get_content_type()
+                #print content_type
                 strAttach= str(att)
-                if not att.get_filename():
-                    pass
+                if content_type=='text/html':
+                    embedHTML= embedHTML+att.get_payload(decode=True) 
+                elif not att.get_filename():
+                    continue                
                 else:
-                    print att.get_filename()
+                    #print att.get_filename()
                     msgATT=msgATT+ """<p><a target= "_blank" href= " """+ str(count2)+"""/"""+att.get_filename()+""" "><img src=" """+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
-                
-            """Create html message"""
-            msgHTML = """<html>
-            <head> FINDMAIL</head>
-            <body>
-            <p id=FROM>"""+msgFrom +""" </p>
-            <p id= SUBJECT> """+msgSubject+"""</p>
-            <p id= TO> """+msgTo+"""</p>
-            <p id=MESSAGE-ID> """+msgID+"""</p>
-            <p id= DATE-TIME> """+msgTime+"""</p>
-            <p id= BODY>"""+ strBody+"""</p>
-            """+msgATT+"""</body>
-            </html>"""   
+                    
+            if msgATT=="""<p>ATTACHMENTS:</p>""":
+                if strBody=="""""":
+                    #Missing body + attachment Tags
+                    """Create html message"""
+                    msgHTML = """<!DOCTYPE html><html>
+                    <head> 
+                        <meta name="email_"""+count2+ """ " content="width=device-width, initial-scale=1">
+                        <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
+                    </head>
+                    <body>
+                    <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                    <div class="top">
+                        <img src="../../profile.png" alt="Profile"  height="42" width="42"">
+                        <table style="width:100%">
+                            <tr>
+                              <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
+                              <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                            </tr>
+                            <tr>
+                                  <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
+                                  <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                            </tr>
+                          </table>
+                    </div>
+                    <section id="body">
+                          <!-- put the body together with embedded html--> 
+                        <p> No body</p>
+                            <!--the embedded html--> 
+                            """+embedHTML+"""
+                    </section>
+                          <!--attachments--> 
+                    <div class="attachments">
+                        <!-- put the body together with embedded html -->
+                        <p> No Attachments</p>
+                    </div>
+                    </html>"""
+                elif (msgSubject is None) and (msgTo is None) and (msgID is None) and (msgTime is None):
+                    #Just has From and body Tags
+                    """Create html message"""
+                    msgHTML = """<!DOCTYPE html><html>
+                    <head> 
+                        <meta name="email_"""+str(count2)+ """ " content="width=device-width, initial-scale=1">
+                        <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
+                    </head>
+                    <body>
+                    <p id= "subject"><font size="20"> No Subject</font></p>
+                    <div class="top">
+                        <img src="../../profile.png" alt="Profile"  height="42" width="42"">
+                        <table style="width:100%">
+                            <tr>
+                              <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
+                              <td><p id="datetime"><b> </b> No Time</p></td>
+                            </tr>
+                            <tr>
+                                  <td><p id="to"><b> To: Nobody</b></p><td>
+                                  <td><p id="to"><b> No MessageID</b></p><td>
+                            </tr>
+                          </table>
+                    </div>
+                    <section id="body">
+                          <!-- put the body together with embedded html--> 
+                        <p>"""+ strBody+"""</p>
+                            <!--the embedded html--> 
+                            """+embedHTML+"""
+                    </section>
+                          <!--attachments--> 
+                    <div class="attachments">
+                        <!-- put the body together with embedded html -->
+                        <p> No Attachments</p>
+                    </div>
+                    </html>"""                    
+                    
+                else: #No Attachments
+                    if msgTo is None:
+                        #Missing To +Attachments Tags
+                        """Create html message"""
+                        msgHTML = """<!DOCTYPE html><html>
+                        <head> 
+                            <meta name="email_"""+str(count2)+ """ " content="width=device-width, initial-scale=1">
+                            <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
+                        </head>
+                        <body>
+                        <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                        <div class="top">
+                            <img src="../../profile.png" alt="Profile"  height="42" width="42"">
+                            <table style="width:100%">
+                                <tr>
+                                  <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
+                                  <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                                </tr>
+                                <tr>
+                                      <td><p id="to"><b> To: Nobody</b></p><td>
+                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                </tr>
+                              </table>
+                        </div>
+                        <section id="body">
+                              <!-- put the body together with embedded html--> 
+                            <p>"""+ strBody+"""</p>
+                                <!--the embedded html--> 
+                                """+embedHTML+"""
+                        </section>
+                              <!--attachments--> 
+                        <div class="attachments">
+                            <!-- put the body together with embedded html -->
+                            <p>No Attachments</p>
+                        </div>
+                        </html>"""                        
+                        
+                    elif msgSubject is None:   
+                        #Missing Subject +Attachments Tags
+                        """Create html message"""
+                        msgHTML = """<!DOCTYPE html><html>
+                        <head> 
+                            <meta name="email_"""+str(count2)+ """ " content="width=device-width, initial-scale=1">
+                            <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
+                        </head>
+                        <body>
+                        <p id= "subject"><font size="20"> No Subject</font"></p>
+                        <div class="top">
+                            <img src="../../profile.png" alt="Profile"  height="42" width="42"">
+                            <table style="width:100%">
+                                <tr>
+                                  <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
+                                  <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                                </tr>
+                                <tr>
+                                      <td><p id="to"><b> To: Nobody</b></p><td>
+                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                </tr>
+                              </table>
+                        </div>
+                        <section id="body">
+                              <!-- put the body together with embedded html--> 
+                            <p>"""+ strBody+"""</p>
+                                <!--the embedded html--> 
+                                """+embedHTML+"""
+                        </section>
+                              <!--attachments--> 
+                        <div class="attachments">
+                            <!-- put the body together with embedded html -->
+                            <p> No Attachments</p>
+                        </div>
+                        </html>"""                                    
+                    else:
+                        #Missing Attachment Tag only  
+                        """Create html message"""
+                        msgHTML = """<!DOCTYPE html><html>
+                        <head> 
+                            <meta name="email_"""+str(count2)+ """ " content="width=device-width, initial-scale=1">
+                            <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
+                        </head>
+                        <body>
+                        <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                        <div class="top">
+                            <img src="../../profile.png" alt="Profile"  height="42" width="42"">
+                            <table style="width:100%">
+                                <tr>
+                                  <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
+                                  <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                                </tr>
+                                <tr>
+                                      <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
+                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                </tr>
+                              </table>
+                        </div>
+                        <section id="body">
+                              <!-- put the body together with embedded html-->
+                              
+                            <p>"""+ strBody+"""</p>"""+embedHTML+"""
+                        </section>
+                              <!--attachments--> 
+                        <div class="attachments">
+                            <!-- put the body together with embedded html -->
+                            <p> No Attachments</p>
+                        </div>
+                        </html>"""                                    
+            else:
+                # Have Attachments
+                if msgTo is None:
+                    #Missing To Tag
+                    """Create html message"""
+                    msgHTML = """<!DOCTYPE html><html>
+                    <head> 
+                        <meta name="email_"""+str(count2)+ """ " content="width=device-width, initial-scale=1">
+                        <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
+                    </head>
+                    <body>
+                    <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                    <div class="top">
+                        <img src="../../profile.png" alt="Profile"  height="42" width="42"">
+                        <table style="width:100%">
+                            <tr>
+                              <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
+                              <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                            </tr>
+                            <tr>
+                                  <td><p id="to"><b> To: Nobody</b></p><td>
+                                  <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                            </tr>
+                          </table>
+                    </div>
+                    <section id="body">
+                          <!-- put the body together with embedded html--> 
+                        <p>"""+ strBody+"""</p>
+                            <!--the embedded html--> 
+                            """+embedHTML+"""
+                    </section>
+                          <!--attachments--> 
+                    <div class="attachments">
+                        <!-- put the body together with embedded html -->
+                        """+msgATT+"""
+                    </div>
+                    </html>"""                                
+                else:
+                    #Has All fields
+                    """Create html message"""
+                    msgHTML = """<!DOCTYPE html><html>
+                    <head> 
+                        <meta name="email_"""+str(count2)+ """ " content="width=device-width, initial-scale=1">
+                        <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
+                    </head>
+                    <body>
+                    <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                    <div class="top">
+                        <img src="../../profile.png" alt="Profile"  height="42" width="42"">
+                        <table style="width:100%">
+                            <tr>
+                              <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
+                              <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                            </tr>
+                            <tr>
+                                  <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
+                                  <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                            </tr>
+                          </table>
+                    </div>
+                    <section id="body">
+                          <!-- put the body together with embedded html--> 
+                        <p>"""+ strBody+"""</p>
+                            <!--the embedded html--> 
+                            """+embedHTML+"""
+                    </section>
+                          <!--attachments--> 
+                    <div class="attachments">
+                        <!-- put the body together with embedded html -->
+                        """+msgATT+"""
+                    </div>
+                    </html>"""                                
             
-            """File paths"""
+            """-File paths"""
             filename = "FINDMAIL/HTML files/"+ str(count2)+".html"
             
             if not os.path.exists(os.path.dirname(filename)):
@@ -419,9 +671,7 @@ class FINDMAILMbox:
         
         count4=1;
         mbox = mailbox.mbox(path)
-        print path
         for message in mbox:  
-            print message
             """Get from, to and subject fields etc. from email"""  
             root = ET.Element("doc")
             #doc = ET.SubElement(root, "doc")    
@@ -467,9 +717,6 @@ class FINDMAILMbox:
         parser.add_argument("format", help="specify format of inputted archive")
         parser.add_argument("path", help="specify path to archive from home directory")
         args = parser.parse_args()    
-        print args.format 
-        print args.path 
-        print
             
         """FINDMAIL/mailboxes/mbox/test.mbox"""
         #mbox = mailbox.mbox(args.path)       
@@ -485,5 +732,3 @@ if __name__ == '__main__':
     mbox=FINDMAILMbox()
     #mbox.create_mbox('FINDMAIL/mailboxes/mbox/example.mbox')
     mbox.main(mbox)
-
-
