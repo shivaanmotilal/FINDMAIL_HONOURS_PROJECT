@@ -162,6 +162,7 @@ class FINDMAILMbox:
             print "no attachment"
         return attach   
     
+    """-Retrieves undecoded non-plain-text parts of email as list of attachments"""
     def get_undecoded_attachment(self, message, path):
         #What if there are multiple attachments?
         attach = []
@@ -170,39 +171,9 @@ class FINDMAILMbox:
             for part in message.walk():               
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.is_multipart():
-                            for subsubpart in subpart.walk():
-                                if subsubpart.get_content_type() == 'image/png':
-                                    attach.append(subsubpart) 
-                                    self.hasImage= True
-                                elif part.get_content_type() == 'text/plain':
-                                    attach.append(subsubpart)
-                                else:
-                                    payload = subsubpart.get_payload(decode=True)
-                                    attach.append(subsubpart)
-                                    if not subsubpart.get_filename():
-                                        continue
-                                    else:
-                                        dh= decode_header(subsubpart.get_filename())
-                                        default_charset = 'ASCII'
-                                        decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
-                                        filename = os.path.join(path, decodePart)
-                                        filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
-                                        print filename, payload
-                                        if payload and filename:
-                                            if not os.path.exists(os.path.dirname(filename)):
-                                                try:
-                                                    os.makedirs(os.path.dirname(filename))
-                                                except OSError as exc: # Guard against race condition
-                                                    if exc.errno != errno.EEXIST:
-                                                        raise
-                                                    print exc 
-                                            try:
-                                                with open(filename, 'wb') as f:
-                                                    f.write(payload)
-                                            except  IOError:
-                                                print('An error occured trying to read the file.')
-                            break
+                        if subpart.get_content_type() == 'image/png':
+                            attach.append(subpart) 
+                            self.hasImage= True
                         elif part.get_content_type() == 'text/plain':
                             attach.append(subpart)
                         else:
@@ -211,8 +182,11 @@ class FINDMAILMbox:
                             if not subpart.get_filename():
                                 continue
                             else:
-                                filename = path+subpart.get_filename()
-                                # Save the file.
+                                dh= decode_header(subpart.get_filename())
+                                default_charset = 'ASCII'
+                                decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
+                                filename = os.path.join(path, decodePart)
+                                filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
                                 if payload and filename:
                                     if not os.path.exists(os.path.dirname(filename)):
                                         try:
@@ -220,13 +194,13 @@ class FINDMAILMbox:
                                         except OSError as exc: # Guard against race condition
                                             if exc.errno != errno.EEXIST:
                                                 raise
-                                            print exc                                     
+                                            print exc 
                                     try:
                                         with open(filename, 'wb') as f:
                                             f.write(payload)
                                     except  IOError:
-                                        print('An error occured trying to read the file.')                                     
-                    break
+                                        print('An error occured trying to read the file.')
+                    break                    
                 elif part.get_content_type() == 'text/plain':
                     continue
                 else:
@@ -238,8 +212,13 @@ class FINDMAILMbox:
                     if not part.get_filename():
                         continue
                     else:
-                        filename = path+part.get_filename()
+                        dh= decode_header(part.get_filename())
+                        default_charset = 'ASCII'
+                        decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
+                        filename = os.path.join(path, decodePart)
+                        filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename) 
                         # Save the file.
+                        attach.append(part)
                         if payload and filename:
                             if not os.path.exists(os.path.dirname(filename)):
                                 try:
@@ -256,116 +235,7 @@ class FINDMAILMbox:
         elif message.get_content_type() == 'text/plain':
             #Do nothing
             print "no attachment"
-        return attach
-    
-    #"""-Retrieves undecoded non-plain-text parts of email as list of attachments"""
-    #def get_undecoded_attachment(self, message, path):
-        ##What if there are multiple attachments?
-        #attach = []
-        ##print len(message.get_payload())
-        #if message.is_multipart():
-            #for part in message.walk():               
-                #if part.is_multipart():
-                    #for subpart in part.walk():
-                        #if subpart.is_multipart():
-                            #for subsubpart in subpart.walk():
-                                #if subsubpart.get_content_type() == 'image/png':
-                                    #attach.append(subsubpart) 
-                                    #self.hasImage= True
-                                #elif part.get_content_type() == 'text/plain':
-                                    #attach.append(subsubpart)
-                                #else:
-                                    #payload = subsubpart.get_payload(decode=True)
-                                    #attach.append(subsubpart)
-                                    #if not subsubpart.get_filename():
-                                        #continue
-                                    #else:
-                                        #dh= decode_header(subsubpart.get_filename())
-                                        #default_charset = 'ASCII'
-                                        #decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
-                                        #filename = os.path.join(path, decodePart)
-                                        #filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
-                                        ###All Available:  'posix', 'nt', 'mac', 'os2', 'ce', 'java', 'riscos'
-                                        ##Check if operating System is Windows
-                                        #if os.name == 'nt':
-                                            ##Path should be unicode
-                                            #continue
-                                        ##Check if operating System is Mac
-                                        #if os.name == 'mac':
-                                            ##Path should be utf8
-                                            #continue
-                                        ##Check if operating System is Linux
-                                        #if os.name == 'posix':
-                                            ##path should be utf8
-                                            #continue
-                                        #if payload and filename:
-                                            #if not os.path.exists(os.path.dirname(filename)):
-                                                #try:
-                                                    #os.makedirs(os.path.dirname(filename))
-                                                #except OSError as exc: # Guard against race condition
-                                                    #if exc.errno != errno.EEXIST:
-                                                        #raise
-                                                    #print exc 
-                                            #try:
-                                                #with open(filename, 'wb') as f:
-                                                    #f.write(payload)
-                                            #except  IOError:
-                                                #print('An error occured trying to read the file.')
-                            #break
-                        #elif part.get_content_type() == 'text/plain':
-                            #attach.append(subpart)
-                        #else:
-                            #payload = subpart.get_payload(decode=True)
-                            #attach.append(subpart)
-                            #if not subpart.get_filename():
-                                #continue
-                            #else:
-                                #filename = path+subpart.get_filename()
-                                ## Save the file.
-                                #if payload and filename:
-                                    #if not os.path.exists(os.path.dirname(filename)):
-                                        #try:
-                                            #os.makedirs(os.path.dirname(filename))
-                                        #except OSError as exc: # Guard against race condition
-                                            #if exc.errno != errno.EEXIST:
-                                                #raise
-                                            #print exc                                     
-                                    #try:
-                                        #with open(filename, 'wb') as f:
-                                            #f.write(payload)
-                                    #except  IOError:
-                                        #print('An error occured trying to read the file.')                                     
-                    #break
-                #elif part.get_content_type() == 'text/plain':
-                    #continue
-                #else:
-                    ## When decode=True, get_payload will return None if part.is_multipart()
-                    ## and the decoded content otherwise.
-                    #payload = part.get_payload(decode=True)
-                    #attach.append(part)
-                    ## Default filename can be passed as an argument to get_filename()
-                    #if not part.get_filename():
-                        #continue
-                    #else:
-                        #filename = path+part.get_filename()
-                        ## Save the file.
-                        #if payload and filename:
-                            #if not os.path.exists(os.path.dirname(filename)):
-                                #try:
-                                    #os.makedirs(os.path.dirname(filename))
-                                #except OSError as exc: # Guard against race condition
-                                    #if exc.errno != errno.EEXIST:
-                                        #raise
-                                    #print exc                             
-                            #try:
-                                #with open(filename, 'wb') as f:
-                                    #f.write(payload)
-                            #except  IOError:
-                                #print('An error occured trying to read the file.')                        
-        #elif message.get_content_type() == 'text/plain':
-            ##Do nothing
-            #print "no attachment"
-        #return attach
+        return attach    
     
     """-Prints all output as plain text for each email"""
     def printToTextFiles(self,mbox):
@@ -803,7 +673,6 @@ class FINDMAILMbox:
 if __name__ == '__main__':
     start_time = time.time()
     parser = argparse.ArgumentParser()
-    parser.add_argument("format", help="specify format of inputted archive")
     parser.add_argument("path", help="specify path to archive from home directory")
     args = parser.parse_args()        
     mbox=FINDMAILMbox()
