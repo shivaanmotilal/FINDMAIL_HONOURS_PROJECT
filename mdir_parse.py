@@ -13,6 +13,7 @@ import os
 import errno
 import email.utils
 import xml.etree.cElementTree as ET
+import time
 
 """imports for JSON Conversion"""
 import sys, urllib2, email, re, csv, StringIO, base64, json, datetime, pprint
@@ -417,5 +418,7 @@ class parseMDIR:
         #self.printToJSONFiles("FINDMAIL/mailboxes/maildir/test1")
 
 if __name__ == '__main__':
+    start_time = time.time()
     maildir= parseMDIR()
     maildir.main(maildir)
+    print("--- %s seconds ---" % (time.time() - start_time))

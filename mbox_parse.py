@@ -9,6 +9,9 @@ import webbrowser #for testing purposes
 import email.utils #REDUNDANT
 import time
 import xml.etree.cElementTree as ET
+import time
+from email.header import decode_header
+import re
 
 """imports for JSON Conversion"""
 import sys, urllib2, email, re, csv, StringIO, base64, json, datetime, pprint
@@ -204,8 +207,30 @@ class FINDMAILMbox:
                                     if not subsubpart.get_filename():
                                         continue
                                     else:
-                                        filename = path+subsubpart.get_filename()
-                                        # Save the file.
+                                        #filename = path+subsubpart.get_filename()
+                                        dh= decode_header(subsubpart.get_filename())
+                                        default_charset = 'ASCII'
+                                        decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
+                                        filename = os.path.join(path, decodePart)
+                                        filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
+                                        print filename
+                                        #filename= "%r"%filename
+                                        
+                                        #print filename
+                                        ##All Available:  'posix', 'nt', 'mac', 'os2', 'ce', 'java', 'riscos'
+                                        
+                                        #Check if operating System is Windows
+                                        if os.name == 'nt':
+                                            #Path should be unicode
+                                            print "got in"
+                                        #Check if operating System is Mac
+                                        if os.name == 'mac':
+                                            #Path should be utf8
+                                            continue
+                                        #Check if operating System is Linux
+                                        if os.name == 'posix':
+                                            #path should be utf8
+                                            continue
                                         if payload and filename:
                                             if not os.path.exists(os.path.dirname(filename)):
                                                 try:
@@ -729,6 +754,8 @@ class FINDMAILMbox:
             #count=count +1
 
 if __name__ == '__main__':
+    start_time = time.time()
     mbox=FINDMAILMbox()
     #mbox.create_mbox('FINDMAIL/mailboxes/mbox/example.mbox')
     mbox.main(mbox)
+    print("--- %s seconds ---" % (time.time() - start_time))
