@@ -6,8 +6,7 @@ import argparse
 import os
 import errno
 import webbrowser #for testing purposes
-import email.utils #REDUNDANT
-import time
+import email.utils #REDUNDANT because of below JSON imports
 import xml.etree.cElementTree as ET
 import time
 from email.header import decode_header
@@ -23,12 +22,12 @@ class FINDMAILMbox:
         self.raw_parts = []
         self.encoding = "utf-8" # output encoding 
         self.hasImage = False
-    
+     
     def create_mbox(self,path):
         from_addr = email.utils.formataddr(('Author', 'author@example.com'))
         to_addr = email.utils.formataddr(('Recipient', 'recipient@example.com'))
         
-        #Note ReRunning this programm adds more mails to the existing mbox file
+        #Note Re-running this method adds more mails to the existing mbox file
         mbox = mailbox.mbox(path)
         """Prepare messages to be removed from existing mbox file"""
         to_remove = []
@@ -81,29 +80,6 @@ class FINDMAILMbox:
         elif message.get_content_type() == 'text/plain':
             body = message.get_payload(decode=True)
         return body
-    
-    #Delete this
-    def get_decoded_email_body(self, msg):
-        """ Decode email body.
-        Detect character set if the header is not set.
-        We try to get text/plain, but if there is not one then fallback to text/html.
-        :param message_body: Raw 7-bit message body input e.g. from imaplib. Double encoded in quoted-printable and latin-1
-        :return: Message body as unicode string
-        """
-        text = ""
-        if msg.is_multipart():
-            html = None
-            for part in msg.get_payload():
-                #print "%s, %s" % (part.get_content_type(), part.get_content_charset())
-                if part.get_content_charset() is None:
-                    # We cannot know the character set, so return decoded "something"
-                    text = part.get_payload(decode=True)
-                    continue
-                charset = part.get_content_charset()
-                if part.get_content_type() == 'text/plain':
-                    text = unicode(part.get_payload(decode=True), str(charset), "ignore").encode('utf8', 'replace')
-                if part.get_content_type() == 'text/html':
-                    html = unicode(part.get_payload(decode=True), str(charset), "ignore").encode('utf8', 'replace')
                     
     '''-Gets attachment from an email of html and png types'''
     def getAttachment(self,message, path): 
@@ -207,30 +183,12 @@ class FINDMAILMbox:
                                     if not subsubpart.get_filename():
                                         continue
                                     else:
-                                        #filename = path+subsubpart.get_filename()
                                         dh= decode_header(subsubpart.get_filename())
                                         default_charset = 'ASCII'
                                         decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
                                         filename = os.path.join(path, decodePart)
                                         filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
-                                        print filename
-                                        #filename= "%r"%filename
-                                        
-                                        #print filename
-                                        ##All Available:  'posix', 'nt', 'mac', 'os2', 'ce', 'java', 'riscos'
-                                        
-                                        #Check if operating System is Windows
-                                        if os.name == 'nt':
-                                            #Path should be unicode
-                                            print "got in"
-                                        #Check if operating System is Mac
-                                        if os.name == 'mac':
-                                            #Path should be utf8
-                                            continue
-                                        #Check if operating System is Linux
-                                        if os.name == 'posix':
-                                            #path should be utf8
-                                            continue
+                                        print filename, payload
                                         if payload and filename:
                                             if not os.path.exists(os.path.dirname(filename)):
                                                 try:
@@ -300,16 +258,119 @@ class FINDMAILMbox:
             print "no attachment"
         return attach
     
+    #"""-Retrieves undecoded non-plain-text parts of email as list of attachments"""
+    #def get_undecoded_attachment(self, message, path):
+        ##What if there are multiple attachments?
+        #attach = []
+        ##print len(message.get_payload())
+        #if message.is_multipart():
+            #for part in message.walk():               
+                #if part.is_multipart():
+                    #for subpart in part.walk():
+                        #if subpart.is_multipart():
+                            #for subsubpart in subpart.walk():
+                                #if subsubpart.get_content_type() == 'image/png':
+                                    #attach.append(subsubpart) 
+                                    #self.hasImage= True
+                                #elif part.get_content_type() == 'text/plain':
+                                    #attach.append(subsubpart)
+                                #else:
+                                    #payload = subsubpart.get_payload(decode=True)
+                                    #attach.append(subsubpart)
+                                    #if not subsubpart.get_filename():
+                                        #continue
+                                    #else:
+                                        #dh= decode_header(subsubpart.get_filename())
+                                        #default_charset = 'ASCII'
+                                        #decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
+                                        #filename = os.path.join(path, decodePart)
+                                        #filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
+                                        ###All Available:  'posix', 'nt', 'mac', 'os2', 'ce', 'java', 'riscos'
+                                        ##Check if operating System is Windows
+                                        #if os.name == 'nt':
+                                            ##Path should be unicode
+                                            #continue
+                                        ##Check if operating System is Mac
+                                        #if os.name == 'mac':
+                                            ##Path should be utf8
+                                            #continue
+                                        ##Check if operating System is Linux
+                                        #if os.name == 'posix':
+                                            ##path should be utf8
+                                            #continue
+                                        #if payload and filename:
+                                            #if not os.path.exists(os.path.dirname(filename)):
+                                                #try:
+                                                    #os.makedirs(os.path.dirname(filename))
+                                                #except OSError as exc: # Guard against race condition
+                                                    #if exc.errno != errno.EEXIST:
+                                                        #raise
+                                                    #print exc 
+                                            #try:
+                                                #with open(filename, 'wb') as f:
+                                                    #f.write(payload)
+                                            #except  IOError:
+                                                #print('An error occured trying to read the file.')
+                            #break
+                        #elif part.get_content_type() == 'text/plain':
+                            #attach.append(subpart)
+                        #else:
+                            #payload = subpart.get_payload(decode=True)
+                            #attach.append(subpart)
+                            #if not subpart.get_filename():
+                                #continue
+                            #else:
+                                #filename = path+subpart.get_filename()
+                                ## Save the file.
+                                #if payload and filename:
+                                    #if not os.path.exists(os.path.dirname(filename)):
+                                        #try:
+                                            #os.makedirs(os.path.dirname(filename))
+                                        #except OSError as exc: # Guard against race condition
+                                            #if exc.errno != errno.EEXIST:
+                                                #raise
+                                            #print exc                                     
+                                    #try:
+                                        #with open(filename, 'wb') as f:
+                                            #f.write(payload)
+                                    #except  IOError:
+                                        #print('An error occured trying to read the file.')                                     
+                    #break
+                #elif part.get_content_type() == 'text/plain':
+                    #continue
+                #else:
+                    ## When decode=True, get_payload will return None if part.is_multipart()
+                    ## and the decoded content otherwise.
+                    #payload = part.get_payload(decode=True)
+                    #attach.append(part)
+                    ## Default filename can be passed as an argument to get_filename()
+                    #if not part.get_filename():
+                        #continue
+                    #else:
+                        #filename = path+part.get_filename()
+                        ## Save the file.
+                        #if payload and filename:
+                            #if not os.path.exists(os.path.dirname(filename)):
+                                #try:
+                                    #os.makedirs(os.path.dirname(filename))
+                                #except OSError as exc: # Guard against race condition
+                                    #if exc.errno != errno.EEXIST:
+                                        #raise
+                                    #print exc                             
+                            #try:
+                                #with open(filename, 'wb') as f:
+                                    #f.write(payload)
+                            #except  IOError:
+                                #print('An error occured trying to read the file.')                        
+        #elif message.get_content_type() == 'text/plain':
+            ##Do nothing
+            #print "no attachment"
+        #return attach
+    
+    """-Prints all output as plain text for each email"""
     def printToTextFiles(self,mbox):
         count1=1;
         for message in mbox.iteritems():
-            #if message.is_multipart():
-                #content = ''.join(part.get_payload(decode=True) for part in message.get_payload())
-            #else:
-                #content = message.get_payload(decode=True)
-            #print content
-            
-            
             """File paths"""
             filename = "FINDMAIL/Plain text files/"+ str(count1)+".txt"
             body= "FINDMAIL/Plain text files/body/"+ str(count1)+".txt"
@@ -344,10 +405,10 @@ class FINDMAILMbox:
             #print getbody(message)
             count1=count1+1    
     
+    """-Prints emails to html files"""
     def printToHTMLFiles(self,path):
         count2=1;
         mbox = mailbox.mbox(path)
-        
         for message in mbox:  
             #print message
             """Get from, to and subject field from email"""
@@ -358,13 +419,6 @@ class FINDMAILMbox:
             msgTime= message["date"]
             
             """Convert date-time to usable time format"""
-            
-            #print "From: ", msgFrom
-            #print "To: ", msgTo
-            #print "Subject: ", msgSubject
-            #print "Message-ID: ", msgID
-            #print "Date-time: ", msgTime 
-            
             #REMOTE_TIME_ZONE_OFFSET = -2 * 60 * 60  #Take into account local time difference
             #varTime= (time.mktime(email.utils.parsedate(msgTime)) +time.timezone - REMOTE_TIME_ZONE_OFFSET)            
             #print "Time: ", time.strftime('%Y/%m/%d --- Time %H:%M:%S', time.localtime(varTime))
@@ -374,7 +428,7 @@ class FINDMAILMbox:
             """Derive attachment part of HTML File"""
             msgATT="""<p>ATTACHMENTS:</p>"""
             embedHTML=""""""
-            for att in self.get_undecoded_attachment(message, "FINDMAIL/HTML files/"+ str(count2)+"/"):
+            for att in self.get_undecoded_attachment(message, "FINDMAIL/HTML files/Attachments/"+ str(count2)+"/"):
                 content_type=att.get_content_type()
                 #print content_type
                 strAttach= str(att)
@@ -384,7 +438,7 @@ class FINDMAILMbox:
                     continue                
                 else:
                     #print att.get_filename()
-                    msgATT=msgATT+ """<p><a target= "_blank" href= " """+ str(count2)+"""/"""+att.get_filename()+""" "><img src=" """+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
+                    msgATT=msgATT+ """<p><a target= "_blank" href= "Attachments/"""+ str(count2)+"""/"""+att.get_filename()+""" "><img src="Attachments/"""+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
                     
             if msgATT=="""<p>ATTACHMENTS:</p>""":
                 if strBody=="""""":
@@ -653,7 +707,7 @@ class FINDMAILMbox:
             f.close()  
             count2= count2+1
             
-    """TO-DO: Prints to JSON files and stores all mails as a list"""
+    """-Prints to JSON files but some attachments are an issue eg. video, pictures and audio"""
     def printToJSONFiles(self,path):
         count3=1;
         mbox = mailbox.mbox(path)
@@ -737,25 +791,22 @@ class FINDMAILMbox:
             count4=count4+1            
     
     @staticmethod
-    def main(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument("format", help="specify format of inputted archive")
-        parser.add_argument("path", help="specify path to archive from home directory")
-        args = parser.parse_args()    
-            
+    def main(self,path):
+        
         """FINDMAIL/mailboxes/mbox/test.mbox"""
         #mbox = mailbox.mbox(args.path)       
         #self.printToTextFiles(mbox)
-        self.printToHTMLFiles(args.path)
+        self.printToHTMLFiles(path)
         #self.printToJSONFiles(mbox)
-        #self.printToXMLFiles(args.path)
-            #with open('/index/'+ str(count)+'.txt', 'w') as f:
-                #print >> f, 'Filename:', filename  # Python 2.x 
-            #count=count +1
+        #self.printToXMLFiles(args.path) 
 
 if __name__ == '__main__':
     start_time = time.time()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("format", help="specify format of inputted archive")
+    parser.add_argument("path", help="specify path to archive from home directory")
+    args = parser.parse_args()        
     mbox=FINDMAILMbox()
     #mbox.create_mbox('FINDMAIL/mailboxes/mbox/example.mbox')
-    mbox.main(mbox)
-    print("--- %s seconds ---" % (time.time() - start_time))
+    mbox.main(mbox, args.path)
+    print("--- %s seconds ---" % (time.time() - start_time))#Measure execution time of program 
