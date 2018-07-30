@@ -301,10 +301,11 @@ class parseMbox:
             """Get from, to and subject field etc from email"""
             msgFrom= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["from"]))
             msgTo= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["to"]))
+            msgTo= re.sub('[<>]', '', msgTo)
             msgSubject= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["subject"]))
             msgID= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["message-id"]))
+            msgID= re.sub('[<>]', '', msgID)
             msgTime= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["date"]))
-            
             """Convert date-time to usable time format"""
             #REMOTE_TIME_ZONE_OFFSET = -2 * 60 * 60  #Take into account local time difference
             #varTime= (time.mktime(email.utils.parsedate(msgTime)) +time.timezone - REMOTE_TIME_ZONE_OFFSET)            
@@ -347,8 +348,8 @@ class parseMbox:
                               <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="to"><b> To: """+msgTo+"""</b></p></td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                             </tr>
                           </table>
                     </div>
@@ -382,8 +383,8 @@ class parseMbox:
                               <td><p id="datetime"><b>No Time</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b> To: Nobody</b></p><td>
-                                  <td><p id="messageid"><b> No MessageID</b></p><td>
+                                  <td><p id="to"><b> To: Nobody</b></p></td>
+                                  <td><p id="messageid"><b> No MessageID</b></p></td>
                             </tr>
                           </table>
                     </div>
@@ -419,8 +420,8 @@ class parseMbox:
                                   <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: Nobody</b></p><td>
-                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                    <td><p id="to"><b> To: Nobody</b></p></td>
+                                    <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                 </tr>
                               </table>
                         </div>
@@ -455,8 +456,8 @@ class parseMbox:
                                   <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b>To: Nobody</b></p><td>
-                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b>To: Nobody</b></p></td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                 </tr>
                               </table>
                         </div>
@@ -490,8 +491,8 @@ class parseMbox:
                                   <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b> To: """+msgTo+"""</b></p></td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                 </tr>
                               </table>
                         </div>
@@ -526,8 +527,8 @@ class parseMbox:
                               <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b> To: Nobody</b></p><td>
-                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="to"><b> To: Nobody</b></p></td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                             </tr>
                           </table>
                     </div>
@@ -561,8 +562,8 @@ class parseMbox:
                               <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b>To: """+msgTo+"""</b></p><td>
-                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="to"><b>To: """+msgTo+"""</b></p></td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                             </tr>
                           </table>
                     </div>
@@ -913,8 +914,8 @@ class parseMDIR:
                               <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="to"><b> To: """+msgTo+"""</b></p></td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                             </tr>
                           </table>
                     </div>
@@ -948,8 +949,8 @@ class parseMDIR:
                               <td><p id="datetime"><b>No Time</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b>To: Nobody</b></p><td>
-                                  <td><p id="messageid"><b>No MessageID</b></p><td>
+                                  <td><p id="to"><b>To: Nobody</b></p></td>
+                                  <td><p id="messageid"><b>No MessageID</b></p></td>
                             </tr>
                           </table>
                     </div>
@@ -985,8 +986,8 @@ class parseMDIR:
                                   <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b>To: Nobody</b></p><td>
-                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b>To: Nobody</b></p></td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                 </tr>
                               </table>
                         </div>
@@ -1021,8 +1022,8 @@ class parseMDIR:
                                   <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: Nobody</b></p><td>
-                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b>To: Nobody</b></p></td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                 </tr>
                               </table>
                         </div>
@@ -1056,8 +1057,8 @@ class parseMDIR:
                                   <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b> To: """+msgTo+"""</b></p></td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                 </tr>
                               </table>
                         </div>
@@ -1092,8 +1093,8 @@ class parseMDIR:
                               <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b> To: Nobody</b></p><td>
-                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="to"><b> To: Nobody</b></p></td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                             </tr>
                           </table>
                     </div>
@@ -1127,8 +1128,8 @@ class parseMDIR:
                               <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b>To: """+msgTo+"""</b></p><td>
-                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="to"><b>To: """+msgTo+"""</b></p></td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                             </tr>
                           </table>
                     </div>
@@ -1238,8 +1239,8 @@ class parseMDIR:
                                   <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b> To: """+msgTo+"""</b></p></td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                 </tr>
                               </table>
                         </div>
@@ -1273,8 +1274,8 @@ class parseMDIR:
                                   <td><p id="datetime"><b> </b> No Time</p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: Nobody</b></p><td>
-                                      <td><p id="to"><b> No MessageID</b></p><td>
+                                      <td><p id="to"><b> To: Nobody</b></p></td>
+                                      <td><p id="messageid"><b> No MessageID</b></p></td>
                                 </tr>
                               </table>
                         </div>
@@ -1310,8 +1311,8 @@ class parseMDIR:
                                       <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
                                     </tr>
                                     <tr>
-                                          <td><p id="to"><b> To: Nobody</b></p><td>
-                                          <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                          <td><p id="to"><b> To: Nobody</b></p></td>
+                                          <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                     </tr>
                                   </table>
                             </div>
@@ -1346,8 +1347,8 @@ class parseMDIR:
                                       <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
                                     </tr>
                                     <tr>
-                                          <td><p id="to"><b> To: Nobody</b></p><td>
-                                          <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                          <td><p id="to"><b> To: Nobody</b></p></td>
+                                          <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                     </tr>
                                   </table>
                             </div>
@@ -1381,8 +1382,8 @@ class parseMDIR:
                                       <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
                                     </tr>
                                     <tr>
-                                          <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                          <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                          <td><p id="to"><b> To: """+msgTo+"""</b></p></td>
+                                          <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                     </tr>
                                   </table>
                             </div>
@@ -1417,8 +1418,8 @@ class parseMDIR:
                                   <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: Nobody</b></p><td>
-                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b> To: Nobody</b></p></td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                 </tr>
                               </table>
                         </div>
@@ -1452,8 +1453,8 @@ class parseMDIR:
                                   <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b> To: """+msgTo+"""</b></p></td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p></td>
                                 </tr>
                               </table>
                         </div>
