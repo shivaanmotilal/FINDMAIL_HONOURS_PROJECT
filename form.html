@@ -1,0 +1,57 @@
+<HTML>
+    <HEAD>
+        <TITLE>Test Input</TITLE>
+        <SCRIPT LANGUAGE="JavaScript">
+        function testResults (form) {
+            var TestVar = form.inputbox.value;
+            alert ("You typed: " + TestVar);
+        }
+        function getAjax(url, success) {
+            var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
+            xhr.open('GET', url);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState>3 && xhr.status==200) success(xhr.responseText);
+            };
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.send();
+            return xhr;
+        }
+        function postAjax(url, data, success) {
+            var params = typeof data == 'string' ? data : Object.keys(data).map(
+                    function(k){ return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]) }
+                ).join('&');
+
+            var xhr = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+            xhr.open('POST', url);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState>3 && xhr.status==200) { success(xhr.responseText); }
+            };
+            xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.send(params);
+            return xhr;
+        }
+        function callPython(form)
+        {
+        var TestVar = form.inputbox.value;
+        var xmlhttp = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+        xmlhttp.onreadystatechange=function()
+          {
+          if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+            document.getElementById("myDiv").innerHTML=xmlhttp.responseText;
+            }
+          }
+        // xmlhttp.open("GET","Form-data",true);
+        xmlhttp.open("POST","http://ip.addr.com:8081/",true);
+        xmlhttp.send();
+        }
+        </SCRIPT>
+    </HEAD>
+    <BODY>
+        <FORM NAME="myform" ACTION="" METHOD="GET">Enter the file path in the archive below: <BR>
+            <INPUT TYPE="text" NAME="inputbox" VALUE=""><P>
+            <INPUT TYPE="button" NAME="button" Value="Click" onClick="postAjax('http://127.0.0.1:5000/', 'p1=1&p2=Hello+World', function(data){ console.log(data); });">
+        </FORM>
+    </BODY>
+</HTML>

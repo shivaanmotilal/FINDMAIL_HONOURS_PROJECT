@@ -1,6 +1,8 @@
 #Shivaan Motilal
 #Programme to parse MBOX and Maildir Mailboxes
-
+from __future__ import print_function, division
+#from __future__ import unicode_literals
+#from __future__ import absolute_imports
 import mailbox
 import argparse
 import os
@@ -13,10 +15,10 @@ from email.header import decode_header
 import re
 
 """imports for JSON Conversion"""
-import sys, urllib2, email, re, csv, StringIO, base64, json, datetime, pprint
+import sys, urllib2, email, csv, StringIO, base64, json, datetime, pprint
 from optparse import OptionParser
 
-class FINDMAILMbox:
+class parseMbox:
     def __init__(self, content = None):
         self.data = {}
         self.raw_parts = []
@@ -33,7 +35,7 @@ class FINDMAILMbox:
         to_remove = []
         for key, msg in mbox.iteritems():
             if not msg['subject'] == None: #Tag every existing message with subject in mbox
-                print 'Removing:', key
+                print('Removing:', key)
                 to_remove.append(key)
                 
         mbox.lock()
@@ -110,7 +112,7 @@ class FINDMAILMbox:
                                                 except OSError as exc: # Guard against race condition
                                                     if exc.errno != errno.EEXIST:
                                                         raise
-                                                    print exc                                     
+                                                    print(exc)                                     
                                             with open(filename, 'wb') as f:
                                                 f.write(payload) 
                         elif subpart.get_content_type() == 'image/png':
@@ -131,7 +133,7 @@ class FINDMAILMbox:
                                         except OSError as exc: # Guard against race condition
                                             if exc.errno != errno.EEXIST:
                                                 raise
-                                            print exc                                     
+                                            print(exc)                                     
                                     with open(filename, 'wb') as f:
                                         f.write(payload)                                
                 elif part.get_content_type() == 'text/plain':
@@ -154,12 +156,12 @@ class FINDMAILMbox:
                                 except OSError as exc: # Guard against race condition
                                     if exc.errno != errno.EEXIST:
                                         raise
-                                    print exc                             
+                                    print(exc)                             
                             with open(filename, 'wb') as f:
                                 f.write(payload)                     
         elif message.get_content_type() == 'text/plain':
             #Do nothing
-            print "no attachment"
+            print("no attachment")
         return attach   
     
     """-Retrieves undecoded non-plain-text parts of email as list of attachments"""
@@ -171,10 +173,7 @@ class FINDMAILMbox:
             for part in message.walk():               
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.get_content_type() == 'image/png':
-                            attach.append(subpart) 
-                            self.hasImage= True
-                        elif part.get_content_type() == 'text/plain':
+                        if part.get_content_type() == 'text/plain':
                             attach.append(subpart)
                         else:
                             payload = subpart.get_payload(decode=True)
@@ -182,13 +181,10 @@ class FINDMAILMbox:
                             if not subpart.get_filename():
                                 continue
                             else:
-                                dh= decode_header(subpart.get_filename())
-                                default_charset = 'ASCII'
-                                decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])
+                                decodePart= self.decodePart(subpart.get_filename())
                                 decodePart= self.decodeHeader(decodePart)
                                 filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", decodePart)
                                 filename = os.path.join(path, decodePart)
-                                
                                 if payload and filename:
                                     if not os.path.exists(os.path.dirname(filename)):
                                         try:
@@ -196,7 +192,7 @@ class FINDMAILMbox:
                                         except OSError as exc: # Guard against race condition
                                             if exc.errno != errno.EEXIST:
                                                 raise
-                                            print exc 
+                                            print(exc) 
                                     try:
                                         with open(filename, 'wb') as f:
                                             f.write(payload)
@@ -214,9 +210,7 @@ class FINDMAILMbox:
                     if not part.get_filename():
                         continue
                     else:
-                        dh= decode_header(part.get_filename())
-                        default_charset = 'ASCII'
-                        decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])  
+                        decodePart= self.decodePart(part.get_filename())  
                         decodePart= self.decodeHeader(decodePart)
                         filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", decodePart) 
                         filename = os.path.join(path, decodePart)
@@ -229,7 +223,7 @@ class FINDMAILMbox:
                                 except OSError as exc: # Guard against race condition
                                     if exc.errno != errno.EEXIST:
                                         raise
-                                    print exc                             
+                                    print(exc)                             
                             try:
                                 with open(filename, 'wb') as f:
                                     f.write(payload)
@@ -237,31 +231,31 @@ class FINDMAILMbox:
                                 print('An error occured trying to read the file.')                        
         elif message.get_content_type() == 'text/plain':
             #Do nothing
-            print "no attachment"
+            print("no attachment")
         return attach    
     
     """-Prints all output as plain text for each email"""
-    def printToTextFiles(self,mbox):
+    def printToTextFiles(self,path):
         count1=1;
-        for message in mbox.iteritems():
+        mbox = mailbox.mbox(path)
+        for message in mbox:
             """File paths"""
             filename = "FINDMAIL/Plain text files/"+ str(count1)+".txt"
             body= "FINDMAIL/Plain text files/body/"+ str(count1)+".txt"
-            #print filename
             if not os.path.exists(os.path.dirname(filename)):
                 try:
                     os.makedirs(os.path.dirname(filename))
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc        
+                    print(exc)        
             if not os.path.exists(os.path.dirname(body)):
                 try:
                     os.makedirs(os.path.dirname(body))
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc
+                    print(exc)
             
             with open(filename, "w") as f: #Write message to single file
                 f.write(str(message) )   
@@ -288,22 +282,23 @@ class FINDMAILMbox:
         if not part:
             return None
         else:
-            bytes, encoding = decode_header(part)[0]
+            strippedPart= part.replace('"', '') #Remove quote so decode_header can recognise encoding
+            bytes, encoding = decode_header(strippedPart)[0]
             if not encoding:
                 return part
-            else:    
-                print part
-                decoded=bytes.decode(encoding) 
+            else: 
+                decoded=bytes.decode(encoding)
                 return decoded.encode('utf8')       
         
     """-Prints emails to html files"""
     def printToHTMLFiles(self,path):
+        #reload(sys)  # Reload does the trick!
+        #sys.setdefaultencoding('UTF8')        
         count2=1;
         mbox = mailbox.mbox(path)
         for message in mbox:  
             #print message
             """Get from, to and subject field etc from email"""
-            
             msgFrom= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["from"]))
             msgTo= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["to"]))
             msgSubject= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["subject"]))
@@ -314,9 +309,9 @@ class FINDMAILMbox:
             #REMOTE_TIME_ZONE_OFFSET = -2 * 60 * 60  #Take into account local time difference
             #varTime= (time.mktime(email.utils.parsedate(msgTime)) +time.timezone - REMOTE_TIME_ZONE_OFFSET)            
             #print "Time: ", time.strftime('%Y/%m/%d --- Time %H:%M:%S', time.localtime(varTime))
-            strBody= """"""
-            strBody = strBody+str(self.getbody(message)) 
-            
+            strBody= str("""""")
+            strBody = strBody+str(self.getbody(message))
+            strBody= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(strBody))
             """Derive attachment part of HTML File"""
             msgATT="""<p>ATTACHMENTS:</p>"""
             embedHTML=""""""
@@ -325,15 +320,16 @@ class FINDMAILMbox:
                 #print content_type
                 strAttach= str(att)
                 if content_type=='text/html':
-                    embedHTML= embedHTML+att.get_payload(decode=True) 
+                    embedHTML= str(embedHTML)+str(att.get_payload(decode=True)) 
                 elif not att.get_filename():
                     continue                
                 else:
                     #print att.get_filename()
-                    msgATT=msgATT+ """<p><a target= "_blank" href= "Attachments/"""+ str(count2)+"""/"""+att.get_filename()+""" "><img src="Attachments/"""+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
+                    decodeFilename= self.decodeHeader(att.get_filename())
+                    msgATT=msgATT+ """<p><a target= "_blank" href= "Attachments/"""+ str(count2)+"""/"""+decodeFilename+""" "><img src="Attachments/"""+ str(count2)+"""/"""+decodeFilename+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
                     
             if msgATT=="""<p>ATTACHMENTS:</p>""":
-                if strBody=="""""":
+                if strBody==str(""""""):
                     #Missing body + attachment Tags
                     """Create html message"""
                     msgHTML = """<!DOCTYPE html><html>
@@ -342,23 +338,23 @@ class FINDMAILMbox:
                         <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                     </head>
                     <body>
-                    <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                    <pre id= "subject"><font size="4">"""+msgSubject+"""<font></pre>
                     <div class="top">
                         <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                         <table style="width:100%">
                             <tr>
                               <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                              <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                              <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
                                   <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                  <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                             </tr>
                           </table>
                     </div>
                     <section id="body">
                           <!-- put the body together with embedded html--> 
-                        <p> No body</p>
+                        <pre> No body</pre>
                             <!--the embedded html--> 
                             """+embedHTML+"""
                     </section>
@@ -377,23 +373,23 @@ class FINDMAILMbox:
                         <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                     </head>
                     <body>
-                    <p id= "subject"><font size="20"> No Subject</font></p>
+                    <pre id= "subject"><font size="4">No Subject</font></pre>
                     <div class="top">
                         <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                         <table style="width:100%">
                             <tr>
                               <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                              <td><p id="datetime"><b> </b> No Time</p></td>
+                              <td><p id="datetime"><b>No Time</b></p></td>
                             </tr>
                             <tr>
                                   <td><p id="to"><b> To: Nobody</b></p><td>
-                                  <td><p id="to"><b> No MessageID</b></p><td>
+                                  <td><p id="messageid"><b> No MessageID</b></p><td>
                             </tr>
                           </table>
                     </div>
                     <section id="body">
                           <!-- put the body together with embedded html--> 
-                        <p>"""+ strBody+"""</p>
+                        <pre>"""+ strBody+"""</pre>
                             <!--the embedded html--> 
                             """+embedHTML+"""
                     </section>
@@ -414,23 +410,23 @@ class FINDMAILMbox:
                             <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                         </head>
                         <body>
-                        <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                        <pre id= "subject"><font size="4"> """+msgSubject+"""</font></pre>
                         <div class="top">
                             <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                             <table style="width:100%">
                                 <tr>
                                   <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                                  <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                                  <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
                                       <td><p id="to"><b> To: Nobody</b></p><td>
-                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                                 </tr>
                               </table>
                         </div>
                         <section id="body">
                               <!-- put the body together with embedded html--> 
-                            <p>"""+ strBody+"""</p>
+                            <pre>"""+ strBody+"""</pre>
                                 <!--the embedded html--> 
                                 """+embedHTML+"""
                         </section>
@@ -450,23 +446,23 @@ class FINDMAILMbox:
                             <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                         </head>
                         <body>
-                        <p id= "subject"><font size="20"> No Subject</font"></p>
+                        <pre id= "subject"><font size="4"> No Subject</font"></pre>
                         <div class="top">
                             <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                             <table style="width:100%">
                                 <tr>
                                   <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                                  <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                                  <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: Nobody</b></p><td>
-                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b>To: Nobody</b></p><td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                                 </tr>
                               </table>
                         </div>
                         <section id="body">
                               <!-- put the body together with embedded html--> 
-                            <p>"""+ strBody+"""</p>
+                            <pre>"""+ strBody+"""</pre>
                                 <!--the embedded html--> 
                                 """+embedHTML+"""
                         </section>
@@ -485,24 +481,24 @@ class FINDMAILMbox:
                             <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                         </head>
                         <body>
-                        <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                        <pre id= "subject"><font size="4"> """+msgSubject+"""</font></pre>
                         <div class="top">
                             <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                             <table style="width:100%">
                                 <tr>
-                                  <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                                  <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                                  <td><p id="sender"> <b>"""+msgFrom +"""</b></p></td>
+                                  <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
                                       <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                                 </tr>
                               </table>
                         </div>
                         <section id="body">
                               <!-- put the body together with embedded html-->
                               
-                            <p>"""+ strBody+"""</p>"""+embedHTML+"""
+                            <pre>"""+strBody+"""</pre>"""+embedHTML+"""
                         </section>
                               <!--attachments--> 
                         <div class="attachments">
@@ -521,23 +517,23 @@ class FINDMAILMbox:
                         <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                     </head>
                     <body>
-                    <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                    <pre id= "subject"><font size="4"> """+msgSubject+"""</font></pre>
                     <div class="top">
                         <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                         <table style="width:100%">
                             <tr>
                               <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                              <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                              <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
                                   <td><p id="to"><b> To: Nobody</b></p><td>
-                                  <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                             </tr>
                           </table>
                     </div>
                     <section id="body">
                           <!-- put the body together with embedded html--> 
-                        <p>"""+ strBody+"""</p>
+                        <pre>"""+ strBody+"""</pre>
                             <!--the embedded html--> 
                             """+embedHTML+"""
                     </section>
@@ -556,23 +552,23 @@ class FINDMAILMbox:
                         <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                     </head>
                     <body>
-                    <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                    <pre id= "subject"><font size="4"> """+msgSubject+"""</font></pre>
                     <div class="top">
                         <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                         <table style="width:100%">
                             <tr>
-                              <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                              <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                              <td><p id="sender"><b>"""+msgFrom +""" </b></p></td>
+                              <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                  <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="to"><b>To: """+msgTo+"""</b></p><td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                             </tr>
                           </table>
                     </div>
                     <section id="body">
                           <!-- put the body together with embedded html--> 
-                        <p>"""+ strBody+"""</p>
+                        <pre>"""+ strBody+"""</pre>
                             <!--the embedded html--> 
                             """+embedHTML+"""
                     </section>
@@ -592,7 +588,7 @@ class FINDMAILMbox:
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc 
+                    print(exc)
                     
             with open(filename, "w") as f: #Write message to single file
                 f.write(msgHTML )   
@@ -625,7 +621,7 @@ class FINDMAILMbox:
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc 
+                    print(exc) 
         
             with open(filename, "w") as f: #Write message to single file
                 f.write(json_data )   
@@ -676,7 +672,7 @@ class FINDMAILMbox:
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc        
+                    print(exc)        
                     
             tree = ET.ElementTree(root)
             tree.write(filename) 
@@ -686,11 +682,11 @@ class FINDMAILMbox:
     def main(self,path):
         
         """FINDMAIL/mailboxes/mbox/test.mbox"""
-        #mbox = mailbox.mbox(args.path)       
-        #self.printToTextFiles(mbox)
+        #mbox = mailbox.mbox(path)       
+        #self.printToTextFiles(path)
         self.printToHTMLFiles(path)
-        #self.printToJSONFiles(mbox)
-        #self.printToXMLFiles(args.path) 
+        #self.printToJSONFiles(path)
+        #self.printToXMLFiles(path) 
 
 class parseMDIR:
     def __init__(self, content = None):
@@ -745,7 +741,7 @@ class parseMDIR:
     def getAttachment(self,message): 
         #What if there are multiple attachments?
         attach = []
-        print len(message.get_payload())
+        print(len(message.get_payload()))
         if message.is_multipart():
             for part in message.walk():
                 if part.is_multipart():
@@ -761,7 +757,7 @@ class parseMDIR:
                     continue
         elif message.get_content_type() == 'text/plain':
             #Do nothing
-            print "no attachment"
+            print("no attachment")
         return attach   
     
     """-Retrieves undecoded non-plain-text parts of email as list of attachments"""
@@ -773,10 +769,7 @@ class parseMDIR:
             for part in message.walk():               
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.get_content_type() == 'image/png':
-                            attach.append(subpart) 
-                            self.hasImage= True
-                        elif part.get_content_type() == 'text/plain':
+                        if part.get_content_type() == 'text/plain':
                             attach.append(subpart)
                         else:
                             payload = subpart.get_payload(decode=True)
@@ -784,11 +777,10 @@ class parseMDIR:
                             if not subpart.get_filename():
                                 continue
                             else:
-                                dh= decode_header(subpart.get_filename())
-                                default_charset = 'ASCII'
-                                decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
-                                filename = os.path.join(path, decodePart)
-                                filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
+                                decodePart= self.decodePart(subpart.get_filename())  
+                                decodePart= self.decodeHeader(decodePart)                                  
+                                filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", decodePart) #remove any unwanted characters
+                                filename = os.path.join(path, filename)
                                 if payload and filename:
                                     if not os.path.exists(os.path.dirname(filename)):
                                         try:
@@ -796,7 +788,7 @@ class parseMDIR:
                                         except OSError as exc: # Guard against race condition
                                             if exc.errno != errno.EEXIST:
                                                 raise
-                                            print exc 
+                                            print(exc) 
                                     try:
                                         with open(filename, 'wb') as f:
                                             f.write(payload)
@@ -814,11 +806,10 @@ class parseMDIR:
                     if not part.get_filename():
                         continue
                     else:
-                        dh= decode_header(part.get_filename())
-                        default_charset = 'ASCII'
-                        decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
-                        filename = os.path.join(path, decodePart)
-                        filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename) 
+                        decodePart= self.decodePart(part.get_filename())  
+                        decodePart= self.decodeHeader(decodePart)                                             
+                        filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
+                        filename = os.path.join(path, filename)
                         # Save the file.
                         attach.append(part)
                         if payload and filename:
@@ -828,7 +819,7 @@ class parseMDIR:
                                 except OSError as exc: # Guard against race condition
                                     if exc.errno != errno.EEXIST:
                                         raise
-                                    print exc                             
+                                    print(exc)                            
                             try:
                                 with open(filename, 'wb') as f:
                                     f.write(payload)
@@ -836,9 +827,27 @@ class parseMDIR:
                                 print('An error occured trying to read the file.')                        
         elif message.get_content_type() == 'text/plain':
             #Do nothing
-            print "no attachment"
+            print("no attachment")
         return attach
-     
+    
+    def decodePart(self,part):
+        dh= decode_header(part)
+        default_charset = 'ASCII'
+        decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])
+        return decodePart
+    
+    def decodeHeader(self,part):
+        if not part:
+            return None
+        else:
+            strippedPart= part.replace('"', '') #Remove quote so decode_header can recognise encoding
+            bytes, encoding = decode_header(strippedPart)[0]
+            if not encoding:
+                return part
+            else: 
+                decoded=bytes.decode(encoding)
+                return decoded.encode('utf8')
+            
     """For emails that comply with RFC 2822"""
     def printToHTMLfiles(self,file):
         """-Is it over-writing files of same name eg 1,2?"""
@@ -849,12 +858,12 @@ class parseMDIR:
         for message in mdir:
             #message = mailbox.mboxMessage(file) # has to comply with RFC 2822
             #print message
-            """Get from, to and subject field from email"""
-            msgFrom= message["from"]
-            msgTo= message["to"]
-            msgSubject= message["subject"]
-            msgID= message["message-id"]
-            msgTime= message["date"]
+            """Get from, to and subject field etc from email"""
+            msgFrom= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["from"]))
+            msgTo= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["to"]))
+            msgSubject= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["subject"]))
+            msgID= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["message-id"]))
+            msgTime= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["date"]))
             
             #"""Convert date-time to usable time format"""
             #print "From: ", msgFrom
@@ -866,7 +875,7 @@ class parseMDIR:
             #REMOTE_TIME_ZONE_OFFSET = -2 * 60 * 60  #Take into account local time difference
             #varTime= (time.mktime(email.utils.parsedate(msgTime)) +time.timezone - REMOTE_TIME_ZONE_OFFSET)            
             #print "Time: ", time.strftime('%Y/%m/%d --- Time %H:%M:%S', time.localtime(varTime)) 
-            strBody=""""""
+            strBody=u""""""
             strBody = str(self.getbody(message))   
             
             """Derive attachment part of HTML File"""
@@ -882,7 +891,8 @@ class parseMDIR:
                     continue                
                 else:
                     #print att.get_filename()
-                    msgATT=msgATT+ """<p><a target= "_blank" href= "Attachments/ """+ str(count2)+"""/"""+att.get_filename()+""" "><img src="Attachments/ """+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
+                    decodeFilename= self.decodeHeader(att.get_filename())
+                    msgATT=msgATT+ """<p><a target= "_blank" href= "Attachments/ """+ str(count2)+"""/"""+decodeFilename+""" "><img src="Attachments/ """+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ decodeFilename+ """ " style="width:150px"></a></p>"""
                     
             if msgATT=="""<p>ATTACHMENTS:</p>""":
                 if strBody=="""""":
@@ -894,17 +904,17 @@ class parseMDIR:
                         <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                     </head>
                     <body>
-                    <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                    <pre id= "subject"><font size="4"> """+msgSubject+"""</font></pre>
                     <div class="top">
                         <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                         <table style="width:100%">
                             <tr>
                               <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                              <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                              <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
                                   <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                  <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                             </tr>
                           </table>
                     </div>
@@ -929,23 +939,23 @@ class parseMDIR:
                         <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                     </head>
                     <body>
-                    <p id= "subject"><font size="20"> No Subject</font></p>
+                    <pre id= "subject"><font size="4"> No Subject</font></pre>
                     <div class="top">
                         <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                         <table style="width:100%">
                             <tr>
                               <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                              <td><p id="datetime"><b> </b> No Time</p></td>
+                              <td><p id="datetime"><b>No Time</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b> To: Nobody</b></p><td>
-                                  <td><p id="to"><b> No MessageID</b></p><td>
+                                  <td><p id="to"><b>To: Nobody</b></p><td>
+                                  <td><p id="messageid"><b>No MessageID</b></p><td>
                             </tr>
                           </table>
                     </div>
                     <section id="body">
                           <!-- put the body together with embedded html--> 
-                        <p>"""+ strBody+"""</p>
+                        <pre>"""+ strBody+"""</pre>
                             <!--the embedded html--> 
                             """+embedHTML+"""
                     </section>
@@ -966,23 +976,23 @@ class parseMDIR:
                             <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                         </head>
                         <body>
-                        <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                        <pre id= "subject"><font size="4"> """+msgSubject+"""</font></pre>
                         <div class="top">
                             <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                             <table style="width:100%">
                                 <tr>
                                   <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                                  <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                                  <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
-                                      <td><p id="to"><b> To: Nobody</b></p><td>
-                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="to"><b>To: Nobody</b></p><td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                                 </tr>
                               </table>
                         </div>
                         <section id="body">
                               <!-- put the body together with embedded html--> 
-                            <p>"""+ strBody+"""</p>
+                            <pre>"""+ strBody+"""</pre>
                                 <!--the embedded html--> 
                                 """+embedHTML+"""
                         </section>
@@ -1002,23 +1012,23 @@ class parseMDIR:
                             <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                         </head>
                         <body>
-                        <p id= "subject"><font size="20"> No Subject</font"></p>
+                        <pre id= "subject"><font size="4"> No Subject</font"></pre>
                         <div class="top">
                             <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                             <table style="width:100%">
                                 <tr>
                                   <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                                  <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                                  <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
                                       <td><p id="to"><b> To: Nobody</b></p><td>
-                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                                 </tr>
                               </table>
                         </div>
                         <section id="body">
                               <!-- put the body together with embedded html--> 
-                            <p>"""+ strBody+"""</p>
+                            <pre>"""+ strBody+"""</pre>
                                 <!--the embedded html--> 
                                 """+embedHTML+"""
                         </section>
@@ -1037,24 +1047,24 @@ class parseMDIR:
                             <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                         </head>
                         <body>
-                        <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                        <pre id= "subject"><font size="4"> """+msgSubject+"""</font></pre>
                         <div class="top">
                             <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                             <table style="width:100%">
                                 <tr>
                                   <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                                  <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                                  <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                                 </tr>
                                 <tr>
                                       <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                      <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                      <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                                 </tr>
                               </table>
                         </div>
                         <section id="body">
                               <!-- put the body together with embedded html-->
                               
-                            <p>"""+ strBody+"""</p>"""+embedHTML+"""
+                            <pre>"""+ strBody+"""</pre>"""+embedHTML+"""
                         </section>
                               <!--attachments--> 
                         <div class="attachments">
@@ -1073,23 +1083,23 @@ class parseMDIR:
                         <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                     </head>
                     <body>
-                    <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                    <pre id= "subject"><font size="4"> """+msgSubject+"""</font></pre>
                     <div class="top">
                         <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                         <table style="width:100%">
                             <tr>
-                              <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                              <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                              <td><p id="sender"><b>"""+msgFrom +""" </b></p></td>
+                              <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
                                   <td><p id="to"><b> To: Nobody</b></p><td>
-                                  <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                             </tr>
                           </table>
                     </div>
                     <section id="body">
                           <!-- put the body together with embedded html--> 
-                        <p>"""+ strBody+"""</p>
+                        <pre>"""+ strBody+"""</pre>
                             <!--the embedded html--> 
                             """+embedHTML+"""
                     </section>
@@ -1108,23 +1118,23 @@ class parseMDIR:
                         <link href="../../email_style.css" rel= "stylesheet" type= "text/css"> 
                     </head>
                     <body>
-                    <p id= "subject"><font size="20"> """+msgSubject+"""</font></p>
+                    <pre id= "subject"><font size="4"> """+msgSubject+"""</font></pre>
                     <div class="top">
                         <img src="../../profile.png" alt="Profile"  height="42" width="42"">
                         <table style="width:100%">
                             <tr>
-                              <td><p id="sender"> <b>"""+msgFrom +""" </b></p></td>
-                              <td><p id="datetime"><b> </b>"""+msgTime+"""</p></td>
+                              <td><p id="sender"><b>"""+msgFrom +""" </b></p></td>
+                              <td><p id="datetime"><b>"""+msgTime+"""</b></p></td>
                             </tr>
                             <tr>
-                                  <td><p id="to"><b> To: """+msgTo+"""</b></p><td>
-                                  <td><p id="to"><b>"""+msgID+"""</b></p><td>
+                                  <td><p id="to"><b>To: """+msgTo+"""</b></p><td>
+                                  <td><p id="messageid"><b>"""+msgID+"""</b></p><td>
                             </tr>
                           </table>
                     </div>
                     <section id="body">
                           <!-- put the body together with embedded html--> 
-                        <p>"""+ strBody+"""</p>
+                        <pre>"""+ strBody+"""</pre>
                             <!--the embedded html--> 
                             """+embedHTML+"""
                     </section>
@@ -1144,7 +1154,7 @@ class parseMDIR:
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc 
+                    print(exc) 
                     
             with open(filename, "w") as f: #Write message to single file
                 f.write(msgHTML )   
@@ -1469,7 +1479,7 @@ class parseMDIR:
                     except OSError as exc: # Guard against race condition
                         if exc.errno != errno.EEXIST:
                             raise
-                        print exc 
+                        print(exc) 
                         
                 with open(filename, "w") as f: #Write message to single file
                     f.write(msgHTML )   
@@ -1509,7 +1519,7 @@ class parseMDIR:
                     except OSError as exc: # Guard against race condition
                         if exc.errno != errno.EEXIST:
                             raise
-                        print exc 
+                        print(exc) 
             
                 with open(filename, "w") as f: #Write message to single file
                     f.write(json_data )   
@@ -1526,22 +1536,19 @@ class parseMDIR:
         count4=1
         for dirname, subdirs, files in os.walk(path):
             for name in files:
-                print dirname
                 sublist= dirname.split("\\")
                 subdir=sublist[len(sublist)-1]
                 pathlist=path.split("/")
                 maindir= pathlist[len(pathlist)-1]
-                print subdir
                 filename = os.path.join(dirname, name)
                 fullname = os.path.join("FINDMAIL/XML files/"+maindir+"/"+subdir, str(count4)+".xml")
-                print fullname
                 if not os.path.exists(os.path.dirname(fullname)):
                     try:
                         os.makedirs(os.path.dirname(fullname))
                     except OSError as exc: # Guard against race condition
                         if exc.errno != errno.EEXIST:
                             raise
-                        print exc 
+                        print(exc) 
                 data=""
                 with open(filename, 'r') as myfile:
                     data=myfile.read()  #.replace('\n', '')  to remove newline
@@ -1594,7 +1601,7 @@ if __name__ == '__main__':
     parser.add_argument("path", help="specify path to archive from home directory")
     args = parser.parse_args()
     if args.path[-5:]== ".mbox":
-        mbox=FINDMAILMbox()
+        mbox=parseMbox()
         #mbox.create_mbox('FINDMAIL/mailboxes/mbox/example.mbox')
         mbox.main(mbox, args.path)
     else:

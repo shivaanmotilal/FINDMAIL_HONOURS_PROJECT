@@ -49,12 +49,10 @@ def clean_html(html):
     """
     Copied from NLTK package.
     Remove HTML markup from the given string.
-
     :param html: the HTML string to be cleaned
     :type html: str
     :rtype: str
     """
-
     # First we remove inline JavaScript/CSS:
     cleaned = re.sub(r"(?is)<(script|style).*?>.*?(</\1>)", "", html.strip())
     # Then we remove html comments. This has to be done before removing regular
@@ -189,9 +187,9 @@ def main(path):
 
 
 if __name__ == '__main__':
-    #main()
-
+    start_time = time.time()
     """Check Mbox or Mdir. Diverge the path depending on there being a subfolder """
     path = folders_in("FINDMAIL/HTML files/")
     print path
     main(path)
+    print("--- %s seconds ---" % (time.time() - start_time))#Measure execution time of program 

@@ -13,6 +13,7 @@
 
 import xml.etree.cElementTree as ET
 import string
+import time
 """-Need to install NLTK first using Numpy and pip: 
 https://davejingtian.org/2012/10/08/nltk-install-nltk-for-python2-7-on-64-bit-win-7/ """
 
@@ -109,12 +110,12 @@ def main(path):
             
                                                 
 if __name__ == '__main__':
-            #main()
-            
+            start_time = time.time()
             """Check Mbox or Mdir. Diverge the path depending on there being a subfolder """
             path = folders_in("FINDMAIL/XML files/")
             print path
             main(path)
+            print("--- %s seconds ---" % (time.time() - start_time))#Measure execution time of program 
 
         ##D1 : red red blue black red
         ##D2 : white red white white

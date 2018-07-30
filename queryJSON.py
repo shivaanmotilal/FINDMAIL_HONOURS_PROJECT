@@ -7,6 +7,7 @@ import json
 from pprint import pprint
 import create_inverted_index
 import os
+import time
 
 def main():
     query=raw_input("Enter query below:\n") 
@@ -147,6 +148,7 @@ def find_doc(name):
         
     
 if __name__ == '__main__':
+    start_time = time.time()
     main()
     choice= raw_input("Would you like to open certain documents?y/n\n")
     if(choice.lower() =="y"):
@@ -154,4 +156,5 @@ if __name__ == '__main__':
         find_doc(docs)
     else:
         print "Bye!"
+    print("--- %s seconds ---" % (time.time() - start_time))#Measure execution time of program 
     
