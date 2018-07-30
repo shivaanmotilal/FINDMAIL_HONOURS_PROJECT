@@ -1,6 +1,7 @@
 #Shivaan Motilal
 #Programme to parse MBOX and Maildir Mailboxes
-
+from __future__ import print_function, division, unicode_literals
+#from __future__ import absolute_imports
 import mailbox
 import argparse
 import os
@@ -33,7 +34,7 @@ class parseMbox:
         to_remove = []
         for key, msg in mbox.iteritems():
             if not msg['subject'] == None: #Tag every existing message with subject in mbox
-                print 'Removing:', key
+                print('Removing:', key)
                 to_remove.append(key)
                 
         mbox.lock()
@@ -110,7 +111,7 @@ class parseMbox:
                                                 except OSError as exc: # Guard against race condition
                                                     if exc.errno != errno.EEXIST:
                                                         raise
-                                                    print exc                                     
+                                                    print(exc)                                     
                                             with open(filename, 'wb') as f:
                                                 f.write(payload) 
                         elif subpart.get_content_type() == 'image/png':
@@ -131,7 +132,7 @@ class parseMbox:
                                         except OSError as exc: # Guard against race condition
                                             if exc.errno != errno.EEXIST:
                                                 raise
-                                            print exc                                     
+                                            print(exc)                                     
                                     with open(filename, 'wb') as f:
                                         f.write(payload)                                
                 elif part.get_content_type() == 'text/plain':
@@ -154,12 +155,12 @@ class parseMbox:
                                 except OSError as exc: # Guard against race condition
                                     if exc.errno != errno.EEXIST:
                                         raise
-                                    print exc                             
+                                    print(exc)                             
                             with open(filename, 'wb') as f:
                                 f.write(payload)                     
         elif message.get_content_type() == 'text/plain':
             #Do nothing
-            print "no attachment"
+            print("no attachment")
         return attach   
     
     """-Retrieves undecoded non-plain-text parts of email as list of attachments"""
@@ -190,7 +191,7 @@ class parseMbox:
                                         except OSError as exc: # Guard against race condition
                                             if exc.errno != errno.EEXIST:
                                                 raise
-                                            print exc 
+                                            print(exc) 
                                     try:
                                         with open(filename, 'wb') as f:
                                             f.write(payload)
@@ -221,7 +222,7 @@ class parseMbox:
                                 except OSError as exc: # Guard against race condition
                                     if exc.errno != errno.EEXIST:
                                         raise
-                                    print exc                             
+                                    print(exc)                             
                             try:
                                 with open(filename, 'wb') as f:
                                     f.write(payload)
@@ -229,7 +230,7 @@ class parseMbox:
                                 print('An error occured trying to read the file.')                        
         elif message.get_content_type() == 'text/plain':
             #Do nothing
-            print "no attachment"
+            print("no attachment")
         return attach    
     
     """-Prints all output as plain text for each email"""
@@ -245,14 +246,14 @@ class parseMbox:
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc        
+                    print(exc)        
             if not os.path.exists(os.path.dirname(body)):
                 try:
                     os.makedirs(os.path.dirname(body))
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc
+                    print(exc)
             
             with open(filename, "w") as f: #Write message to single file
                 f.write(str(message) )   
@@ -583,7 +584,7 @@ class parseMbox:
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc 
+                    print(exc)
                     
             with open(filename, "w") as f: #Write message to single file
                 f.write(msgHTML )   
@@ -616,7 +617,7 @@ class parseMbox:
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc 
+                    print(exc) 
         
             with open(filename, "w") as f: #Write message to single file
                 f.write(json_data )   
@@ -667,7 +668,7 @@ class parseMbox:
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc        
+                    print(exc)        
                     
             tree = ET.ElementTree(root)
             tree.write(filename) 
@@ -736,7 +737,7 @@ class parseMDIR:
     def getAttachment(self,message): 
         #What if there are multiple attachments?
         attach = []
-        print len(message.get_payload())
+        print(len(message.get_payload()))
         if message.is_multipart():
             for part in message.walk():
                 if part.is_multipart():
@@ -752,7 +753,7 @@ class parseMDIR:
                     continue
         elif message.get_content_type() == 'text/plain':
             #Do nothing
-            print "no attachment"
+            print("no attachment")
         return attach   
     
     """-Retrieves undecoded non-plain-text parts of email as list of attachments"""
@@ -783,7 +784,7 @@ class parseMDIR:
                                         except OSError as exc: # Guard against race condition
                                             if exc.errno != errno.EEXIST:
                                                 raise
-                                            print exc 
+                                            print(exc) 
                                     try:
                                         with open(filename, 'wb') as f:
                                             f.write(payload)
@@ -814,7 +815,7 @@ class parseMDIR:
                                 except OSError as exc: # Guard against race condition
                                     if exc.errno != errno.EEXIST:
                                         raise
-                                    print exc                             
+                                    print(exc)                            
                             try:
                                 with open(filename, 'wb') as f:
                                     f.write(payload)
@@ -822,7 +823,7 @@ class parseMDIR:
                                 print('An error occured trying to read the file.')                        
         elif message.get_content_type() == 'text/plain':
             #Do nothing
-            print "no attachment"
+            print("no attachment")
         return attach
     
     def decodePart(self,part):
@@ -1149,7 +1150,7 @@ class parseMDIR:
                 except OSError as exc: # Guard against race condition
                     if exc.errno != errno.EEXIST:
                         raise
-                    print exc 
+                    print(exc) 
                     
             with open(filename, "w") as f: #Write message to single file
                 f.write(msgHTML )   
@@ -1474,7 +1475,7 @@ class parseMDIR:
                     except OSError as exc: # Guard against race condition
                         if exc.errno != errno.EEXIST:
                             raise
-                        print exc 
+                        print(exc) 
                         
                 with open(filename, "w") as f: #Write message to single file
                     f.write(msgHTML )   
@@ -1514,7 +1515,7 @@ class parseMDIR:
                     except OSError as exc: # Guard against race condition
                         if exc.errno != errno.EEXIST:
                             raise
-                        print exc 
+                        print(exc) 
             
                 with open(filename, "w") as f: #Write message to single file
                     f.write(json_data )   
@@ -1531,22 +1532,19 @@ class parseMDIR:
         count4=1
         for dirname, subdirs, files in os.walk(path):
             for name in files:
-                print dirname
                 sublist= dirname.split("\\")
                 subdir=sublist[len(sublist)-1]
                 pathlist=path.split("/")
                 maindir= pathlist[len(pathlist)-1]
-                print subdir
                 filename = os.path.join(dirname, name)
                 fullname = os.path.join("FINDMAIL/XML files/"+maindir+"/"+subdir, str(count4)+".xml")
-                print fullname
                 if not os.path.exists(os.path.dirname(fullname)):
                     try:
                         os.makedirs(os.path.dirname(fullname))
                     except OSError as exc: # Guard against race condition
                         if exc.errno != errno.EEXIST:
                             raise
-                        print exc 
+                        print(exc) 
                 data=""
                 with open(filename, 'r') as myfile:
                     data=myfile.read()  #.replace('\n', '')  to remove newline
