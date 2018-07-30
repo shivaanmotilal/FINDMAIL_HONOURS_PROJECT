@@ -16,7 +16,7 @@ import re
 import sys, urllib2, email, re, csv, StringIO, base64, json, datetime, pprint
 from optparse import OptionParser
 
-class FINDMAILMbox:
+class parseMbox:
     def __init__(self, content = None):
         self.data = {}
         self.raw_parts = []
@@ -171,10 +171,7 @@ class FINDMAILMbox:
             for part in message.walk():               
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.get_content_type() == 'image/png':
-                            attach.append(subpart) 
-                            self.hasImage= True
-                        elif part.get_content_type() == 'text/plain':
+                        if part.get_content_type() == 'text/plain':
                             attach.append(subpart)
                         else:
                             payload = subpart.get_payload(decode=True)
@@ -182,13 +179,10 @@ class FINDMAILMbox:
                             if not subpart.get_filename():
                                 continue
                             else:
-                                dh= decode_header(subpart.get_filename())
-                                default_charset = 'ASCII'
-                                decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])
+                                decodePart= self.decodePart(subpart.get_filename())
                                 decodePart= self.decodeHeader(decodePart)
                                 filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", decodePart)
                                 filename = os.path.join(path, decodePart)
-                                
                                 if payload and filename:
                                     if not os.path.exists(os.path.dirname(filename)):
                                         try:
@@ -214,9 +208,7 @@ class FINDMAILMbox:
                     if not part.get_filename():
                         continue
                     else:
-                        dh= decode_header(part.get_filename())
-                        default_charset = 'ASCII'
-                        decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])  
+                        decodePart= self.decodePart(part.get_filename())  
                         decodePart= self.decodeHeader(decodePart)
                         filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", decodePart) 
                         filename = os.path.join(path, decodePart)
@@ -247,7 +239,6 @@ class FINDMAILMbox:
             """File paths"""
             filename = "FINDMAIL/Plain text files/"+ str(count1)+".txt"
             body= "FINDMAIL/Plain text files/body/"+ str(count1)+".txt"
-            #print filename
             if not os.path.exists(os.path.dirname(filename)):
                 try:
                     os.makedirs(os.path.dirname(filename))
@@ -773,10 +764,7 @@ class parseMDIR:
             for part in message.walk():               
                 if part.is_multipart():
                     for subpart in part.walk():
-                        if subpart.get_content_type() == 'image/png':
-                            attach.append(subpart) 
-                            self.hasImage= True
-                        elif part.get_content_type() == 'text/plain':
+                        if part.get_content_type() == 'text/plain':
                             attach.append(subpart)
                         else:
                             payload = subpart.get_payload(decode=True)
@@ -784,11 +772,10 @@ class parseMDIR:
                             if not subpart.get_filename():
                                 continue
                             else:
-                                dh= decode_header(subpart.get_filename())
-                                default_charset = 'ASCII'
-                                decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
-                                filename = os.path.join(path, decodePart)
-                                filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
+                                decodePart= self.decodePart(subpart.get_filename())  
+                                decodePart= self.decodeHeader(decodePart)                                  
+                                filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", decodePart) #remove any unwanted characters
+                                filename = os.path.join(path, filename)
                                 if payload and filename:
                                     if not os.path.exists(os.path.dirname(filename)):
                                         try:
@@ -814,11 +801,10 @@ class parseMDIR:
                     if not part.get_filename():
                         continue
                     else:
-                        dh= decode_header(part.get_filename())
-                        default_charset = 'ASCII'
-                        decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])                                        
-                        filename = os.path.join(path, decodePart)
-                        filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename) 
+                        decodePart= self.decodePart(part.get_filename())  
+                        decodePart= self.decodeHeader(decodePart)                                             
+                        filename = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ", filename)
+                        filename = os.path.join(path, filename)
                         # Save the file.
                         attach.append(part)
                         if payload and filename:
@@ -838,7 +824,25 @@ class parseMDIR:
             #Do nothing
             print "no attachment"
         return attach
-     
+    
+    def decodePart(self,part):
+        dh= decode_header(part)
+        default_charset = 'ASCII'
+        decodePart= ''.join([ unicode(t[0], t[1] or default_charset) for t in dh ])
+        return decodePart
+    
+    def decodeHeader(self,part):
+        if not part:
+            return None
+        else:
+            strippedPart= part.replace('"', '') #Remove quote so decode_header can recognise encoding
+            bytes, encoding = decode_header(strippedPart)[0]
+            if not encoding:
+                return part
+            else: 
+                decoded=bytes.decode(encoding)
+                return decoded.encode('utf8')
+            
     """For emails that comply with RFC 2822"""
     def printToHTMLfiles(self,file):
         """-Is it over-writing files of same name eg 1,2?"""
@@ -849,12 +853,12 @@ class parseMDIR:
         for message in mdir:
             #message = mailbox.mboxMessage(file) # has to comply with RFC 2822
             #print message
-            """Get from, to and subject field from email"""
-            msgFrom= message["from"]
-            msgTo= message["to"]
-            msgSubject= message["subject"]
-            msgID= message["message-id"]
-            msgTime= message["date"]
+            """Get from, to and subject field etc from email"""
+            msgFrom= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["from"]))
+            msgTo= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["to"]))
+            msgSubject= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["subject"]))
+            msgID= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["message-id"]))
+            msgTime= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["date"]))
             
             #"""Convert date-time to usable time format"""
             #print "From: ", msgFrom
@@ -882,7 +886,8 @@ class parseMDIR:
                     continue                
                 else:
                     #print att.get_filename()
-                    msgATT=msgATT+ """<p><a target= "_blank" href= "Attachments/ """+ str(count2)+"""/"""+att.get_filename()+""" "><img src="Attachments/ """+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
+                    decodeFilename= self.decodeHeader(att.get_filename())
+                    msgATT=msgATT+ """<p><a target= "_blank" href= "Attachments/ """+ str(count2)+"""/"""+decodeFilename+""" "><img src="Attachments/ """+ str(count2)+"""/"""+att.get_filename()+""" " alt= " """+ decodeFilename+ """ " style="width:150px"></a></p>"""
                     
             if msgATT=="""<p>ATTACHMENTS:</p>""":
                 if strBody=="""""":
@@ -1594,7 +1599,7 @@ if __name__ == '__main__':
     parser.add_argument("path", help="specify path to archive from home directory")
     args = parser.parse_args()
     if args.path[-5:]== ".mbox":
-        mbox=FINDMAILMbox()
+        mbox=parseMbox()
         #mbox.create_mbox('FINDMAIL/mailboxes/mbox/example.mbox')
         mbox.main(mbox, args.path)
     else:
