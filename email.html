@@ -4,6 +4,7 @@
     <title>email client interface</title>
     <!-- style sheets -->
     <link rel="stylesheet" type="text/css" href="header.css">
+      <link rel="stylesheet" type="text/css" href="email_content.css">
     <!-- use jQuery from Google  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- use jQuery from Google-->
@@ -21,44 +22,54 @@
 <div class="mainDiv">
 <!-- Header -->
     <div class="topNav">
-    <div class=Icon_label>
-      <img src="images/logo.png" alt="FINDMAIL_ICON" width="40" height="40"> 
-       <p font size="80">
-              <span style='color: blue'><em>F</em></span>
-              <span style='color: red'><em>I</em></span>
-              <span style='color: green'><em>N</em></span>
-              <span style='color: blue'><em>D</em></span>
-              <span style='color: green'><em>M</em></span>
-              <span style='color: red'><em>A</em></span>
-              <span style='color: red'><em>I</em></span>
-              <span style='color: red'><em>L</em></span>
+        <div class=Icon_label>
+          <img src="images/logo.png" alt="FINDMAIL_ICON" width="40" height="40"> 
+           <p font size="80">
+                  <span style='color: blue'><em>F</em></span>
+                  <span style='color: red'><em>I</em></span>
+                  <span style='color: green'><em>N</em></span>
+                  <span style='color: blue'><em>D</em></span>
+                  <span style='color: green'><em>M</em></span>
+                  <span style='color: red'><em>A</em></span>
+                  <span style='color: red'><em>I</em></span>
+                  <span style='color: red'><em>L</em></span>
 
-       </p>
-    </div>
-    <div>  
-        <nav>
-   <!--put the menu buttons here-->
-    <div class="btn-group">
-        <button>All</button>
-        <button>Inbox</button>
-        <button>Sent</button>
-        <button>Trash</button>
-    </div>
-  </nav>
-  </div>
-</div>
+                   </p>
+                </div>
+                <div>  
+                <nav>
+           <!--put the menu buttons here-->
+            <div class="btn-group">
+                <button id="/Users/breydenmonyemoratho/Desktop/myEmail/all.txt" class="dir">All</button>
+                <button id="/Users/breydenmonyemoratho/Desktop/myEmail/all.txt" class="dir">Inbox</button>
+                <button id="Sent" class="dir">Sent</button>
+                <button id="Trash" class="dir">Trash</button>
+            </div>
+          </nav>
+          </div>
+        </div>
     <div class="sideNav">
         <div class="searchRow">
-            <form action="/action_page.php">
+            <form action="hello.py">
                 <input type="text" placeholder="Search.." name="search">
             </form>
-            <button onclick="myFunction()" class="dropbtn"><i class="fa fa-cog"></i></button>
+            <button onclick="myFunction()" class="dropbtn"><i class="fa fa-search"></i></button>
         </div>
-        
         <ul id="dynamic-list">
-       
-        </ul>
+                 
+         </ul>
+        
     </div>
+    <div class="emails">
+        <div class="settings"> 
+            <button onclick="myFunction()" ><i class="fa fa-cog"></i></button>
+        </div>
+            
+            <div class="content" id="content">
+                
+            </div>
+    </div>
+
 
 </div>
 <!--put the menu buttons here and actaul emails--> 
@@ -66,24 +77,32 @@
 <!--read the file -->
 
 <script>
+// use for testing the middle sections
+
 var myArr;
-function loadDoc() {
+function loadDoc(file) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
         myArr=this.responseText.split("\n");
         console.log(myArr[0]);
-        readAdd(myArr[0]);
+        var i=0;
+        for (i=0;i<myArr.length;i++)
+            {
+              readAdd(myArr[i]); 
+            }
+ 
   
     
     }
   };
-  xhttp.open("GET", "/Users/breydenmonyemoratho/Desktop/myEmail/test.txt",true);
+  xhttp.open("GET",file ,true);
   xhttp.send();
 //response.setContentType("text/plain"); 
 }
-loadDoc();
-addItem("bry","breyden","monyemoratho");
+//loadDoc();
+//addItem("bry","breyden","monyemoratho");
+//addItem("bry","breyden","monyemoratho");
 function addItem(sender_address,email_summary,xml_filePath){
     var ul = document.getElementById("dynamic-list");
     var li = document.createElement("li");
@@ -110,28 +129,24 @@ function addItem(sender_address,email_summary,xml_filePath){
     
     li.appendChild(d);
     ul.appendChild(li);
-    
-    // dont forget to add the lister for each list item.
+  
 }
-// function myFunction(arr) {
-//    var out = "";
-//    var i;
-//    for(i = 0; i < arr.length; i)
-//    {
-//        out = arr[i];  
-//    }
-//    return out;
-//}
+
   /// given the file open and call add
   function readAdd(filePath){
  
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
-      // console.log(this.responseText);
-   
-  //alert(this.responseText);
     
+        var txt=this.responseText;
+        parser=new DOMParser();
+htmlDoc=parser.parseFromString(txt, "text/html");
+ var from =htmlDoc.getElementsByTagName('b');
+       //console.log(from.innerHTML);
+var s =htmlDoc.getElementsByTagName('font');
+        //console.log(s.innerHTML);
+addItem(from[0].innerHTML,s[0].innerHTML,filePath);
     }
   };
   xhttp.open("GET", filePath,true);
@@ -142,11 +157,54 @@ function addItem(sender_address,email_summary,xml_filePath){
   $('#dynamic-list').on('click','li',function(){
 
      // this.id   filepath
+      clickedOpen(this.id);
+      
+      //alert(this.id);
 //    var li = document.createElement("div");
 //    li.setAttribute("class","listItem");
 //    li.setAttribute("id",xml_filePath);
   });
 
+window.onload = function(){ 
+    //console.log("dont you cry"); 
+ document.getElementById("/Users/breydenmonyemoratho/Desktop/myEmail/all.txt").style.backgroundColor = "lightblue";
+    //loadDoc("/Users/breydenmonyemoratho/Desktop/myEmail/test.txt");  // initially pass the inbox folder
+    // add listeners to the rest of the navigation directory buttons
+   
+};
+function clickedOpen(path) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        //myArr=this.responseText.split("\n");
+        var x = document.getElementById("content");  // add the document to the content section
+        x.innerHTML=this.responseText;
+        console.log(this.responseText);
+       // readAdd(myArr[0]);
+  
+    
+    }
+  };
+  xhttp.open("GET", path,true);
+  xhttp.send();
+}
+
+var buttons = $("button.dir");
+buttons.click(function() {
+  buttons.css('background-color', 'white');
+  $(this).css('background-color', 'lightblue');
+
+    // assign the content nothing
+    document.getElementById("content").innerHTML="";  // add the document to the content section
+     document.getElementById("dynamic-list").innerHTML=""
+    loadDoc(this.id);
+       
+});
+buttons.hover(function(){
+    $(this).css('background-color', 'red');  
+},function(){
+   $(this).css('background-color', 'white');   
+});
 </script>
 
 </body>
