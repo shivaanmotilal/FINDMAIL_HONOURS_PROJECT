@@ -1,4 +1,3 @@
-
 import string
 import nltk
 from nltk.stem.snowball import SnowballStemmer
@@ -7,10 +6,11 @@ import json
 from pprint import pprint
 import create_inverted_index
 import os
+import webbrowser
 
 def main():
     query=raw_input("Enter query below:\n") 
-    with open('JSON index/indexC.json') as f:
+    with open('JSON index/indexE.json') as f:
         index_data = json.load(f)
     
     #pprint(index_data)  
@@ -132,14 +132,16 @@ def find_doc(name):
     doc_list= name.split(" ")
     for doc in doc_list:
         doc_num= doc[1:]
-        path= create_inverted_index.folders_in("FINDMAIL/XML files/")
+        #path= create_inverted_index.folders_in("FINDMAIL/XML files/")
+        path= "FINDMAIL/HTML files/"
         for dirname, subdirs, files in os.walk(path):
             for filename in files:
-                if filename==(doc_num+".xml"):
+                if filename==(doc_num+".html"):
                     print ('*' * 40),filename,('*' * 40) 
                     fullpath= dirname+"/"+filename
                     with open(fullpath, 'r') as myfile:
                         data=myfile.read() 
+                    webbrowser.open('file://' + os.path.realpath(fullpath))
                     print data
                     print ('*' * 86)
                     print 
@@ -154,4 +156,3 @@ if __name__ == '__main__':
         find_doc(docs)
     else:
         print "Bye!"
-    
