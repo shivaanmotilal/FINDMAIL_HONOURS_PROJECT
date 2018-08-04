@@ -577,6 +577,8 @@ class parseMDIR:
     """Other type refers to maildirs that do not have the traditional
     new, cur and tmp folders. For emails that comply with RFC 2822"""
     def otherTypePrintToHTMLfiles(self,path):
+        data= {}
+        folder_lst=[]
         count5=1;
         firstpass=True;
         for dirname, subdirs, files in os.walk(path):
@@ -585,7 +587,9 @@ class parseMDIR:
                 open("Dirs.txt", 'w').close() 
                 for firstlvl in subdirs:
                     self.append_to_file("Dirs.txt",firstlvl+'.txt'+'\n','a')
+                    folder_lst.append(firstlvl)
                 firstpass=False;
+                data["Root"] = folder_lst
             for name in files:                
                 fullname = os.path.join(dirname, name)
                 alldir= os.path.normpath(fullname).split(os.path.sep)
@@ -599,17 +603,44 @@ class parseMDIR:
                 nesting= (len(alldir)-1) #To cater for file name romove 1
                 fpath=os.path.join(*alldir)
                 specpath, file = os.path.split(fpath)
+                print("specpath",specpath)
                 #Filepath method inefficient
                 specdirs= os.path.normpath(specpath).split(os.path.sep)
-                for i, folder in reversed(list(enumerate(specdirs))):
-                    print(i, folder) 
+                folder_lst=[] ##Clear the list
+                for i, folder in reversed(list(enumerate(specdirs))): 
                     if i==len(specdirs)-1:
-                        open(folder+'.txt', 'w').close()
-                        self.append_to_file(folder+'.txt',fullname,'a')
+                        #open(folder+'.txt', 'w').close()
+                        self.append_to_file(folder+'.txt',fullname+'\n','a')
+                        print("file", fullname)
                     else:
-                        open(folder+'.txt', 'w').close()
-                        self.append_to_file(folder+'.txt',specdirs[i+1]+'.txt','a')
-                print(specdirs)
+                        #open(folder+'.txt', 'w').close()
+                        #Check key exists
+                        if folder not in data: ##No Key
+                            print("empty- No key")
+                            self.append_to_file(folder+'.txt',specdirs[i+1]+'.txt\n','a')
+                            print("folder", folder)
+                            print("subdir",specdirs[i+1])
+                            folder_lst.append(specdirs[i+1])
+                            data[folder] = folder_lst
+                            folder_lst=[]
+                        else:
+                            if not data[folder]: #No value
+                                print("no data")
+                                self.append_to_file(folder+'.txt',specdirs[i+1]+'.txt\n','a')
+                                print("folder", folder)
+                                print("subdir",specdirs[i+1])
+                                folder_lst.append(specdirs[i+1])
+                                data[folder] = folder_lst
+                                folder_lst=[]
+                            else:
+                                #Check value exists
+                                curr_lst=data[folder]
+                                print("folder", folder)
+                                print("subdir",specdirs[i+1])
+                                if specdirs[i+1] not in curr_lst:
+                                    self.append_to_file(folder+'.txt',specdirs[i+1]+'.txt\n','a')
+                                    curr_lst.append(specdirs[i+1])
+                                data[folder] = curr_lst
                 with open(fullname, 'r') as myfile:
                     text=myfile.read()  #.replace('\n', '')  to remove newline
                 message=  email.message_from_string(text)
@@ -648,7 +679,9 @@ class parseMDIR:
                     self.clearFolder(self.prePath)
                 self.createDirs(filename) 
                 self.append_to_file(filename,msgHTML,"w")
-                count5= count5+1   
+                count5= count5+1  
+        json_data = json.dumps(data)
+        return json_data
                 
     def createDirs(self,path):
         if not os.path.exists(os.path.dirname(path)):
@@ -686,7 +719,7 @@ class parseMDIR:
         #self.isPureMaildir(args.path)
         alldir= os.path.normpath(path).split(os.path.sep)
         self.inboxname= alldir[-1]
-        self.otherTypePrintToHTMLfiles(args.path)
+        print(self.otherTypePrintToHTMLfiles(args.path))
         
 if __name__ == '__main__':
     start_time = time.time()
