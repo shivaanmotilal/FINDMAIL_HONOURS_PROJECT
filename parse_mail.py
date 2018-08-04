@@ -573,11 +573,28 @@ class parseMDIR:
                     elif os.path.isdir(file_path): shutil.rmtree(file_path)
                 except Exception as e:
                     print(e) 
-    def addToJSON(self,json){
     
-    
-    }
-    
+    def addToJSON(self, folder, data, folder_lst,fullname):
+        if folder not in data:##No Key
+            self.append_to_file(folder+'.txt',fullname+'.\n','a')
+            folder_lst.append(fullname)
+            data[folder] = folder_lst
+            folder_lst=[]
+        else:
+            if not data[folder]: #No value
+                self.append_to_file(folder+'.txt',fullname+'\n','a')
+                folder_lst.append(fullname)
+                data[folder] = folder_lst
+                folder_lst=[]
+            else:
+                #Check value exists
+                curr_lst=data[folder]
+                if fullname not in curr_lst:
+                    self.append_to_file(folder+'.txt',fullname+'\n','a')
+                    curr_lst.append(fullname)
+                data[folder] = curr_lst
+        return data
+                
     """Other type refers to maildirs that do not have the traditional
     new, cur and tmp folders. For emails that comply with RFC 2822"""
     def otherTypePrintToHTMLfiles(self,path):
@@ -601,6 +618,7 @@ class parseMDIR:
                 alldir= os.path.normpath(fullname).split(os.path.sep)
                 for i in range(0,len(alldir)-1):
                     #Assumes you don't have inboxname duplicated earlier(leftmost) in path
+                    
                     if alldir[0]==self.inboxname:
                         del alldir[0]
                         break
@@ -609,7 +627,7 @@ class parseMDIR:
                 nesting= (len(alldir)-1) #To cater for file name romove 1
                 fpath=os.path.join(*alldir)
                 specpath, file = os.path.split(fpath)
-                print("specpath",specpath)
+                #print("specpath",specpath)
                 #Filepath method inefficient
                 specdirs= os.path.normpath(specpath).split(os.path.sep)
                 folder_lst=[] ##Clear the list
@@ -617,47 +635,11 @@ class parseMDIR:
                     if i==len(specdirs)-1:
                         #open(folder+'.txt', 'w').close()
                         ##self.append_to_file(folder+'.txt',fullname+'\n','a')
-                        print("file", fullname)
-                        print("folder", folder)
-                        if folder not in data: ##No Key
-                            self.append_to_file(folder+'.txt',fullname+'.\n','a')
-                            folder_lst.append(fullname)
-                            data[folder] = folder_lst
-                            folder_lst=[]
-                        else:
-                            if not data[folder]: #No value
-                                self.append_to_file(folder+'.txt',fullname+'\n','a')
-                                folder_lst.append(fullname)
-                                data[folder] = folder_lst
-                                folder_lst=[]
-                            else:
-                                #Check value exists
-                                curr_lst=data[folder]
-                                if fullname not in curr_lst:
-                                    self.append_to_file(folder+'.txt',fullname+'\n','a')
-                                    curr_lst.append(fullname)
-                                data[folder] = curr_lst                                               
+                        self.addToJSON(folder, data, folder_lst,fullname)
                     else:
                         #open(folder+'.txt', 'w').close()
                         #Check key exists
-                        if folder not in data: ##No Key
-                            self.append_to_file(folder+'.txt',specdirs[i+1]+'.txt\n','a')
-                            folder_lst.append(specdirs[i+1])
-                            data[folder] = folder_lst
-                            folder_lst=[]
-                        else:
-                            if not data[folder]: #No value
-                                self.append_to_file(folder+'.txt',specdirs[i+1]+'.txt\n','a')
-                                folder_lst.append(specdirs[i+1])
-                                data[folder] = folder_lst
-                                folder_lst=[]
-                            else:
-                                #Check value exists
-                                curr_lst=data[folder]
-                                if specdirs[i+1] not in curr_lst:
-                                    self.append_to_file(folder+'.txt',specdirs[i+1]+'.txt\n','a')
-                                    curr_lst.append(specdirs[i+1])
-                                data[folder] = curr_lst
+                        self.addToJSON(folder, data, folder_lst,specdirs[i+1]+'.txt')
                 with open(fullname, 'r') as myfile:
                     text=myfile.read()  #.replace('\n', '')  to remove newline
                 message=  email.message_from_string(text)
