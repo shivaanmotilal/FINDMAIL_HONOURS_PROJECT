@@ -3,17 +3,54 @@
 <head>
     <title>email client interface</title>
     <!-- style sheets -->
-    <link rel="stylesheet" type="text/css" href="header.css">
-      <link rel="stylesheet" type="text/css" href="email_content.css">
+   <link rel="stylesheet" type="text/css" href="header.css">
+   <link rel="stylesheet" type="text/css" href="email_content.css">
+   <link rel="stylesheet" type="text/css" href="dir.css">
+
     <!-- use jQuery from Google  -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <!-- use jQuery from Google-->
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+      <!-- use for searching  -->
+     <!-- <script language="JavaScript" src="search.js"></script>   -->
     <!-- jQuery functions in a separate .js file.  -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- icon library -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+    <style>
+        .directories
+        {
+        display:flex;
+        flex-direction: row;
+             width:inherit;
+/*        width: inherit;*/
+/*        border-collapse: collapse;*/
+/*        align-content:*/
+        }
+        .dropbtn {
+/*    background-color: #3498DB;*/
+/*    color: white;*/
+/*
+    padding: 16px;
+    font-size: 16px;
+*/
+/*    border: none;*/
+    cursor: pointer;
+            
+}
+    .dropdown-content {
+    display: none;
+    position: absolute;
+        width:inherit;
+/*    background-color: #f1f1f1;*/
+/*    min-width: 160px;*/
+/*    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+/*    z-index: 1;*/
+}
+ .show { display:block;
+    }
+    </style>
     
 </head>
 <body>
@@ -23,8 +60,8 @@
 <!-- Header -->
     <div class="topNav">
         <div class=Icon_label>
-          <img src="images/logo.png" alt="FINDMAIL_ICON" width="40" height="40"> 
-           <p font size="80">
+          <img src="images/logo.png" alt="FINDMAIL_ICON" width="40" height="40" id="logo" > 
+           <p  font size="80">
                   <span style='color: blue'><em>F</em></span>
                   <span style='color: red'><em>I</em></span>
                   <span style='color: green'><em>N</em></span>
@@ -35,34 +72,90 @@
                   <span style='color: red'><em>L</em></span>
 
                    </p>
-                </div>
-                <div>  
-                <nav>
-           <!--put the menu buttons here-->
-            <div class="btn-group">
-                <button id="All.txt" class="dir">All</button>
-                <button id="All.txt" class="dir">Inbox</button>
-                <button id="Sent" class="dir">Sent</button>
-                <button id="Trash" class="dir">Trash</button>
-            </div>
-          </nav>
-          </div>
         </div>
+           <!--put the menu buttons here-->
+        <div class="btn-group" id="btn-group">
+            
+<!--
+                <div class="directories">
+                    <button id="Dropdown" onclick="myFunction()" class="dropbtn"><i class="fa fa-angle-up"></i></button>
+                    <button class="dir">Dropdown</button>
+                </div>
+                <div id="DropdownmyDropdown" class="dropdown-content">
+                    <div class="directories">
+                        <button id="dont" onclick="myFunction3()" class="dropbtn"></button>
+                        <button class="dir">dont</button>
+                    </div>
+                    <div id="dontmyDropdown" class="dropdown-content ">
+                    <button id="dont"  class="dropbtn"></button>
+                    <button class="dir">dont2</button>
+                  </div>
+                </div>
+-->
+
+            
+            
+        </div>
+          
+    </div>
     <div class="sideNav">
         <div class="searchRow">
             <form action="hello.py">
-                <input type="text" placeholder="Search.." name="search">
+                <input type="text" placeholder="Search.." name="search" onsubmit="dosearch(''); return false" >
             </form>
-            <button onclick="myFunction()" class="dropbtn"><i class="fa fa-search"></i></button>
         </div>
         <ul id="dynamic-list">
-                 
+<!--
+                var li = document.createElement("li");
+    li.setAttribute("class","listItem");
+    li.setAttribute("id",xml_filePath);
+    var d = document.createElement("div");
+    d.setAttribute("class","emailSummary");
+     
+    //i
+    var i = document.createElement("i");
+    i.setAttribute("class","fa fa-user");
+    i.setAttribute("style","font-size:24px");
+    i.setAttribute("style","margin-right:20px");
+    li.appendChild(i);
+   
+    // sender 
+    var sender_ = document.createElement("p");
+     sender_.appendChild(document.createTextNode(sender_address));   // add the text
+    d.appendChild(sender_);
+    // email summary
+    var summary= document.createElement("p");
+     summary.appendChild(document.createTextNode(email_summary));   // add the text
+     d.appendChild(summary);
+    
+    li.appendChild(d);
+    ul.appendChild(li);  
+-->   
+            <li class="listItem">
+            <div class="emailSummary">
+                <div class="firstLine">
+                    <p>Sender address</p>
+                     <time datetime="2001-05-15T19:00">May 15</time>
+                </div>
+                <pre>subject </pre>     
+            </div>
+            </li>
+             <li class="listItem">
+            <div class="emailSummary">
+                <div class="firstLine">
+                    <p>Sender address</p>
+                     <time datetime="2001-05-15T19:00">May 15</time>
+                </div>
+                <pre>subject  whta the hel</pre>     
+            </div>
+            </li>
          </ul>
         
     </div>
     <div class="emails">
-        <div class="settings"> 
-            <button onclick="myFunction()" ><i class="fa fa-cog"></i></button>
+        <div class="settings">
+            <div id="eat_space"></div>
+            <button onclick="myFunction()" id ="settings" ><i class="fa fa-cog"></i></button>
         </div>
             
             <div class="content" id="content">
@@ -77,9 +170,11 @@
 <!--read the file -->
 
 <script>
-// use for testing the middle sections
 var myArr;
+var myMap = new Map();  // used for subdirectories
+var myMapPath = new Map();  // used for subdirectories
 function loadDoc(file) {
+    console.log(file);
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
@@ -90,19 +185,365 @@ function loadDoc(file) {
             {
               readAdd(myArr[i]); 
             }
- 
-  
-    
     }
   };
   xhttp.open("GET",file ,true);
   xhttp.send();
-//response.setContentType("text/plain"); 
 }
-//loadDoc();
-//addItem("bry","breyden","monyemoratho");
-//addItem("bry","breyden","monyemoratho");
-function addItem(sender_address,email_summary,xml_filePath){
+var json_dir;
+var jsonData;
+function addDir(path_dir)
+    {   var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        var count=0;
+        var  rootDir;
+        var json_dir=JSON.parse(this.responseText);
+        for (var key in json_dir)
+        {
+            if (json_dir.hasOwnProperty(key)) 
+            {   //console.log(key);
+                if (count==0)
+                    {  rootDir=json_dir[key]; // has all the root directories
+                        count++;
+                    } 
+            }      
+        } 
+        // add to the  map
+    var m=0;
+    jsonData=json_dir;
+    for (m=0;m<rootDir.length;m++)
+        {  
+          addMap(rootDir[m]); 
+          myMapPath.set(rootDir[m],rootDir[m]+".txt");
+    
+        }
+            
+
+    }
+  }
+  xhttp.overrideMimeType("application/json");
+  xhttp.open("GET",path_dir ,false);
+  xhttp.send();
+        
+    }
+function addMap(directory)
+    {    // console.log("here");
+        for (var key in jsonData)
+       {     //console.log("here");
+            if (jsonData.hasOwnProperty(key)) 
+            {   //console.log(key);
+              
+             //myMap.set(key,arraySub);
+                if (directory==(key))
+               {   var sub=[];
+                   var DirectoryList=jsonData[key];
+                    for (var b=0;b<DirectoryList.length;b++)
+                    {
+                        if(!DirectoryList[b].includes(".html"))
+                            {  
+                              sub.push(DirectoryList[b]);  
+                            }
+                    }  
+                    myMap.set(directory,sub);
+                   // add nested subdirectories 
+                     // replicate the jsonData iterate data
+                    for (var i=0;i<sub.length;i++)
+                        {    myMapPath.set(sub[i],directory+"/"+sub[i]+".txt"); // create a path for sub directories.
+                            for (var subKey in jsonData)
+                                {
+                                    if (jsonData.hasOwnProperty(subKey))
+                                        {   if (sub[i]==subKey)
+                                            {
+                                                var subSub=[];
+                                                var DirectoryList=jsonData[subKey];
+                                            
+                                               for (var b=0;b<DirectoryList.length;b++)
+                                                    { 
+                                                        if(!DirectoryList[b].includes(".html"))
+                                                        {  
+                                                            subSub.push(DirectoryList[b]);
+                                                              myMapPath.set(DirectoryList[b],directory+"/"+sub[i]+"/"+DirectoryList[b]+".txt");
+                                                        
+                                                        }
+                                                    } 
+                                                myMap.set(sub[i],subSub);
+                                               // console.log(myMap.get(sub[i]));
+                                            }
+                                        }
+                                }   
+                        }
+
+                    }
+            
+             
+            }  
+           
+       } 
+       createDir(directory);
+
+        
+    }
+    
+addDir("/Users/breydenmonyemoratho/Desktop/myEmail/dir.txt");    
+
+function createDir(dir)
+    {  
+
+        
+//        <div class="directories">
+//                    <button id="Dropdown" onclick="myFunction()" class="dropbtn"><i class="fa fa-angle-up"></i></button>
+//                    <button class="dir">Dropdown</button>
+//        </div>
+        var btn_group = document.getElementById("btn-group");
+        
+        var div_directory= document.createElement("div");
+        div_directory.setAttribute("class","directories");
+        var buttonDropDown= document.createElement("button");
+        buttonDropDown.setAttribute("class","dropbtn");
+        buttonDropDown.setAttribute("id",dir);
+        var i=document.createElement("i");
+        // check if it has subdirectories
+        
+     //   var arraySub=[]
+        var arraySub=myMap.get(dir);
+        if (arraySub.length>0)
+            {
+                i.setAttribute("class","fa fa-angle-up");
+                buttonDropDown.appendChild(i);
+                var DirectoryButton= document.createElement("button");
+                DirectoryButton.appendChild(document.createTextNode(dir));
+                DirectoryButton.setAttribute("class","dir");
+                // set the id to the the list
+                DirectoryButton.setAttribute("id",dir+".txt");
+                div_directory.appendChild(buttonDropDown);
+                div_directory.appendChild(DirectoryButton);
+                btn_group.appendChild(div_directory);
+                // start doing the nesting
+                // assume only 3 levels of nesting
+//                <div id="DropdownmyDropdown" class="dropdown-content">
+//                        <div class="directories">
+//                        <button id="dont" onclick="myFunction3()" class="dropbtn"></button>
+//                        <button>dont</button>
+//                </div>
+                var dropDiv= document.createElement("div");
+                dropDiv.setAttribute("class","dropdown-content");
+                dropDiv.setAttribute("id",dir+"dropdown-content");
+                
+                for (var i=0;i<arraySub.length;i++)
+                {   var directSub= document.createElement("div");
+                    directSub.setAttribute("class","directories");
+                   var directSubButton= document.createElement("button");
+                     directSubButton.setAttribute("id",arraySub[i]);
+                    directSubButton.setAttribute("class","dropbtn");
+                    var i_2=document.createElement("i");
+                    var thirdSub=myMap.get(arraySub[i]);
+                    if (thirdSub.length>0)
+                        {
+                           i_2.setAttribute("class","fa fa-angle-up"); 
+                           directSubButton.appendChild(i_2);
+                            directSub.appendChild(directSubButton);
+                            directSubButtonDir=document.createElement("button");
+                            directSubButtonDir.setAttribute("class","dir");
+                            directSubButtonDir.setAttribute("id",myMapPath.get(arraySub[i]));
+                            directSubButtonDir.appendChild(document.createTextNode(arraySub[i]));
+                            directSub.appendChild(directSubButtonDir);
+                            
+                            // create a drop down for the third nested elements
+//                           <div id="dontmyDropdown" class="dropdown-content ">
+//                                <button id="dont"  class="dropbtn"></button>
+//                                <button>dont2</button>
+//                            </div>
+                            // still add them to 
+                            
+                        // dropDiv add them here
+                            var divInner= document.createElement("div");
+                            divInner.setAttribute("id",arraySub[i]+"dropdown-content");
+                            divInner.setAttribute("class","dropdown-content");
+                            for (var t=0;t<thirdSub.length;t++)
+                                {   var divInnerDirectory=document.createElement("div");
+                                    divInnerDirectory.setAttribute("class","directories");
+                                    var divInnerDirectoryDrop= document.createElement("button");
+                                    divInnerDirectoryDrop.setAttribute("class","dropbtn");
+                                    divInnerDirectoryDrop.setAttribute("id",thirdSub[t]);
+                                    var i_3=document.createElement("i");
+                                    i_3.setAttribute("class","fa fa-angle-double-right");
+                                    divInnerDirectoryDrop.appendChild(i_3);
+                                    // create the actual directory buttton.
+                                    var DirActualButton=document.createElement("button");
+                                    DirActualButton.setAttribute("class","dir");
+                                    DirActualButton.setAttribute("id",myMapPath.get(thirdSub[t]));
+                                    DirActualButton.appendChild(document.createTextNode(thirdSub[t]));
+                                 
+                                    // add to directories class.
+                                    divInnerDirectory.appendChild(divInnerDirectoryDrop);
+                                    divInnerDirectory.appendChild(DirActualButton);
+                                    // add to the divInner  dropdown-content
+                                    divInner.append(divInnerDirectory);
+
+                                        
+                                }
+                            // add divInner
+                            dropDiv.appendChild(directSub);
+                            dropDiv.appendChild(divInner);
+                       
+                            
+
+                        }
+                    else {
+                       /// the is no nested  second subdirectory
+                            i_2.setAttribute("class","fa fa-angle-double-right");
+                            directSubButton.appendChild(i_2);
+                            directSub.appendChild(directSubButton);
+                            var directSubButtonDir=document.createElement("button");
+                            directSubButtonDir.setAttribute("class","dir");
+                            directSubButtonDir.setAttribute("id",myMapPath.get(arraySub[i]));
+                            directSubButtonDir.appendChild(document.createTextNode(arraySub[i]));
+                            directSub.appendChild(directSubButtonDir);
+                            dropDiv.appendChild(directSub);
+                         }
+                // add to the nested folders to the btn-group. 
+                // dropDiv.appendChild(directSub);
+                 btn_group.appendChild(dropDiv);
+                 
+                    
+                }
+                
+            }
+        else
+            {   // note it has no subdirectories.
+               i.setAttribute("class","fa fa-angle-double-right"); 
+                buttonDropDown.appendChild(i);
+                var DirectoryButton= document.createElement("button");
+                DirectoryButton.appendChild(document.createTextNode(dir));
+                DirectoryButton.setAttribute("class","dir");
+                // set the id to the the list
+                DirectoryButton.setAttribute("id",dir+".txt");
+                div_directory.appendChild(buttonDropDown);
+                div_directory.appendChild(DirectoryButton);
+                btn_group.appendChild(div_directory);
+            }
+      
+          
+        
+        
+        
+        
+    }
+
+
+// create on click listener for the dropdown button
+$("button.dropbtn").click(function() {
+console.log(this.id);
+var innerNode=this.firstChild;
+var classChild=innerNode.className;
+    console.log(classChild);
+
+    if (classChild=="fa fa-angle-up")
+        { //console.log(classChild);
+          this.removeChild(innerNode);
+          var icon_ = document.createElement("i");
+         icon_.setAttribute("class","fa fa-angle-down");
+         this.appendChild(icon_);
+         // call a method to add all the subdirectories
+        document.getElementById(this.id+"dropdown-content").classList.toggle("show");
+        
+            
+        }
+//    if (classChild=="fa fa-angle-down")
+//        {   // console.log(classChild);
+//            var div_drop=document.getElementById(this.id+"dropdown-content");
+//            div_drop.innerHTML="";  // might be affecting my code
+//            
+//            // change the symbol back to up
+//            this.removeChild(innerNode);
+//            var icon_ = document.createElement("i");
+//            icon_.setAttribute("class","fa fa-angle-up");
+//            this.appendChild(icon_);
+//        
+//        }
+});
+function addSub(root)
+    {   console.log(root);
+        console.log("here here");
+        
+        var div_drop=document.getElementById(root+"dropdown-content");
+        // get the subdirectories from the Map
+        var subList=myMap.get(root);
+        var k=0;
+       // console.log(subList.length);
+         for (k=0;k<subList.length;k++)
+        {  // start populating it. with the content
+            var subDirName=subList[k];
+            var wrap_drop=document.createElement("div");
+            wrap_drop.setAttribute("class","wrapper_dir");
+           // button for the subdirectories
+            var sub_signDiv=document.createElement("div");
+            sub_signDiv.setAttribute("class","sign");
+            var sub_signButton=document.createElement("button");
+            sub_signButton.setAttribute("id",subDirName);
+            sub_signButton.setAttribute("class","drop_d");
+            //  sub_signButton.setAttribute("class","drop_d");
+            var i=document.createElement("i");
+           // check if the subdirectory is not nested
+           var SubSubDirList=myMap.get(subList[k]);
+           if (SubSubDirList.length>0)
+               {
+                    i.setAttribute("class","fa fa-angle-up");
+                   
+                   
+               }
+            else{
+                  i.setAttribute("class","fa fa-angle-double-right");
+               }
+           
+          // i.setAttribute("class","fa fa-angle-double-right");
+             sub_signButton.appendChild(i);
+           sub_signDiv.appendChild(sub_signButton);
+          wrap_drop.appendChild(sub_signDiv);
+          
+          
+          // actual button with subdirectory name
+          var sub_button=document.createElement("button");
+          var name_dir = document.createElement("p");
+          name_dir.appendChild(document.createTextNode(subDirName)); 
+          sub_button.appendChild(name_dir);
+          sub_button.setAttribute("class","dir");
+          sub_button.setAttribute("id",subDirName);
+          wrap_drop.appendChild(sub_button);
+          div_drop.appendChild(wrap_drop);
+         if (SubSubDirList.length>0)
+               {
+                   // create a divdrop down for sub directory
+                   
+                     var div_dropSub = document.createElement("div");
+                     div_dropSub.setAttribute("class","dropdown-content");
+                     div_dropSub.setAttribute("id",subList[k]+"dropdown-content"); 
+                   // add it outside div drop 
+                   
+                   div_drop.appendChild(div_dropSub);
+                  // console.log(subList[k]);
+                   
+               }
+       }
+            // console.log(subDirName);
+    }
+ // root directory clicking
+$("button").click(function() {
+  
+  //document.getElementById("content").innerHTML="wtf";  // add the document to the content 
+    //console.log("i didnt know");
+//     var myMap = new Map();
+//    myMap.set(this.id, arr);
+//   var aray= myMap.get(this.id);
+//   aray.push("directory2");
+//    console.log(myMap.get(this.id)[1]);
+  // var innerNode=this.firstChild;
+   // var classChild=innerNode.className;
+    // console.log(classChild);
+});
+
+function addItem(sender_address,email_summary,xml_filePath,Date){
     var ul = document.getElementById("dynamic-list");
     var li = document.createElement("li");
     li.setAttribute("class","listItem");
@@ -130,8 +571,9 @@ function addItem(sender_address,email_summary,xml_filePath){
     ul.appendChild(li);
   
 }
+
   /// given the file open and call add
-  function readAdd(filePath){
+function readAdd(filePath){
  
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -142,9 +584,13 @@ function addItem(sender_address,email_summary,xml_filePath){
 htmlDoc=parser.parseFromString(txt, "text/html");
  var from =htmlDoc.getElementsByTagName('b');
        //console.log(from.innerHTML);
-var s =htmlDoc.getElementsByTagName('font');
+var s =htmlDoc.getElementsByTagName('pre');
         //console.log(s.innerHTML);
 addItem(from[0].innerHTML,s[0].innerHTML,filePath);
+       
+       console.log(from[0].innerHTML);
+         console.log(s[0].innerHTML);
+        
     }
   };
   xhttp.open("GET", filePath,true);
@@ -153,21 +599,15 @@ addItem(from[0].innerHTML,s[0].innerHTML,filePath);
     
  // Click on list item handler
   $('#dynamic-list').on('click','li',function(){
-     // this.id   filepath
+  // this.id   filepath
       clickedOpen(this.id);
-      
-      //alert(this.id);
-//    var li = document.createElement("div");
-//    li.setAttribute("class","listItem");
-//    li.setAttribute("id",xml_filePath);
   });
-window.onload = function(){ 
-    //console.log("dont you cry"); 
- document.getElementById("/Users/breydenmonyemoratho/Desktop/myEmail/all.txt").style.backgroundColor = "lightblue";
-    //loadDoc("/Users/breydenmonyemoratho/Desktop/myEmail/test.txt");  // initially pass the inbox folder
-    // add listeners to the rest of the navigation directory buttons
-   
-};
+
+//window.onload = function(){ 
+//    //console.log("dont you cry"); 
+//// document.getElementById("All" ).style.backgroundColor = "lightblue";
+////   loadDoc("/Users/breydenmonyemoratho/Desktop/myEmail/all.txt");  // initially pass the inbox folder
+//};
 function clickedOpen(path) {
   var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
@@ -176,29 +616,104 @@ function clickedOpen(path) {
         var x = document.getElementById("content");  // add the document to the content section
         x.innerHTML=this.responseText;
         console.log(this.responseText);
-       // readAdd(myArr[0]);
-  
-    
     }
   };
   xhttp.open("GET", path,true);
   xhttp.send();
 }
+//readXml("index.xml");
+// method can be used during search.
+function readXml(path)
+    {    var http_request = false;
+      if (window.XMLHttpRequest) 
+      { // Mozilla, Safari, ...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType) 
+         {
+            http_request.overrideMimeType('text/xml');
+         }
+      } 
+      else if (window.ActiveXObject) 
+      { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+
+      if (!http_request) 
+      {
+         alert('Giving up :( Cannot create an XMLHTTP instance');
+         return false;
+      }
+
+      // create and submit request
+      http_request.open('GET', path, false);
+      try {
+         http_request.send(null);
+      }
+      catch (e) {
+        // continue;
+          alert(e);
+      }
+
+      var index = http_request.responseXML;
+     
+         var wordlist = index.getElementsByTagName ('tf');
+     //console.log(wordlist);
+        var df = wordlist.length;
+      for ( var j=0; j<wordlist.length; j++ )
+      {
+        // var value = wordlist.item(j).firstChild.data;
+         var fileid = wordlist.item(j).getAttribute ('id');
+         var filenames = wordlist.item(j).getAttribute ('file');
+        var  filetitle = wordlist.item(j).getAttribute ('title');
+          
+        console.log(fileid);
+          console.log(filenames );
+          console.log(filetitle );
+          
+          // clear the dynamic list and add the list returned by the index.
+          document.getElementById("dynamic-list").innerHTML=""
+          
+      }
+        
+    }
+
+// clicking on actual directory
 var buttons = $("button.dir");
 buttons.click(function() {
-  buttons.css('background-color', 'white');
-  $(this).css('background-color', 'lightblue');
-    // assign the content nothing
-    document.getElementById("content").innerHTML="";  // add the document to the content section
-     document.getElementById("dynamic-list").innerHTML=""
-    loadDoc(this.id);
-       
+buttons.css('background-color', 'white');
+$(this).css('background-color', 'lightblue');
+  // i have to call loadDoc
+   // loadDoc();  // pass the file path
+    var path=(myMapPath.get(this.id).substring(0,myMapPath.get(this.id).length));
+    console.log(path);
+   // loadDoc(path);
+    
+//    // assign the content nothing
+//    document.getElementById("content").innerHTML="";  // add the document to the content section
+//     document.getElementById("dynamic-list").innerHTML=""
+//    if (this.id=="Sent")
+//        {
+//           loadDoc( "/Users/breydenmonyemoratho/Desktop/myEmail/Sent.txt");
+//        }
+//    if (this.id=="All")
+//        {
+//           loadDoc( "/Users/breydenmonyemoratho/Desktop/myEmail/all.txt");
+//        }
+//    //loadDoc(this.id);
+//       
 });
-buttons.hover(function(){
-    $(this).css('background-color', 'red');  
-},function(){
-   $(this).css('background-color', 'white');   
-});
+//buttons.hover(function(){
+//    $(this).css('background-color', 'red');  
+//},function(){
+//   $(this).css('background-color', 'white');   
+//});
+    
 </script>
 
 </body>
