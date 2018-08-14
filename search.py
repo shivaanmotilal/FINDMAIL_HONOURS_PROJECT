@@ -9,6 +9,7 @@ import os
 import json
 from collections import Counter, defaultdict, Mapping
 import re
+import errno
 
 def mergeDict( dict1, dict2):
     for key1 in dict1:
@@ -69,7 +70,8 @@ def main(path):
                 else:
                     """Tokenizing and stemming""" 
                     # text= text.strip(string.punctuation)
-                    text= re.sub('\S+', lambda m: re.match(r'^\W*(.*\w)\W*$',m.group()).group(1),text)#Remove punctuation
+                    text= re.sub('[^A-Za-z0-9]+', ' ', text)#Remove punctuation
+                    text= text.strip(string.punctuation)
                     tokens= text.split(" ")
                     tokens = [i.strip(string.punctuation) for i in tokens if i not in string.punctuation] #filters out punctuation as keywords
                 
@@ -77,25 +79,58 @@ def main(path):
                     counts = Counter(tokens)
                     dictCounts=dict(counts)
                     for key1 in dictCounts:
-                        filename= os.path.join("FINDMAIL/","index",str(key1)+".xml")
+                        filename= os.path.join("index",str(key1)+".xml")
+                        print(filename)
                         if not os.path.exists(os.path.dirname(filename)):
                             try:
                                 os.makedirs(os.path.dirname(filename))
                                 print("made directory")
                                 root1 = ET.Element("index")
-                            except OSError as exc: # Guard against race condition
+                                ET.SubElement(root1, "tf",doc_id= str(doc_id) ).text = str(dictCounts[key1])
+                                tree = ET.ElementTree(root1)
+                                tree.write(filename)
+                            except OSError as exc:
                                 if exc.errno != errno.EEXIST:
                                     raise
                                 print exc 
+                            
+                            # for listing in root1.findall("tf"):
+                            # document = listing.find('doc_id')
+                            # oldcount = listing.findtext('description')document.attrib.get("key")
+
+                            # print(description, address.attrib.get("key"))
                         else:
-                            print(filename)
-                            text=""
-                            with open(filename, 'r') as myfile:
-                                text=myfile.read()
-                            root1= ET.fromstring(text)
-                        ET.SubElement(root1, "tf",doc_id= str(doc_id) ).text = str(dictCounts[key1])
-                        tree = ET.ElementTree(root1)
-                        tree.write(filename)
+                            # my_file = Path(filename)
+                            if not os.path.isfile(filename) :
+                                #First time writing to file
+                                print("Got in")
+                                root1 = ET.Element("index")
+                                ET.SubElement(root1, "tf",doc_id= str(doc_id),path=file_path ).text = str(dictCounts[key1])
+                                tree = ET.ElementTree(root1)
+                                tree.write(filename)
+                            else:  
+
+                                print(filename)
+                                text=""
+                                with open(filename, 'r') as myfile:
+                                    text=myfile.read()
+                                print(text)
+                                root1= ET.fromstring(text)
+                                found_doc= None
+                                for tf in root1.iter('tf'):
+                                    if int(tf.attrib.get("doc_id"))==doc_id:
+                                        newWeight= int(tf.text)+dictCounts[key1]
+                                        print(tf.text)
+                                        tf.text= str(newWeight)
+                                        print("newWeight"+" "+str(newWeight))
+                                        found_doc=True
+                                if(found_doc):
+                                    pass
+                                else:
+                                    ET.SubElement(root1, "tf",doc_id= str(doc_id),path=file_path ).text = str(dictCounts[key1])
+                                tree = ET.ElementTree(root1)
+                                print(ET.tostring(root1, "utf-8"))
+                                tree.write(filename)
                     # else:
                     #     # print("got in")
                     #     for key2 in dictCounts:
