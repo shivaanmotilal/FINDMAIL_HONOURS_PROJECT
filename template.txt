@@ -1,0 +1,34 @@
+<div class="content_content">
+
+    <div class="Content_topNav">
+
+        <div class="st_line">
+              <pre  id="sender_content"> <b>Shivaan Motilal</b></pre>
+              <p id="datetime_content"><b>Mon, 18 Jun 2018 16:03:23</b></p>
+        </div>  
+               
+       
+         <p class="subject_content"><b>Findmail Project</b></p>
+        <p><b>To: </b>Breyden Monyemoratho shivaan<br></p>
+        <p><b>Cc: </b>Breyden Monyemoratho Shivaan</p>
+        
+    </div>
+    <div class="middle_content">
+ 
+Dear students and colleagues
+
+It is with deep sorrow that we share with you the passing of one of our students, Ms Elliot Visser, on Saturday, 11 August 2018, following a short illness.Ms Visser was a first-year student studying towards a Bachelor of Social Science degree in archaeology and sociology in the Faculty of Humanities.There will be a memorial service at Fuller Hall this evening, Monday, 13 August 2018, at 18:00.The funeral service will take place at the Jewish Cemetery, Pinelands, on Tuesday, 14 August 2018. Both services are open to all.
+
+Sincerely
+
+The UCT Executive
+    </div>
+    <div class="attachments_content">   
+    <a target="_blank" href="/Users/breydenmonyemoratho/Desktop/myEmail/r.pdf">
+    <img src="/Users/breydenmonyemoratho/Desktop/myEmail/pdf.jpeg" alt="NRF APPLICATION.pdf" width="40" height="40">
+    <p class="attachment_Name"><i>NRF.pdf</i></p>
+    </a>
+    <!--name of the attachment -->
+    </div>
+
+</div>
