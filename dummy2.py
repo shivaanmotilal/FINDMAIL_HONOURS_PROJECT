@@ -382,10 +382,11 @@ class parseMbox:
             root = ET.Element("doc") 
             filepath=os.path.join("FINDMAIL/HTML_files/",str(count4)+".html") 
             ET.SubElement(root, "path", name="PATH").text =  filepath
-            ET.SubElement(root, "from", name="FROM").text = message["from"]
-            ET.SubElement(root, "to", name="TO").text = message["to"]
+            ET.SubElement(root, "from", name="FROM").text = re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["from"]))
+            msgTo= re.sub('[<>]', '', re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["to"])))
+            ET.SubElement(root, "to", name="TO").text = msgTo
             ET.SubElement(root, "subject", name="SUBJECT").text = re.sub('[^A-Za-z0-9]+', ' ', message["subject"])
-            ET.SubElement(root, "message-id", name="MESSAGE-ID").text = message["message-id"]        
+            ET.SubElement(root, "doc_id", name="DOC_ID").text =str(count4)
             """Convert date-time to usable time format"""
             REMOTE_TIME_ZONE_OFFSET = -2 * 60 * 60  #Take into account local time difference
             varTime= (time.mktime(email.utils.parsedate(message["date"])) +time.timezone - REMOTE_TIME_ZONE_OFFSET) 
@@ -417,7 +418,6 @@ class parseMbox:
         filepath2=os.path.join("Structure","All.xml")
         self.createDirs(filepath2)
         tree.write(filepath2)
-        print(sortedArray)
 
     @staticmethod
     def main(self,path):
@@ -703,7 +703,6 @@ class parseMDIR:
                 msgFrom= message["from"]
                 msgTo= message["to"]
                 msgSubject= message["subject"]
-                msgID= message["message-id"]
                 msgTime= message["date"]
                 strBody=""""""
                 strBody = str(self.getbody(message))   
@@ -829,7 +828,7 @@ class parseMDIR:
                 else:
                     msgSubject= re.sub('[^A-Za-z0-9]+', ' ', message["subject"])
                 ET.SubElement(root, "subject", name="SUBJECT").text = msgSubject
-                ET.SubElement(root, "message-id", name="MESSAGE-ID").text = message["message-id"]        
+                ET.SubElement(root, "doc_id", name="DOC_ID").text = str(count4)      
                 """Convert date-time to usable time format"""
                 if not message["date"]:
                     msgDate = ""

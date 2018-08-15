@@ -10,19 +10,7 @@ import json
 from collections import Counter, defaultdict, Mapping
 import re
 import errno
-
-def mergeDict( dict1, dict2):
-    for key1 in dict1:
-        if not isinstance(key1,dict):
-            continue
-        elif key1 not in dict2:
-            dict2[key1]= dict1[key1]
-        else:
-            dict2[key1]= dict2[key1]+dict1[key1]
-
-            # =dict1[key1] #Document dictionary
-
-    return dict2
+import time
 
 def main(path):
     stopwords = { #intialized map
@@ -62,119 +50,121 @@ def main(path):
             tree = ET.parse(file_path)
             root = tree.getroot()
             for child in root:
-                #if child.tag != 'DOCNO': """If you want to filter by tag"""
-                text = child.text 
-                #print text
-                if not text:
-                    """No text in field.Can't add to token."""
+                if child.tag == 'doc_id': 
+                    print("got in")
                 else:
-                    """Tokenizing and stemming""" 
-                    # text= text.strip(string.punctuation)
-                    text= re.sub('[^A-Za-z0-9]+', ' ', text)#Remove punctuation
-                    text= text.strip(string.punctuation)
-                    tokens= text.split(" ")
-                    tokens = [i.strip(string.punctuation) for i in tokens if i not in string.punctuation] #filters out punctuation as keywords
-                
-                    tokens = [i.lower() for i in tokens if i.lower() not in stopwords] #filters out punctuation as keywords
-                    counts = Counter(tokens)
-                    dictCounts=dict(counts)
-                    for key1 in dictCounts:
-                        filename= os.path.join("index",str(key1)+".xml")
-                        print(filename)
-                        if not os.path.exists(os.path.dirname(filename)):
-                            try:
-                                os.makedirs(os.path.dirname(filename))
-                                print("made directory")
-                                root1 = ET.Element("index")
-                                ET.SubElement(root1, "tf",doc_id= str(doc_id) ).text = str(dictCounts[key1])
-                                tree = ET.ElementTree(root1)
-                                tree.write(filename)
-                            except OSError as exc:
-                                if exc.errno != errno.EEXIST:
-                                    raise
-                                print exc 
-                            
-                            # for listing in root1.findall("tf"):
-                            # document = listing.find('doc_id')
-                            # oldcount = listing.findtext('description')document.attrib.get("key")
+                    text = child.text 
+                    #print text
+                    if not text:
+                        """No text in field.Can't add to token."""
+                    else:
+                        """Tokenizing and stemming""" 
+                        # text= text.strip(string.punctuation)
+                        text= re.sub('[^A-Za-z0-9]+', ' ', text)#Remove punctuation
+                        text= text.strip(string.punctuation)
+                        tokens= text.split(" ")
+                        tokens = [i.strip(string.punctuation) for i in tokens if i not in string.punctuation] #filters out punctuation as keywords
+                    
+                        tokens = [i.lower() for i in tokens if i.lower() not in stopwords] #filters out punctuation as keywords
+                        counts = Counter(tokens)
+                        dictCounts=dict(counts)
+                        for key1 in dictCounts:
+                            filename= os.path.join("index",str(key1)+".xml")
+                            print(filename)
+                            if not os.path.exists(os.path.dirname(filename)):
+                                try:
+                                    os.makedirs(os.path.dirname(filename))
+                                    print("made directory")
+                                    root1 = ET.Element("index")
+                                    ET.SubElement(root1, "tf",doc_id= str(doc_id) ).text = str(dictCounts[key1])
+                                    tree = ET.ElementTree(root1)
+                                    tree.write(filename)
+                                except OSError as exc:
+                                    if exc.errno != errno.EEXIST:
+                                        raise
+                                    print exc 
+                                
+                                # for listing in root1.findall("tf"):
+                                # document = listing.find('doc_id')
+                                # oldcount = listing.findtext('description')document.attrib.get("key")
 
-                            # print(description, address.attrib.get("key"))
-                        else:
-                            # my_file = Path(filename)
-                            if not os.path.isfile(filename) :
-                                #First time writing to file
-                                print("Got in")
-                                root1 = ET.Element("index")
-                                ET.SubElement(root1, "tf",doc_id= str(doc_id),path=file_path ).text = str(dictCounts[key1])
-                                tree = ET.ElementTree(root1)
-                                tree.write(filename)
-                            else:  
-
-                                print(filename)
-                                text=""
-                                with open(filename, 'r') as myfile:
-                                    text=myfile.read()
-                                print(text)
-                                root1= ET.fromstring(text)
-                                found_doc= None
-                                for tf in root1.iter('tf'):
-                                    if int(tf.attrib.get("doc_id"))==doc_id:
-                                        newWeight= int(tf.text)+dictCounts[key1]
-                                        print(tf.text)
-                                        tf.text= str(newWeight)
-                                        print("newWeight"+" "+str(newWeight))
-                                        found_doc=True
-                                if(found_doc):
-                                    pass
-                                else:
+                                # print(description, address.attrib.get("key"))
+                            else:
+                                # my_file = Path(filename)
+                                if not os.path.isfile(filename) :
+                                    #First time writing to file
+                                    print("Got in")
+                                    root1 = ET.Element("index")
                                     ET.SubElement(root1, "tf",doc_id= str(doc_id),path=file_path ).text = str(dictCounts[key1])
-                                tree = ET.ElementTree(root1)
-                                print(ET.tostring(root1, "utf-8"))
-                                tree.write(filename)
-                    # else:
-                    #     # print("got in")
-                    #     for key2 in dictCounts:
-                    #         filename2= os.path.join("FINDMAIL/","index",str(key2)+".xml")
-                    #         if not os.path.exists(os.path.dirname(filename2)):
-                    #             try:
-                    #                 print("made directory")
-                    #                 os.makedirs(os.path.dirname(filename2))
-                    #                 root2 = ET.Element("index")
-                    #             except OSError as exc: # Guard against race condition
-                    #                 if exc.errno != errno.EEXIST:
-                    #                     raise
-                    #                 print exc 
+                                    tree = ET.ElementTree(root1)
+                                    tree.write(filename)
+                                else:  
 
-                    #         else:
-                    #             with open(filename2, 'r') as myfile:
-                    #                 text=myfile.read()
-                    #             root2= ET.fromstring(text)
-                    #         ET.SubElement(root2, "tf",doc_id= str(doc_id) ).text = str(dictCounts[key2])
-                    #         tree = ET.ElementTree(root2)
-                    #         tree.write(filename2)
+                                    print(filename)
+                                    text=""
+                                    with open(filename, 'r') as myfile:
+                                        text=myfile.read()
+                                    print(text)
+                                    root1= ET.fromstring(text)
+                                    found_doc= None
+                                    for tf in root1.iter('tf'):
+                                        if int(tf.attrib.get("doc_id"))==doc_id:
+                                            newWeight= int(tf.text)+dictCounts[key1]
+                                            print(tf.text)
+                                            tf.text= str(newWeight)
+                                            print("newWeight"+" "+str(newWeight))
+                                            found_doc=True
+                                    if(found_doc):
+                                        pass
+                                    else:
+                                        ET.SubElement(root1, "tf",doc_id= str(doc_id),path=file_path ).text = str(dictCounts[key1])
+                                    tree = ET.ElementTree(root1)
+                                    print(ET.tostring(root1, "utf-8"))
+                                    tree.write(filename)
+                        # else:
+                        #     # print("got in")
+                        #     for key2 in dictCounts:
+                        #         filename2= os.path.join("FINDMAIL/","index",str(key2)+".xml")
+                        #         if not os.path.exists(os.path.dirname(filename2)):
+                        #             try:
+                        #                 print("made directory")
+                        #                 os.makedirs(os.path.dirname(filename2))
+                        #                 root2 = ET.Element("index")
+                        #             except OSError as exc: # Guard against race condition
+                        #                 if exc.errno != errno.EEXIST:
+                        #                     raise
+                        #                 print exc 
 
-                    # if(doc_id==1):
-                    #     master= dictCounts.copy()
-                    #     doc_list[str(doc_id)] = dictCounts.copy() #Addes document id as key with word&frequency(dict) as value
-                    #     master = dict((key, doc_list) for key in master) #Adding that one document id for all keys(words)
-                    # else:
-                    #     print(doc_lis)
-                    #     doc_list[str(doc_id)] = dictCounts.copy()
-                    #     dictCounts = dict((key, doc_list) for key in dictCounts) #Adding that one document id for all keys(words)
-                    #     #master= mergeDict(dictCounts, master) # merge them to add new words
-                    #     for key1 in dictCounts:
-                    #         if key1 not in master:
-                    #             master[key1]= dictCounts[key1]
-                    #         else:
-                    #             for key2 in dictCounts[key1]:
-                    #                 if key2 not in master:
-                    #                     master[key1][key2]=dictCounts[key1][]
+                        #         else:
+                        #             with open(filename2, 'r') as myfile:
+                        #                 text=myfile.read()
+                        #             root2= ET.fromstring(text)
+                        #         ET.SubElement(root2, "tf",doc_id= str(doc_id) ).text = str(dictCounts[key2])
+                        #         tree = ET.ElementTree(root2)
+                        #         tree.write(filename2)
 
-                    #                 dict2[key1]+dict1[key1]
-                    #     #master = dict((key, doc_list) for key in master) #Adding that one document id for all keys(words)
-                    #     #print((master["residence"]))
-                    #     """Build inverted index
-                    #     for outside of dir and file loop"""
+                        # if(doc_id==1):
+                        #     master= dictCounts.copy()
+                        #     doc_list[str(doc_id)] = dictCounts.copy() #Addes document id as key with word&frequency(dict) as value
+                        #     master = dict((key, doc_list) for key in master) #Adding that one document id for all keys(words)
+                        # else:
+                        #     print(doc_lis)
+                        #     doc_list[str(doc_id)] = dictCounts.copy()
+                        #     dictCounts = dict((key, doc_list) for key in dictCounts) #Adding that one document id for all keys(words)
+                        #     #master= mergeDict(dictCounts, master) # merge them to add new words
+                        #     for key1 in dictCounts:
+                        #         if key1 not in master:
+                        #             master[key1]= dictCounts[key1]
+                        #         else:
+                        #             for key2 in dictCounts[key1]:
+                        #                 if key2 not in master:
+                        #                     master[key1][key2]=dictCounts[key1][]
+
+                        #                 dict2[key1]+dict1[key1]
+                        #     #master = dict((key, doc_list) for key in master) #Adding that one document id for all keys(words)
+                        #     #print((master["residence"]))
+                        #     """Build inverted index
+                        #     for outside of dir and file loop"""
             doc_id=doc_id+1
     sortedmaster= sorted(master.keys(), key=lambda x:x.lower())
     for key in sortedmaster:
@@ -237,6 +227,7 @@ def main(path):
                                                 
 if __name__ == '__main__':
     #main()
-    
+    start_time = time.time()
     """Check Mbox or Mdir. Diverge the path depending on there being a subfolder """
     main(os.path.join("FINDMAIL/","XML_files"))
+    print("--- %s seconds ---" % (time.time() - start_time))#Measure execution time of program
