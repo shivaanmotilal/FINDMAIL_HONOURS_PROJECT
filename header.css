@@ -1,8 +1,18 @@
-
+/*Just removing default browser padding/margin*/
+html,
+body {
+    padding: 0;
+    margin: 0;
+/*    color: #ebebeb;*/
+}
+html{
+    /* made the this change right now*/
+}
 /* header */
 .topnav {
   overflow: auto;
-  background-color: #e9e9e9;
+/*  background-color: #e9e9e9;*/
+/*      position: relative;*/
 }
 
 .topnav img {
@@ -13,6 +23,13 @@
   padding: 14px 16px;
 /*  text-decoration: none;*/
 /*  font-size: 17px;*/
+   
+}
+/*  styling the list view date and sender*/
+ #dPadding,#sPadding{
+            padding-top:12px;
+            white-space: pre;
+            padding-bottom: 1px;
 }
 
 .topnav p {
@@ -27,6 +44,7 @@
   margin-bottom: 1em;
   margin-left: 0;
   margin-right: 0;
+   
 }
 
 .topnav a:hover {
@@ -42,12 +60,14 @@
 .topnav .search-container {
   float: center;
 }
-
+pre,p{  word-wrap: break-word;
+}
 .topnav input[type=text] {
   padding: 6px;
   margin-top: 8px;
   font-size: 17px;
   border: none;
+      
 }
 
 .topnav .search-container button {
@@ -59,6 +79,7 @@
   font-size: 17px;
   border: none;
   cursor: pointer;
+    
 }
 
 .topnav .search-container button:hover {
@@ -86,6 +107,7 @@ section {
     display: -webkit-flex;
     display: flex;
     background-color: #f1f1f1;
+   
 }
 
 /* Style the navigation menu */
@@ -95,29 +117,48 @@ nav {
     flex: 0.6;
 /*     background-color: #f1f1f1;*/
    /* padding: 20px;*/
+    background-color: white;
+
+     
+}
+#FINDMAIL{
+    padding-top: 0px;
 }
 
 /* Style the navigation buttons*/
-.btn-group button {
+.btn-group {
 /*    background-color:#e9e9e9;  Green background */
-    border: 1px green; /* Green border */
-    color: black; /* black text */
-    padding: 10px 24px; /* Some padding */
-    cursor: pointer; /* Pointer/hand icon */
-    width: 100%; /* Set a width if needed */
-    font-size: 20px;
+ /*   border: 1px green; /* Green border */
+   /* color: black; /* black text */
+   /* padding: 10px 24px; /* Some padding */
+ /*   cursor: pointer; /* Pointer/hand icon */
+   /* width: 100%; /* Set a width if needed */
+  /*  font-size: 20px;
     display: block; /* Make the buttons appear below each other */
-    text-align: center;
+  /*  text-align: center;
+  /* background-color: white;*/
+    background-color: lightgray;
+/*    width:inherit;*/
+      height: 84vh;
+    
+    padding-top: 16px;
+
+    
+
 }
 /* Style the navigation buttons*/
+/*
 .btn-group button:not(:last-child) {
-    border-bottom: none; /* Prevent double borders */
+ 
 }
+*/
 
 /* Add a background color on hover, Style the navigation buttons */
+/*
 .btn-group button:hover {
     background-color: lightsteelblue;
 }
+*/
 /* Style the content */
 article {
     -webkit-flex: 3;
@@ -125,18 +166,73 @@ article {
     flex: 3;
     background-color: #f1f1f1;
     padding: 10px;
+     
 }
 .mainDiv{
     display: : flex;
     display: -webkit-flex;
 /*    background-color: aqua;*/
     flex-direction:  row
+       width: 100%;
+    
+    
+   
+    overflow: hidden;
+    height: 100vh;
+    margin-top: -100px;
+    padding-top: 100px;
+    position: relative;
+    width: 100%;
+    backface-visibility: hidden;
+    will-change: overflow;
+}
+/*make the 3 sections scrollable*/
+#dynamic-list {
+     overflow: auto;
+    
+  height: 84vh;
+/*    padding: .5rem;*/
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none; 
+     -ms-overflow-style: none; 
+    width: inherit;
+    overflow-x: hidden;
+    padding-left:10px;
+}
+}
+* {
+    box-sizing: border-box;
+}
+.content{
+/*
+   display: : flex;
+    display: -webkit-flex;  
+    flex-direction:  vertical;
+*/
+        padding-top: 17px;
+        overflow: auto;
+        height: 84vh;
+        padding-left: 7px;
+        background-color: white;
+/*    padding: .5rem;*/
+/*
+    -webkit-overflow-scrolling: touch;
+    -ms-overflow-style: none; 
+*/
+/*    width: inherit;*/
+/*    overflow-x: hidden;*/
 }
 .emails{
+    border-bottom-color: aliceblue;
+    border-bottom-width: 1px;
     display: : flex;
     display: -webkit-flex;
-/*    background-color: aqua;*/
-    flex-direction:  row;     
+
+    flex-direction:  column;
+/*    align-items: center;*/
+/*    height: 87vh;*/
+    /*padding-top: 10px; */ 
+      
 }
 
 .searchRow{
@@ -148,17 +244,76 @@ article {
     padding-top: 10px;
     padding-left : 50px;
     padding-right: 50px;
+    padding-bottom: 9px;
+    
+     background-color: whitesmoke;
+    border-bottom: 1px solid darkgray;
+    
+
+}
+#settings{
+   justify-content: flex-end;
+    width: 1px;
+    padding-right: 15px;
+    padding-bottom: 2px;
+     padding-top: 2px;
+     
+/*      clear: right;*/
+}
+#eat_space{
+    padding-right: 603px;
+}
+.settings{
+    display: : flex;
+    display: -webkit-flex;
+/*    background-color: darkred;*/
+    flex-direction:  row;
+/*    justify-content: flex-end;*/
+   
+    padding-bottom:8px; 
+     padding-top: 11px;
+    background-color:  whitesmoke;
+     border-bottom: 1px solid darkgray;
+/*
+    padding-top: 10px;
+    padding-left : 50px;
+    padding-right: 50px;
+     width: 30%;
+*/
+/*    -webkit-flex : 5;*/
+/*    flex : 5;*/
+/*    flex-basis: 15;*/
+/*
+    margin-bottom: 10px;
+    margin-top: 5px;
+*/
+   
+}
+.topNavBar{
+    display: : flex;
+    display: -webkit-flex;
+    justify-content: flex-end;
+    flex-direction: row;
+    padding-top: 10px;
+    padding-left : 50px;
+    padding-right: 50px;
 }
 .Icon_label{
     display: : flex;
     display: -webkit-flex;
     flex-direction:  row;
-    justify-content: space-around;
+    justify-content: flex-start;
+    background-color: whitesmoke;
+    border-bottom: 1px solid darkgray;
+    height: 40px;
+    
 
 }
 .listItem{
-    border-bottom-color: aliceblue;
-    border-bottom-width: 1px;
+/*
+    border-bottom-color: black;
+    border-bottom-width: 10px;
+*/
     display: : flex;
     display: -webkit-flex;
     justify-content: flex-start;
@@ -166,15 +321,32 @@ article {
     align-items: center;
     height: 50px;
     padding-top: 10px;
-   
+    padding-bottom: 10px;
+    border-bottom: 2px solid whitesmoke;
+    border-top: 2px solid whitesmoke;
 /*     border: 0.8px solid black;*/
 }
+
 .topNav{
-    border-right-color: beige;
-    border-right-width: 1px;
-    border-right: 1px solid;
-    -webkit-flex : 1;
-    flex : 1;
+/*    border-right-color: beige;*/
+    border-right-width: 3px;
+/*    border-right: 1px solid;*/
+    -webkit-flex : 2;
+    flex : 2;
+/*    height:100vh;*/
+    
+     /*cursor: w-resize*/;
+/*   background-color: lightgray;*/
+   
+
+}
+.firstLine
+{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-bottom: 0px;
+/*    padding-top: 6px;*/
 }
 .emailSummary{
    padding-bottom: 15px;
@@ -183,30 +355,61 @@ article {
      display: : flex;
     display: -webkit-flex;
 /*    background-color: darkred;*/
-    flex-direction:  row;
+    flex-direction: column;
     justify-content: space-between;
+/*      word-wrap: break-word;*/
+     
 }
 .sideNav{
 /*    background-color:aqua;*/
-    -webkit-flex : 4;
-    flex : 4;
+    -webkit-flex : 2;
+    flex : 2;
+    flex-direction:  column;
+     border-right-width: 2px;
+    border-right: 2px solid   gray;
+/*   min-width: 320px;*/
+    border-color: whitesmoke;
+/*    height:100vh;*/
+    
+}
+.emails{
+    -webkit-flex : 5;
+    flex : 5;
+    flex-direction:  column;
+    justify-content: flex-start;
+/*    background-color:  whitesmoke;*/
+/*     min-width: 500px;*/
+    
+/* height:100vh;*/
+    height: 100%;
 }
 
+#logo{
+    padding-top: 0px;
+     padding-bottom: 0px;
+    margin-top: 0px;
+     padding-left: 6px;
+    padding-right: 36px;
+}
 li img {
   float: left;
   margin: 0 15px 0 0;
+
 }
  
 li p {
   font: 200 12px/1.5 Georgia, Times New Roman, serif;
   padding-right: 38px;
+      
 }
  
 
 li:hover {
-  background-color: azure;
+  background-color: lightgray;
   cursor: pointer;
+    
 }
+
 
 /* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
 @media (max-width: 600px) {
@@ -216,3 +419,17 @@ li:hover {
     }
 
 }
+ul.dynamic-list {
+    background-color: lightblue;
+    width: 110px;
+  
+/*    height: 110px;*/
+/*    overflow: scroll;*/
+}
+/*
+div.content {
+    background-color: lightblue;
+    width: 110px;
+    height: 110px;
+    overflow: scroll;
+}*/
