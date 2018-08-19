@@ -1,0 +1,920 @@
+<div class="content_content">
+
+    <div class="Content_topNav">
+
+        <div class="st_line">
+           <pre  id="sender_content"> <b>FROM:</b>Shivaan Motilal</pre>
+            <pre id="datetime_content"><b>Mon, 18 Jun 2018 16:03:23</b></pre>
+        </div>  
+               
+       
+         <p class="subject_content"><b>Findmail Project</b></p>
+        <p><b>To: </b>Breyden Monyemoratho shivaan<br></p>
+        <p><b>Cc: </b>Breyden Monyemoratho Shivaan</p>
+        
+    </div>
+
+<div class="middle_content">
+Dear Comrades
+
+It is that time of the year that we as a branch come together and finalise the term of  the leadership of this year. The AGM for SASCO will be an opportunity for members to engage on many of the things that occurred this year and to form a consolidated branch mandate moving forward into the next term of leadership. This will also be an opportunity for member to receive various report backs from the current BEC and become a part in selecting the new Branch Executive Committee which will be responsible for the life of SASCO in UCT. 
+
+This AGM will also serve as an opportunity to select candidates towards SRC and Faculty Council elections and ratify those comrades at the AGM. We call upon all that are interested in assuming student governance positions within the institution to step forward. It is our mission as SASCO UCT to ensure that we get as many candidates into Faculty Councils as well as SRC. 
+
+We encourage all members to be in attendance as it is an important gathering of the organisation and must quorate. 
+
+Date: Thursday, 16/08/2018
+
+Time: 17:30/18:00 - 20:00
+
+Venue: Leslie Social 1E
+
+Refreshments will be served
+
+See you on Thursday
+
+" Comrades, there is no true social revolution without the liberation of women"
+
+Kind regards
+
+SASCO BEC
+
+</div>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<style type="text/css">
+@media only screen and (max-width: 400px) {
+.hide {
+display: none !important;
+}
+
+.show {
+overflow: visible !important;
+float: none !important;
+display: table !important;
+line-height: 100% !important;
+width: 100% !important;
+margin: 0 auto !important;
+}
+
+.wrapper {
+width: 100% !important;
+min-width: 100vw !important;
+}
+
+.player {
+width: 100% !important;
+}
+
+.width_full {
+width: 100% !important;
+}
+
+.width_zero {
+width: 0px !important;
+}
+
+.full_tweet_margin_lr {
+width: 12px !important;
+}
+
+.full_tweet_margin_tb {
+height: 12px !important;
+}
+
+.social_proof_margin_lr {
+width: 12px !important;
+}
+
+.button-width-full {
+width: 86% !important;
+min-width: 86% !important;
+display: block !important;
+}
+
+.module_margin_tb {
+height: 12px !important;
+}
+
+.module_margin_lr {
+width: 12px !important;
+min-width: 12px !important;
+}
+
+.tweet_main_left {
+display: table !important;
+width: 100% !important;
+}
+
+.tweet_main_right {
+display: table !important;
+width: 100% !important;
+vertical-align: top !important;
+vertical-align: middle;
+border-radius: 0px 0px 4px 4px !important;
+}
+
+.image_full {
+width: 100% !important;
+height: auto !important;
+}
+
+.image_half {
+width: 100% !important;
+height: auto !important;
+}
+
+.image_two_third {
+width: 100% !important;
+height: auto !important;
+}
+
+.image_third {
+width: 100% !important;
+height: auto !important;
+}
+
+.td_image_two_third {
+width: 66% !important;
+}
+
+.td_image_third {
+width: 33% !important;
+}
+
+.image_num_bg {
+width: 100%  !important;
+height: auto !important;
+}
+
+.header.updates {
+font-size: 24px !important;
+line-height: 28px !important;
+}
+}
+
+@media only screen and (max-width: 500px) {
+.hide {
+display: none !important;
+}
+.show {
+overflow: visible !important;
+float: none !important;
+display: table !important;
+line-height: 100% !important;
+}
+.show_500 {
+overflow: visible !important;
+float: none !important;
+display: table !important;
+line-height: 100% !important;
+}
+.trends_user_handle {
+max-width: 200px !important;
+}
+}
+
+@media only screen and (max-width: 350px) {
+.hide {
+display: none !important;
+}
+.show {
+overflow: visible !important;
+float: none !important;
+display: table !important;
+line-height: 100% !important;
+}
+.show_500 {
+display: none !important;
+}
+.show_350 {
+overflow: visible !important;
+float: none !important;
+display: table !important;
+line-height: 100% !important;
+}
+.trends_user_handle {
+max-width: 150px !important;
+}
+}
+</style>
+<style type="text/css">
+u + #new-gmail-hack {
+display: block !important;
+}
+</style>
+</head>
+<body style="margin:0px;padding:0px;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%;">
+<!--Preheader-->
+<div class="preheader" style="display:none;font-size:1px;color:#ffffff;line-height:1px;max-height:0px;max-width:0px;opacity:0;overflow:hidden;">
+</div>
+<!-- end preheader-->
+<style type="text/css">
+.addressLink a { color: #8899A6 !important; text-decoration: none !important; }
+</style>
+<!--[if IE]>
+<style type="text/css" inline="false">
+.img_ie {
+width: 394px !important;
+}
+
+.img_2_ie {
+width: 196px !important;
+}
+
+.img_3a_ie {
+width: 262px !important;
+}
+
+.img_3b_ie {
+width: 130px !important;
+}
+</style>
+<![endif]-->
+<table border="0" style="width:100%; background-color: #ffffff;padding:0px;" align="center">
+<tbody>
+<tr>
+<td align="center" style="padding:0px;">
+<table border="0" align="center" style="padding:0px;">
+<tbody>
+<tr>
+<td class="empty" width="12" style="min-width: 12px;padding:0px;font-size:0px;line-height:1px;padding:0px;"> &nbsp; </td>
+<td class="empty" style="padding:0px;font-size:0px;line-height:1px;padding:0px;">
+<table border="0" class="wrapper" style="padding:0px;width:448px;">
+<!-- header start -->
+<tbody>
+<tr>
+<td align="center" style="padding:0px;">
+<table border="0" style="width:100%;padding:0px;">
+<tbody>
+<tr>
+<td height="24" style="height:24px;padding:0px;"> </td>
+</tr>
+<tr>
+<td align="center" style="padding:0px;">
+<table border="0" align="center" width="100%" style="min-width:100%;padding:0px;">
+<tbody>
+<tr>
+<td class="empty" style="padding:0px;font-size:0px;line-height:1px;padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" align="left" style="padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;"> <a href="https://twitter.com/i/redirect?url=https%3A%2F%2Ftwitter.com%2Fi%2Fnotifications&amp;t=1+1528805792911&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=53237748098f7f7f4757d085befe9f498f198b4a&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+1559" style="text-decoration:none;"> <img src="https://abs.twimg.com/sticky/default_profile_images/default_profile_reasonably_small.png" height="32" class="avatar" style="border:none;border-radius:24px;" /> </a> </td>
+<td valign="top" style="padding:0px;"> <a href="https://twitter.com/i/redirect?url=https%3A%2F%2Ftwitter.com%2Fi%2Fnotifications&amp;t=1+1528805792911&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=650ff5d4b9532a0d16bbab65d052f6ff766b4f7e&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+1562" style="text-decoration:none;">
+<table cellpadding="0" cellspacing="0" border="0" style="padding:0px;">
+<tbody>
+<tr>
+<td class="avatar_badge" bgcolor="#E0245E" align="center" style="padding:0px;padding:4px;font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;font-size:11px;line-height:12px;color:#ffffff;border-radius:10px;min-width:12px;text-align:center;"> 19 </td>
+</tr>
+</tbody>
+</table> </a> </td>
+</tr>
+</tbody>
+</table>
+<table border="0" align="right" style="padding:0px;">
+<tbody>
+<tr>
+<td align="right" valign="top" style="padding:0px;"> <a href="https://twitter.com/i/redirect?url=https%3A%2F%2Ftwitter.com%2F&amp;t=1+1528805792911&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=cd6efde8975154e6a34bfb9aa54015ac11006ae4&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+1553" style="text-decoration:none;"> <img src="https://ea.twimg.com/email/self_serve/media/logo_twitter-1497383721365.png" height="24" style="border:none;" /> </a> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="12" style="height:12px;padding:0px;"></td>
+</tr>
+<tr>
+<td class="header embedded_tweets" align="left" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-weight:600;color:#292F33;font-size:32px;line-height:36px;padding:0px;"> Tweets making headlines </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="18" style="height:18px;padding:0px;"> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<!-- header end -->
+<tr>
+<td class="empty" style="padding:0px;font-size:0px;line-height:1px;padding:0px;"> <img width="1" height="1" src="https://twitter.com/scribe/ibis?t=1&amp;cn=ZmxleGlibGVfcmVjc18y&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+20" style="border:none;" /> </td>
+</tr>
+<!-- content start -->
+<tr>
+<td align="center" style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="min-width: 100%;padding:0px;">
+<tbody>
+<tr>
+<td valign="top" align="left" style="padding:0px;">
+<!--https://twitter.com/scribe/ibis?t=1&amp;cn=ZmxleGlibGVfcmVjc18y&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+20-->
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td class="full_tweet_box" style="padding:0px;border:1px solid #AAB8C2;background-color:#FFFFFF;border-radius:4px;"> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.thesun.co.uk%2Fsport%2Ffootball%2F6500857%2Fstan-anderson-dies-aged-85-newcastle-sunderland-middlesbrough&amp;t=1+1528805792912&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=c789c6bcf627bb95e056a6e4116e64bf413e51d5&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+273092609" style="text-decoration:none;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;"> <a href="https://twitter.com/i/redirect?url=https%3A%2F%2Ftwitter.com%2FBoro%2Fstatus%2F1006132256484810752%3Fcn%3DZmxleGlibGVfcmVjc18y%26refsrc%3Demail&amp;t=1+1528805792913&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=0b1d947485ead83d026b945a9ce4acf13211fab9&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+273096705" style="text-decoration:none;">
+<!-- social proof header start -->
+<table cellpadding="0" cellspacing="0" border="0" class="border_bottom_grey" style="padding:0px;min-width:100%;width:100%;border-bottom:1px solid #AAB8C2;">
+<tbody>
+<tr>
+<td height="12" style="height:12px;padding:0px;"></td>
+</tr>
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td width="24" class="social_proof_margin_lr" style="padding:0px;width:24px;"></td>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td class="social_proof_title_embedded_tweet" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:12px;line-height:16px;color:#14171A;"> @Boro's Tweet was featured in The Sun </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+<td width="24" class="social_proof_margin_lr" style="padding:0px;width:24px;"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="12" style="height:12px;padding:0px;"></td>
+</tr>
+</tbody>
+</table>
+<!-- social proof header end --> </a> </td>
+</tr>
+<tr>
+<td height="24" class="module_margin_tb" style="padding:0px;height:24px;"></td>
+</tr>
+<!-- top margin -->
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td width="24" class="module_margin_lr" style="padding:0px;width:24px;min-width:12px;"></td>
+<!-- left margin -->
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;">
+<!--[if mso]> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.thesun.co.uk%2Fsport%2Ffootball%2F6500857%2Fstan-anderson-dies-aged-85-newcastle-sunderland-middlesbrough&amp;t=1+1528805792914&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=6de57ab75a04a62fa7084d14ee001e2941afedd7&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+273092608">
+<img width="400" src="https://pbs.twimg.com/news_img/1006212548813828097/gzCPauGT?format=jpg&amp;name=orig">
+</a> <![endif]--> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.thesun.co.uk%2Fsport%2Ffootball%2F6500857%2Fstan-anderson-dies-aged-85-newcastle-sunderland-middlesbrough&amp;t=1+1528805792914&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=6de57ab75a04a62fa7084d14ee001e2941afedd7&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+273092608" style="mso-hide:all;text-decoration:none;"> <img style="min-width:100%;width:100%;border:none;" src="https://pbs.twimg.com/news_img/1006212548813828097/gzCPauGT?format=jpg&amp;name=orig" /> </a> </td>
+</tr>
+<tr>
+<td height="14" style="height:14px;padding:0px;"></td>
+</tr>
+<tr>
+<td class="link_card_title" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:18px;font-weight:bold;color:#292F33;">Former Sunderland, Newcastle and Middlesbrough captain Stan Anderson dies aged 85</td>
+</tr>
+<tr>
+<td height="6" style="height:6px;padding:0px;"> </td>
+</tr>
+<tr>
+<td class="link_card_description" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:18px;color:#292F33;">FORMER Sunderland captain Stan Anderson has tragically passed away at the age of 85. Anderson, who was also the skipp...</td>
+</tr>
+<tr>
+<td height="14" style="height:14px;padding:0px;"> </td>
+</tr>
+<tr>
+<td style="padding:0px;"> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.thesun.co.uk%2Fsport%2Ffootball%2F6500857%2Fstan-anderson-dies-aged-85-newcastle-sunderland-middlesbrough&amp;t=1+1528805792913&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=1404d251aca2c960d30af5ecfdcf9f9d5c846377&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+273092624" style="text-decoration:none;">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%; min-width:100%;padding:0px;border:1px solid #1B95E0;border-radius:100px;" align="center" class="news_button_box">
+<tbody>
+<tr>
+<td height="6" style="height:6px;padding:0px;"></td>
+</tr>
+<tr>
+<td class="news_button_text" align="center" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:16px;color:#1B95E0;"> Read more at The Sun </td>
+</tr>
+<tr>
+<td height="6" style="height:6px;padding:0px;"></td>
+</tr>
+</tbody>
+</table> </a> </td>
+</tr>
+</tbody>
+</table> </td>
+<td width="24" class="module_margin_lr" style="padding:0px;width:24px;min-width:12px;"></td>
+<!-- right margin -->
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="24" class="news_margin_bottom" style="padding:0px;height:24px;"></td>
+</tr>
+<!-- bottom margin -->
+</tbody>
+</table> </a> </td>
+</tr>
+<tr>
+<td height="20" class="module_space" style="padding:0px;height:20px;"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td align="center" style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="min-width: 100%;padding:0px;">
+<tbody>
+<tr>
+<td valign="top" align="left" style="padding:0px;">
+<!--https://twitter.com/scribe/ibis?t=1&amp;cn=ZmxleGlibGVfcmVjc18y&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+20-->
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td class="full_tweet_box" style="padding:0px;border:1px solid #AAB8C2;background-color:#FFFFFF;border-radius:4px;"> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.huffingtonpost.com%2Fentry%2Fkanye-west-gets-a-custom-birthday-song-from-rick-and-morty_us_5b1be594e4b09d7a3d72dfad&amp;t=1+1528805792914&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=354306be4f739c9e65d0a88355a615eb6bc62202&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+277286913" style="text-decoration:none;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;"> <a href="https://twitter.com/i/redirect?url=https%3A%2F%2Ftwitter.com%2FKimKardashian%2Fstatus%2F1005302497341083649%3Fcn%3DZmxleGlibGVfcmVjc18y%26refsrc%3Demail&amp;t=1+1528805792915&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=b4389772c27d4cb641eb72f212789fbef6e57905&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+277291009" style="text-decoration:none;">
+<!-- social proof header start -->
+<table cellpadding="0" cellspacing="0" border="0" class="border_bottom_grey" style="padding:0px;min-width:100%;width:100%;border-bottom:1px solid #AAB8C2;">
+<tbody>
+<tr>
+<td height="12" style="height:12px;padding:0px;"></td>
+</tr>
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td width="24" class="social_proof_margin_lr" style="padding:0px;width:24px;"></td>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td class="social_proof_title_embedded_tweet" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:12px;line-height:16px;color:#14171A;"> @KimKardashian's Tweet was featured in HuffPost </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+<td width="24" class="social_proof_margin_lr" style="padding:0px;width:24px;"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="12" style="height:12px;padding:0px;"></td>
+</tr>
+</tbody>
+</table>
+<!-- social proof header end --> </a> </td>
+</tr>
+<tr>
+<td height="24" class="module_margin_tb" style="padding:0px;height:24px;"></td>
+</tr>
+<!-- top margin -->
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td width="24" class="module_margin_lr" style="padding:0px;width:24px;min-width:12px;"></td>
+<!-- left margin -->
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;">
+<!--[if mso]> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.huffingtonpost.com%2Fentry%2Fkanye-west-gets-a-custom-birthday-song-from-rick-and-morty_us_5b1be594e4b09d7a3d72dfad&amp;t=1+1528805792916&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=011d6c13933c5c0712f8ddab6253f09744c7a78a&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+277286912">
+<img width="400" src="https://pbs.twimg.com/news_img/1005492477975920641/pCxKcdPw?format=jpg&amp;name=orig">
+</a> <![endif]--> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.huffingtonpost.com%2Fentry%2Fkanye-west-gets-a-custom-birthday-song-from-rick-and-morty_us_5b1be594e4b09d7a3d72dfad&amp;t=1+1528805792916&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=011d6c13933c5c0712f8ddab6253f09744c7a78a&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+277286912" style="mso-hide:all;text-decoration:none;"> <img style="min-width:100%;width:100%;border:none;" src="https://pbs.twimg.com/news_img/1005492477975920641/pCxKcdPw?format=jpg&amp;name=orig" /> </a> </td>
+</tr>
+<tr>
+<td height="14" style="height:14px;padding:0px;"></td>
+</tr>
+<tr>
+<td class="link_card_title" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:18px;font-weight:bold;color:#292F33;">'Rick And Morty' Created A Custom Birthday Song For Kanye West</td>
+</tr>
+<tr>
+<td height="6" style="height:6px;padding:0px;"> </td>
+</tr>
+<tr>
+<td class="link_card_description" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:18px;color:#292F33;">Kim Kardashian apparently commissioned the song from the show's creators.</td>
+</tr>
+<tr>
+<td height="14" style="height:14px;padding:0px;"> </td>
+</tr>
+<tr>
+<td style="padding:0px;"> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.huffingtonpost.com%2Fentry%2Fkanye-west-gets-a-custom-birthday-song-from-rick-and-morty_us_5b1be594e4b09d7a3d72dfad&amp;t=1+1528805792915&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=e9b7f48d7098700486b898e95697ce09e564e655&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+277286928" style="text-decoration:none;">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%; min-width:100%;padding:0px;border:1px solid #1B95E0;border-radius:100px;" align="center" class="news_button_box">
+<tbody>
+<tr>
+<td height="6" style="height:6px;padding:0px;"></td>
+</tr>
+<tr>
+<td class="news_button_text" align="center" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:16px;color:#1B95E0;"> Read more at HuffPost </td>
+</tr>
+<tr>
+<td height="6" style="height:6px;padding:0px;"></td>
+</tr>
+</tbody>
+</table> </a> </td>
+</tr>
+</tbody>
+</table> </td>
+<td width="24" class="module_margin_lr" style="padding:0px;width:24px;min-width:12px;"></td>
+<!-- right margin -->
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="24" class="news_margin_bottom" style="padding:0px;height:24px;"></td>
+</tr>
+<!-- bottom margin -->
+</tbody>
+</table> </a> </td>
+</tr>
+<tr>
+<td height="20" class="module_space" style="padding:0px;height:20px;"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td align="center" style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="min-width: 100%;padding:0px;">
+<tbody>
+<tr>
+<td valign="top" align="left" style="padding:0px;">
+<!--https://twitter.com/scribe/ibis?t=1&amp;cn=ZmxleGlibGVfcmVjc18y&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+20-->
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td class="full_tweet_box" style="padding:0px;border:1px solid #AAB8C2;background-color:#FFFFFF;border-radius:4px;"> <a href="https://t.co/redirect?url=http%3A%2F%2Fwww.foxnews.com%2Fentertainment%2F2018%2F06%2F11%2Fstephen-colbert-patrick-wilson-belt-out-national-anthem-at-mets-game.html&amp;t=1+1528805792916&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=7a70b6bace2e51e1a565c4b22ecd5bc9f16535ec&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+281481217" style="text-decoration:none;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;"> <a href="https://twitter.com/i/redirect?url=https%3A%2F%2Ftwitter.com%2Fcolbertlateshow%2Fstatus%2F1005290523853250560%3Fcn%3DZmxleGlibGVfcmVjc18y%26refsrc%3Demail&amp;t=1+1528805792918&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=cc5b0891a3d6db98dfd48e618353e5aec9ffbac9&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+281485313" style="text-decoration:none;">
+<!-- social proof header start -->
+<table cellpadding="0" cellspacing="0" border="0" class="border_bottom_grey" style="padding:0px;min-width:100%;width:100%;border-bottom:1px solid #AAB8C2;">
+<tbody>
+<tr>
+<td height="12" style="height:12px;padding:0px;"></td>
+</tr>
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td width="24" class="social_proof_margin_lr" style="padding:0px;width:24px;"></td>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td class="social_proof_title_embedded_tweet" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:12px;line-height:16px;color:#14171A;"> @colbertlateshow's Tweet was featured in Fox News </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+<td width="24" class="social_proof_margin_lr" style="padding:0px;width:24px;"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="12" style="height:12px;padding:0px;"></td>
+</tr>
+</tbody>
+</table>
+<!-- social proof header end --> </a> </td>
+</tr>
+<tr>
+<td height="24" class="module_margin_tb" style="padding:0px;height:24px;"></td>
+</tr>
+<!-- top margin -->
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td width="24" class="module_margin_lr" style="padding:0px;width:24px;min-width:12px;"></td>
+<!-- left margin -->
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;">
+<!--[if mso]> <a href="https://t.co/redirect?url=http%3A%2F%2Fwww.foxnews.com%2Fentertainment%2F2018%2F06%2F11%2Fstephen-colbert-patrick-wilson-belt-out-national-anthem-at-mets-game.html&amp;t=1+1528805792918&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=1f01068a87a821480e93e0ba98b49d0f8bcebd10&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+281481216">
+<img width="400" src="https://pbs.twimg.com/news_img/1006048874740346880/vo4Mkc6U?format=jpg&amp;name=orig">
+</a> <![endif]--> <a href="https://t.co/redirect?url=http%3A%2F%2Fwww.foxnews.com%2Fentertainment%2F2018%2F06%2F11%2Fstephen-colbert-patrick-wilson-belt-out-national-anthem-at-mets-game.html&amp;t=1+1528805792918&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=1f01068a87a821480e93e0ba98b49d0f8bcebd10&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+281481216" style="mso-hide:all;text-decoration:none;"> <img style="min-width:100%;width:100%;border:none;" src="https://pbs.twimg.com/news_img/1006048874740346880/vo4Mkc6U?format=jpg&amp;name=orig" /> </a> </td>
+</tr>
+<tr>
+<td height="14" style="height:14px;padding:0px;"></td>
+</tr>
+<tr>
+<td class="link_card_title" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:18px;font-weight:bold;color:#292F33;">Stephen Colbert, Patrick Wilson belt out National Anthem at Mets game</td>
+</tr>
+<tr>
+<td height="6" style="height:6px;padding:0px;"> </td>
+</tr>
+<tr>
+<td class="link_card_description" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:18px;color:#292F33;">Late-night comedian Stephen Colbert and actor Patrick Wilson on Friday belted out the National Anthem prior to the Ne...</td>
+</tr>
+<tr>
+<td height="14" style="height:14px;padding:0px;"> </td>
+</tr>
+<tr>
+<td style="padding:0px;"> <a href="https://t.co/redirect?url=http%3A%2F%2Fwww.foxnews.com%2Fentertainment%2F2018%2F06%2F11%2Fstephen-colbert-patrick-wilson-belt-out-national-anthem-at-mets-game.html&amp;t=1+1528805792917&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=97baf93a740e9fcc05209207d26ce0def4c4ff4a&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+281481232" style="text-decoration:none;">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%; min-width:100%;padding:0px;border:1px solid #1B95E0;border-radius:100px;" align="center" class="news_button_box">
+<tbody>
+<tr>
+<td height="6" style="height:6px;padding:0px;"></td>
+</tr>
+<tr>
+<td class="news_button_text" align="center" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:16px;color:#1B95E0;"> Read more at Fox News </td>
+</tr>
+<tr>
+<td height="6" style="height:6px;padding:0px;"></td>
+</tr>
+</tbody>
+</table> </a> </td>
+</tr>
+</tbody>
+</table> </td>
+<td width="24" class="module_margin_lr" style="padding:0px;width:24px;min-width:12px;"></td>
+<!-- right margin -->
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="24" class="news_margin_bottom" style="padding:0px;height:24px;"></td>
+</tr>
+<!-- bottom margin -->
+</tbody>
+</table> </a> </td>
+</tr>
+<tr>
+<td height="20" class="module_space" style="padding:0px;height:20px;"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td align="center" style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="min-width: 100%;padding:0px;">
+<tbody>
+<tr>
+<td valign="top" align="left" style="padding:0px;">
+<!--https://twitter.com/scribe/ibis?t=1&amp;cn=ZmxleGlibGVfcmVjc18y&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+20-->
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td class="full_tweet_box" style="padding:0px;border:1px solid #AAB8C2;background-color:#FFFFFF;border-radius:4px;"> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.nzherald.co.nz%2Fworld%2Fnews%2Farticle.cfm%3Fc_id%3D2%26objectid%3D12067927&amp;t=1+1528805792918&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=226162b9bf11b22c90b4f425f57e5f7bd43f92be&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+285675521" style="text-decoration:none;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;"> <a href="https://twitter.com/i/redirect?url=https%3A%2F%2Ftwitter.com%2Fnytimes%2Fstatus%2F1005393673901740032%3Fcn%3DZmxleGlibGVfcmVjc18y%26refsrc%3Demail&amp;t=1+1528805792922&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=d27bb2b0d7e7b846ab39cfaa0e51548dc877893b&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+285679617" style="text-decoration:none;">
+<!-- social proof header start -->
+<table cellpadding="0" cellspacing="0" border="0" class="border_bottom_grey" style="padding:0px;min-width:100%;width:100%;border-bottom:1px solid #AAB8C2;">
+<tbody>
+<tr>
+<td height="12" style="height:12px;padding:0px;"></td>
+</tr>
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td width="24" class="social_proof_margin_lr" style="padding:0px;width:24px;"></td>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td class="social_proof_title_embedded_tweet" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-weight:bold;font-size:12px;line-height:16px;color:#14171A;"> @nytimes's Tweet was featured in NZ Herald </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+<td width="24" class="social_proof_margin_lr" style="padding:0px;width:24px;"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="12" style="height:12px;padding:0px;"></td>
+</tr>
+</tbody>
+</table>
+<!-- social proof header end --> </a> </td>
+</tr>
+<tr>
+<td height="24" class="module_margin_tb" style="padding:0px;height:24px;"></td>
+</tr>
+<!-- top margin -->
+<tr>
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td width="24" class="module_margin_lr" style="padding:0px;width:24px;min-width:12px;"></td>
+<!-- left margin -->
+<td style="padding:0px;">
+<table cellpadding="0" cellspacing="0" border="0" style="min-width:100%; width:100%;padding:0px;">
+<tbody>
+<tr>
+<td style="padding:0px;">
+<!--[if mso]> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.nzherald.co.nz%2Fworld%2Fnews%2Farticle.cfm%3Fc_id%3D2%26objectid%3D12067927&amp;t=1+1528805792922&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=81364147090e1e97b9e7daee404ff373388f79e1&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+285675520">
+<img width="400" src="https://pbs.twimg.com/news_img/1005708534858821633/MUxw4-aV?format=jpg&amp;name=orig">
+</a> <![endif]--> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.nzherald.co.nz%2Fworld%2Fnews%2Farticle.cfm%3Fc_id%3D2%26objectid%3D12067927&amp;t=1+1528805792922&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=81364147090e1e97b9e7daee404ff373388f79e1&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+285675520" style="mso-hide:all;text-decoration:none;"> <img style="min-width:100%;width:100%;border:none;" src="https://pbs.twimg.com/news_img/1005708534858821633/MUxw4-aV?format=jpg&amp;name=orig" /> </a> </td>
+</tr>
+<tr>
+<td height="14" style="height:14px;padding:0px;"></td>
+</tr>
+<tr>
+<td class="link_card_title" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:18px;font-weight:bold;color:#292F33;">New eruption from Guatemala's Volcano of Fire</td>
+</tr>
+<tr>
+<td height="6" style="height:6px;padding:0px;"> </td>
+</tr>
+<tr>
+<td class="link_card_description" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:18px;color:#292F33;">The mountain emits another hot sediment flow.</td>
+</tr>
+<tr>
+<td height="14" style="height:14px;padding:0px;"> </td>
+</tr>
+<tr>
+<td style="padding:0px;"> <a href="https://t.co/redirect?url=https%3A%2F%2Fwww.nzherald.co.nz%2Fworld%2Fnews%2Farticle.cfm%3Fc_id%3D2%26objectid%3D12067927&amp;t=1+1528805792922&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=d661e7770174e91a7e1aef009f163fef0d3df18d&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+285675536" style="text-decoration:none;">
+<table cellpadding="0" cellspacing="0" border="0" style="width:100%; min-width:100%;padding:0px;border:1px solid #1B95E0;border-radius:100px;" align="center" class="news_button_box">
+<tbody>
+<tr>
+<td height="6" style="height:6px;padding:0px;"></td>
+</tr>
+<tr>
+<td class="news_button_text" align="center" style="padding:0px;font-family:Helvetica, Arial, sans-serif;font-size:14px;line-height:16px;color:#1B95E0;"> Read more at NZ Herald </td>
+</tr>
+<tr>
+<td height="6" style="height:6px;padding:0px;"></td>
+</tr>
+</tbody>
+</table> </a> </td>
+</tr>
+</tbody>
+</table> </td>
+<td width="24" class="module_margin_lr" style="padding:0px;width:24px;min-width:12px;"></td>
+<!-- right margin -->
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="24" class="news_margin_bottom" style="padding:0px;height:24px;"></td>
+</tr>
+<!-- bottom margin -->
+</tbody>
+</table> </a> </td>
+</tr>
+<tr>
+<td height="20" class="module_space" style="padding:0px;height:20px;"></td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<!-- content end -->
+<tr>
+<td height="10" style="height:10px;padding:0px;"></td>
+</tr>
+<tr>
+<td align="center" style="padding:0px;">
+<table border="0" cellspacing="0" cellpadding="0" align="center" style="padding:0px;">
+<tbody>
+<tr>
+<td align="center" class="bulletproof-btn-large-1" style="padding:0px;border-radius:100px;line-height:18px;background-color:#1da1f2;"> <a href="https://twitter.com/i/redirect?url=https%3A%2F%2Ftwitter.com%2F&amp;t=1+1528805792922&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=052005eb2d8a754e1f579e27d45abb81d325e1e8&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+1768" target="_blank" class="bulletproof-btn-large-2" style="text-decoration:none;font-size:16px;font-family:Helvetica, Arial, sans-serif;color:#ffffff;text-decoration:none;border-radius:100px;padding:8px 20px;border:1px solid #1da1f2;display:inline-block;font-weight:bold;">
+<!--[if gte mso 11]>&nbsp; &nbsp; &nbsp;
+<![endif]-->Go to Twitter
+<!--[if gte mso 11]>&nbsp; &nbsp; &nbsp;
+<![endif]--> </a> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="60" style="height:60px;padding:0px;"> </td>
+</tr>
+<!-- footer start -->
+<tr>
+<td height="72" style="padding:0px;"></td>
+</tr>
+<tr>
+<td style="padding:0px;">
+<table border="0" align="center" style="width:100%;padding:0px;">
+<tbody>
+<tr>
+<td align="center" style="padding:0px;"> <span class="footer_type" style="font-family:Helvetica, Arial, sans-serif;color:#8899a6;font-size:12px;padding:0px;font-weight:normal;line-height:12px;"> <a href="https://support.twitter.com/" class="footer_link_grey" style="text-decoration:none;font-family:Helvetica, Arial, sans-serif;color:#8899a6;font-size:12px;padding:0px;font-weight:600;line-height:12px;"> Help </a> &nbsp;|&nbsp; <a href="https://twitter.com/account/begin_password_reset?account_identifier=ShivaanMotilal" class="footer_link_grey" style="text-decoration:none;font-family:Helvetica, Arial, sans-serif;color:#8899a6;font-size:12px;padding:0px;font-weight:600;line-height:12px;"> Reset password </a> &nbsp;|&nbsp; <span style="white-space: nowrap;"> <a href="https://twitter.com/download" class="footer_link_grey" style="text-decoration:none;font-family:Helvetica, Arial, sans-serif;color:#8899a6;font-size:12px;padding:0px;font-weight:600;line-height:12px;"> Download app </a> </span> </span> </td>
+</tr>
+<tr>
+<td height="10" style="height:10px;padding:0px;"> </td>
+</tr>
+<tr>
+<td align="center" class="footer_type" style="padding:0px;font-family:Helvetica, Arial, sans-serif;color:#8899a6;font-size:12px;padding:0px;font-weight:normal;line-height:12px;"> We sent this email to @ShivaanMotilal. <a href="https://twitter.com/i/u?t=1&amp;cn=ZmxleGlibGVfcmVjc18y&amp;sig=3401db9c60971532d8f84a34fa82a97ce31359c6&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+26&amp;usbid=9" class="footer_link_grey_unsub" style="text-decoration:none;font-family:Helvetica, Arial, sans-serif;color:#8899a6;font-size:12px;padding:0px;font-weight:normal;line-height:12px;display:inline-block;"><u>Unsubscribe</u></a> </td>
+</tr>
+<tr>
+<td height="7" style="height:7px;padding:0px;"> </td>
+</tr>
+<tr>
+<td align="center" style="padding:0px;">
+<table border="0" align="center" width="100%" style="padding:0px;">
+<tbody>
+<tr>
+<td class="empty" width="48" style="padding:0px;font-size:0px;line-height:1px;padding:0px;">&nbsp; </td>
+<td align="center" style="padding:0px;"> <span class="addressLink" style="font-family:Helvetica, Arial, sans-serif;font-size:12px;padding:0px;font-weight:normal;line-height:16px;color:#8899A6 !important;"> <a href="http://twitter.com" style="color: #8899a6 !important; text-decoration: none !important;text-decoration:none;"><span style="color: #8899a6 !important; text-decoration: none !important;">Twitter International Company<br />One&nbsp;Cumberland&nbsp;Place,&nbsp;Fenian&nbsp;Street<br />Dublin&nbsp;2,&nbsp;D02&nbsp;AX07&nbsp;&nbsp;IRELAND</span></a>
+<!--https://twitter.com/scribe/ibis?t=1&amp;cn=ZmxleGlibGVfcmVjc18y&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+20--></span> </td>
+<td class="empty" width="48" style="padding:0px;font-size:0px;line-height:1px;padding:0px;">&nbsp; </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td height="72" style="padding:0px;"></td>
+</tr>
+<!-- footer end -->
+</tbody>
+</table> </td>
+<td class="empty" width="12" style="min-width: 12px;padding:0px;font-size:0px;line-height:1px;padding:0px;"> &nbsp; </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+<tr>
+<td class="hide" align="center" style="padding:0px;">
+<table align="center" class="hide" style="padding:0px;">
+<tbody>
+<tr>
+<td width="96" height="1" style="padding:0px;"> <img src="https://ea.twimg.com/email/self_serve/media/spacer-1476918453497.png" height="1" width="96" style="border:none;" /> </td>
+<td width="96" height="1" style="padding:0px;"> <img src="https://ea.twimg.com/email/self_serve/media/spacer-1476918453497.png" height="1" width="96" style="border:none;" /> </td>
+<td width="96" height="1" style="padding:0px;"> <img src="https://ea.twimg.com/email/self_serve/media/spacer-1476918453497.png" height="1" width="96" style="border:none;" /> </td>
+<td width="96" height="1" style="padding:0px;"> <img src="https://ea.twimg.com/email/self_serve/media/spacer-1476918453497.png" height="1" width="96" style="border:none;" /> </td>
+<td width="96" height="1" style="padding:0px;"> <img src="https://ea.twimg.com/email/self_serve/media/spacer-1476918453497.png" height="1" width="96" style="border:none;" /> </td>
+</tr>
+</tbody>
+</table> </td>
+</tr>
+</tbody>
+</table>
+<section>
+<div id="new-gmail-hack" style="white-space: nowrap; font: 15px courier; line-height: 0; display: none;">
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+</div>
+</section>
+<!--https://twitter.com/scribe/ibis?t=1&amp;cn=ZmxleGlibGVfcmVjc18y&amp;iid=4a583da486f44a07be1dfbdd1312fc61&amp;uid=800067044313939968&amp;nid=244+20-->
+</body>
+</html>
+</div>
+<div class="attachments_content">   
+<a target="_blank" href="/Users/breydenmonyemoratho/Desktop/myEmail/r.pdf">
+<img src="/Users/breydenmonyemoratho/Desktop/myEmail/pdf.jpeg" alt="NRF APPLICATION.pdf" width="40" height="40">
+<p class="attachment_Name"><i>NRF.pdf</i></p>
+</a>
+<!--name of the attachment -->
+ </div>

@@ -1,0 +1,49 @@
+<div class="content_content">
+
+    <div class="Content_topNav">
+
+        <div class="st_line">
+           <pre  id="sender_content"> <b>FROM:</b>Shivaan Motilal</pre>
+            <pre id="datetime_content"><b>Mon, 18 Jun 2018 16:03:23</b></pre>
+        </div>  
+               
+       
+         <p class="subject_content"><b>Findmail Project</b></p>
+        <p><b>To: </b>Breyden Monyemoratho shivaan<br></p>
+        <p><b>Cc: </b>Breyden Monyemoratho Shivaan</p>
+        
+    </div>
+
+<div class="middle_content">
+Dear Comrades
+
+It is that time of the year that we as a branch come together and finalise the term of  the leadership of this year. The AGM for SASCO will be an opportunity for members to engage on many of the things that occurred this year and to form a consolidated branch mandate moving forward into the next term of leadership. This will also be an opportunity for member to receive various report backs from the current BEC and become a part in selecting the new Branch Executive Committee which will be responsible for the life of SASCO in UCT. 
+
+This AGM will also serve as an opportunity to select candidates towards SRC and Faculty Council elections and ratify those comrades at the AGM. We call upon all that are interested in assuming student governance positions within the institution to step forward. It is our mission as SASCO UCT to ensure that we get as many candidates into Faculty Councils as well as SRC. 
+
+We encourage all members to be in attendance as it is an important gathering of the organisation and must quorate. 
+
+Date: Thursday, 16/08/2018
+
+Time: 17:30/18:00 - 20:00
+
+Venue: Leslie Social 1E
+
+Refreshments will be served
+
+See you on Thursday
+
+" Comrades, there is no true social revolution without the liberation of women"
+
+Kind regards
+
+SASCO BEC
+</div>
+<div class="attachments_content">   
+<a target="_blank" href="/Users/breydenmonyemoratho/Desktop/myEmail/r.pdf">
+<img src="/Users/breydenmonyemoratho/Desktop/myEmail/pdf.jpeg" alt="NRF APPLICATION.pdf" width="40" height="40">
+<p class="attachment_Name"><i>NRF.pdf</i></p>
+</a>
+<!--name of the attachment -->
+ </div>
+</div>

@@ -1,0 +1,64 @@
+.directories
+{
+display:flex;
+flex-direction: row;
+     width:inherit;
+/*            height: 3px;*/
+/*        width: inherit;*/
+/*        border-collapse: collapse;*/
+/*        align-content:*/
+}
+.dropbtn {
+/*    background-color: #3498DB;*/
+/*    color: white;*/
+/*
+padding: 16px;
+font-size: 16px;
+*/
+border: none;
+cursor: pointer;
+/*     border: hidden;*/
+/*    height: 4px;*/
+    background-color: lightgray;
+
+    
+    
+    
+    
+}
+.dropdown-content {
+display: none;
+position: absolute;
+width:inherit;
+/*            display:flex;*/
+/*    background-color: #f1f1f1;*/
+/*    min-width: 160px;*/
+/*    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);*/
+/*    z-index: 1;*/
+}
+.show { display:block;
+}
+
+.dir{
+width:7cm;
+cursor: pointer;
+border: none;
+/*
+background-color: gainsboro;
+ border-collapse: collapse;
+*/
+/*     border: inherit;*/
+color: black;
+/*    padding: 15px 32px;*/
+padding-bottom: 2px;
+padding-top: 2px;
+
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+/*'    margin: 4px 2px;*/
+cursor: pointer;
+background-color: lightgray;
+
+}
