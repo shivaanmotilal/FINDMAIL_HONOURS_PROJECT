@@ -1,0 +1,5 @@
+{ "root":["Inbox","Drafts","Sent Items"],
+  "Inbox":["CSC3002F"],
+  "Drafts":["INF3002F"],
+  "Sent Items":["INF3003S"]
+}
