@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>email client interface</title>
+    <!-- style sheets -->
+   <link rel="stylesheet" type="text/css" href="header.css">
+   <link rel="stylesheet" type="text/css" href="email_content.css">
+   <link rel="stylesheet" type="text/css" href="dir.css">
+   <link rel="stylesheet" type="text/css" href="sort_css.css">
+
+    <!-- use jQuery from Google  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- use jQuery from Google-->
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+      <!-- use for searching  -->
+     <!-- <script language="JavaScript" src="search.js"></script>   -->
+    <!-- jQuery functions in a separate .js file.  -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script language ="JavaScript" src="search.js"></script>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- icon library -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
+      <!-- adding search library/file here -->
+      <script src="search.js"></script>
+         <!-- sort by modal because i used b -->
+    <style>
+        /* The Modal (background) */
+#myBtn:hover,#myBtn:focus {
+    background-color:lightblue;
+}
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 999; /* Sit on top */
+    padding-top: 46px; /* Location of the box */
+    padding-left: 21.5%;
+    /* padding-right: 40%; */
+    border: hidden;
+    
+    left: 0;
+    top: 0;
+    /*width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed 
+    background-color: rgb(0,0,0); /* Fallback color 
+    background-color: rgba(0,0,0,0.4);  Black w/ opacity */
+}
+.sortListButton {
+width: 7cm;
+
+border: none;
+/*
+background-color: gainsboro;
+ border-collapse: collapse;
+*/
+/*     border: inherit;*/
+color: black;
+/*    padding: 15px 32px;*/
+padding-bottom: 2px;
+padding-top: 2px;
+
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+/*'    margin: 4px 2px;*/
+cursor: pointer;
+background-color: lightgray;
+
+}
+
+/* Modal Content */
+.modal-content {
+    background-color: lightgray;
+    margin: auto;
+    padding: 20px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    padding-left:0%;
+    padding-right:0%;
+    border: 1px solid #888;
+    width: 100%;
+    border: hidden;
+    display: flex;
+    flex-direction: column;
+
+}
+
+/* The Close Button */
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+</style>
+    
+</head>
+<body>
+
+<!-- code for the header -->
+<div class="mainDiv">
+<!-- Header -->
+    <div class="topNav">
+        <div class=Icon_label>
+          <img src="images/logo.png" alt="FINDMAIL_ICON" width="40" height="40" id="logo" > 
+           <p id="FINDMAIL" font size="200">
+                  <span style='color: blue'><em>F</em></span>
+                  <span style='color: red'><em>I</em></span>
+                  <span style='color: green'><em>N</em></span>
+                  <span style='color: blue'><em>D</em></span>
+                  <span style='color: green'><em>M</em></span>
+                  <span style='color: red'><em>A</em></span>
+                  <span style='color: red'><em>I</em></span>
+                  <span style='color: red'><em>L</em></span>
+
+            </p>
+        </div>
+           <!--put the menu buttons here-->
+        <div class="btn-group" id="btn-group">
+            
+<!--
+                <div class="directories">
+                    <button id="Dropdown" onclick="myFunction()" class="dropbtn"><i class="fa fa-angle-up"></i></button>
+                    <button class="dir">Dropdown</button>
+                </div>
+                <div id="DropdownmyDropdown" class="dropdown-content">
+                    <div class="directories">
+                        <button id="dont" onclick="myFunction3()" class="dropbtn"></button>
+                        <button class="dir">dont</button>
+                    </div>
+                    <div id="dontmyDropdown" class="dropdown-content ">
+                    <button id="dont"  class="dropbtn"></button>
+                    <button class="dir">dont2</button>
+                  </div>
+                </div>
+-->
+
+            
+            
+        </div>
+          
+    </div>
+    <div class="sideNav">
+        <div class="searchRow">
+           
+                    <form class="SearchItem" name="search" onSubmit="dosearch(''); return false" >
+                            <input type="text"  placeholder="Search.."  name="search" >
+                    </form>
+      
+            
+        </div>
+        
+              <!-- Trigger/Open The Modal -->
+                <button id="myBtn">Sort By<i class="	fa fa-angle-down"></i></button>
+
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <!-- <span class="close">&times;</span> -->
+                    <!-- <p>Some text in the Modal..</p> "buttonClick(this.id);"-->
+                    <button id="Date" onclick="onclickSort(this.id)"  onmouseover="onOverSort(this.id)" onmouseout="onOutSort(this.id)" class="sortListButton"><i class="fa fa-check"></i>  Date</button>
+                    <button id="Subject" onclick="onclickSort(this.id)"  onmouseover="onOverSort(this.id)" onmouseout="onOutSort(this.id)"  class="sortListButton">Subject</button>
+                    <button id="From" onclick="onclickSort(this.id)"  onmouseover="onOverSort(this.id)" onmouseout="onOutSort(this.id)"  class="sortListButton">From</button>
+                </div>
+
+</div>
+            
+ 
+        <ul id="dynamic-list">  
+<!--
+            <li class="listItem">
+            <div class="emailSummary">
+                 <div class="firstLine">
+                    <pre id="sPadding">Sender</pre>
+                    <div>
+                    <pre id="dPadding">2018/06/18  16:03</pre>
+                </div>
+                <pre id="subject">subject</pre>   
+            </div>
+            </li>
+             <li class="listItem">
+            <div class="emailSummary">
+                <div class="firstLine">
+                    <pre id="sPadding">Sender</pre>
+                    <pre id="dPadding">2018/06/18  16:03</pre>
+                </div>
+                <pre id="subject">subject </pre>     
+            </div>
+            </li>
+-->
+         </ul>
+        
+    </div>
+    <div class="emails">
+        <div class="settings">
+            <div id="eat_space"></div>
+            <button onclick="myFunction()" id ="settings" ><i class="fa fa-cog"></i></button>
+        </div>
+            
+            <div class="content" id="content">
+                
+            </div>
+    </div>
+
+
+</div>
+<!--put the menu buttons here and actaul emails--> 
+
+<!--read the file -->
+
+<script>
+var myArr;
+var myMap = new Map();  // used for subdirectories
+var myMapPath = new Map();  // used for subdirectories
+var currentDir;
+var currentSortBy;
+
+function loadDoc(path) {
+      //console.log(path);
+     //console.log(path);
+     document.getElementById("dynamic-list").innerHTML=" ";
+       var http_request = false;
+      if (window.XMLHttpRequest) 
+      { // Mozilla, Safari, ...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType) 
+         {
+            http_request.overrideMimeType('text/xml');
+         }
+      } 
+      else if (window.ActiveXObject) 
+      { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+
+      if (!http_request) 
+      {
+         alert('Giving up :( Cannot create an XMLHTTP instance');
+         return false;
+      }
+
+      // create and submit request
+     
+
+      http_request.open('GET',path+".xml", false);
+      try {
+         http_request.send(null);
+      }
+      catch (e) {
+        // continue;
+          alert(e);
+      }
+
+      var xml_list = http_request.responseXML;
+      var emaillist = xml_list .getElementsByTagName ('tf');
+      //console.log(xml_list);
+      document.getElementById("dynamic-list").innerHTML=" ";
+      for ( var j=0; j<emaillist.length; j++ )
+      {  
+          var sender=emaillist.item(j).getAttribute ('sender');
+          var email_subject=emaillist.item(j).getAttribute ('subject');
+          var html_filePath=emaillist.item(j).getAttribute ('file');
+          var Date=emaillist.item(j).getAttribute ('Date');
+      
+          addItem(sender,email_subject,html_filePath,Date);
+      
+      }
+    
+}
+    
+
+var json_dir;
+var jsonData;
+function addDir(path_dir)
+    {   var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+        var count=0;
+        var  rootDir;
+        var json_dir=JSON.parse(this.responseText);
+        for (var key in json_dir)
+        {
+            if (json_dir.hasOwnProperty(key)) 
+            {   //console.log(key);
+                if (count==0)
+                    {  rootDir=json_dir[key]; // has all the root directories
+                        count++;
+                    } 
+            }      
+        } 
+        // add to the  map
+    var m=0;
+    jsonData=json_dir;
+    for (m=0;m<rootDir.length;m++)
+        {  
+          addMap(rootDir[m]); 
+          myMapPath.set(rootDir[m],rootDir[m]+".xml");
+    
+        }
+            
+
+    }
+  }
+  xhttp.overrideMimeType("application/json");
+  xhttp.open("GET",path_dir ,false);
+  xhttp.send();
+        
+    }
+function addMap(directory)
+    {    // console.log("here");
+        for (var key in jsonData)
+       {     //console.log("here");
+            if (jsonData.hasOwnProperty(key)) 
+            {   //console.log(key);
+              
+             //myMap.set(key,arraySub);
+                if (directory==(key))
+               {   var sub=[];
+                   var DirectoryList=jsonData[key];
+                    for (var b=0;b<DirectoryList.length;b++)
+                    {
+                        if(!DirectoryList[b].includes(".html"))
+                            {  
+                              sub.push(DirectoryList[b]);  
+                            }
+                    }  
+                    myMap.set(directory,sub);
+                   // add nested subdirectories 
+                     // replicate the jsonData iterate data
+                    for (var i=0;i<sub.length;i++)
+                        {    myMapPath.set(sub[i],directory+"/"+sub[i]); // create a path for sub directories.
+                            for (var subKey in jsonData)
+                                {
+                                    if (jsonData.hasOwnProperty(subKey))
+                                        {   if (sub[i]==subKey)
+                                            {
+                                                var subSub=[];
+                                                var DirectoryList=jsonData[subKey];
+                                            
+                                               for (var b=0;b<DirectoryList.length;b++)
+                                                    { 
+                                                        if(!DirectoryList[b].includes(".html"))
+                                                        {  
+                                                            subSub.push(DirectoryList[b]);
+                                                              myMapPath.set(DirectoryList[b],directory+"/"+sub[i]+"/"+DirectoryList[b]);
+                                                        
+                                                        }
+                                                    } 
+                                                myMap.set(sub[i],subSub);
+                                               // console.log(myMap.get(sub[i]));
+                                            }
+                                        }
+                                }   
+                        }
+
+                    }
+            
+             
+            }  
+           
+       } 
+       createDir(directory);
+
+        
+    }
+    
+    
+
+function createDir(dir)
+    {  
+
+        
+//        <div class="directories">
+//                    <button id="Dropdown" onclick="myFunction()" class="dropbtn"><i class="fa fa-angle-up"></i></button>
+//                    <button class="dir">Dropdown</button>
+//        </div>
+                var btn_group = document.getElementById("btn-group");
+                
+                var div_directory= document.createElement("div");
+                div_directory.setAttribute("class","directories");
+                var buttonDropDown= document.createElement("button");
+                buttonDropDown.setAttribute("class","dropbtn");
+            
+            
+                
+                myMapPath.set(String(dir),"./"+dir+".xml");
+        // check if it has subdirectories
+                var DirectoryButton= document.createElement("button");
+                DirectoryButton.appendChild(document.createTextNode(dir ));
+                DirectoryButton.setAttribute("class","dir");
+                // set the id to the the list
+                DirectoryButton.setAttribute("id",dir);
+                DirectoryButton.setAttribute("onclick", "buttonClick(this.id);");
+                DirectoryButton.setAttribute("onmouseover", "buttonHover(this.id);");
+                DirectoryButton.setAttribute("onmouseout", "buttonOut(this.id);");
+               
+                div_directory.appendChild(buttonDropDown);
+                div_directory.appendChild(DirectoryButton);
+                btn_group.appendChild(div_directory);
+
+            var arraySub=myMap.get(dir);
+            if (arraySub!=null && arraySub.length>0)
+            {
+                
+                
+                for (var i=0;i<arraySub.length;i++)
+                {    // add directories
+              
+                var div_directory= document.createElement("div");
+                div_directory.setAttribute("class","directories");
+                var buttonDropDown= document.createElement("button");
+                buttonDropDown.setAttribute("class","dropbtn");
+
+                var DirectoryButton= document.createElement("button");
+                DirectoryButton.appendChild(document.createTextNode(myMapPath.get(arraySub[i])));
+                DirectoryButton.setAttribute("class","dir");
+                // set the id to the the list
+                DirectoryButton.setAttribute("id",myMapPath.get(arraySub[i]));
+                DirectoryButton.setAttribute("onclick", "buttonClick(this.id);");
+                DirectoryButton.setAttribute("onmouseover", "buttonHover(this.id);");
+                DirectoryButton.setAttribute("onmouseout", "buttonOut(this.id);");
+               
+                div_directory.appendChild(buttonDropDown);
+                div_directory.appendChild(DirectoryButton);
+                btn_group.appendChild(div_directory);
+               
+                 
+                    
+                }
+                
+            }
+          
+        
+        
+        
+        
+    }
+
+
+// create on click listener for the dropdown button
+$("button.dropbtn").click(function() {
+
+var innerNode=this.firstChild;
+var classChild=innerNode.className;
+  //alert("classChild");
+
+    if (classChild=="fa fa-angle-up")
+        { //console.log(classChild);
+           this.removeChild(innerNode);
+            var icon_ = document.createElement("i");
+           icon_.setAttribute("class","fa fa-angle-down");
+           this.appendChild(icon_);
+         // call a method to add all the subdirectories
+           document.getElementById(this.id+"dropdown-content").classList.toggle("show");
+        
+            
+        }
+    if (classChild=="fa fa-angle-down")
+        { this.removeChild(innerNode);
+          var icon_ = document.createElement("i");
+          icon_.setAttribute("class","fa fa-angle-up");
+          this.appendChild(icon_);
+          document.getElementById(this.id+"dropdown-content").classList.toggle("dropdown-content");   
+        }
+    
+});
+  
+function buttonClick(id){
+    // get the previous button and change color
+    document.getElementById(currentDir).style.background="lightgray";
+     // change the clicked one to blue.
+    document.getElementById(id).style.background= 'lightblue';
+  
+   currentDir=id;
+     //loadDoc(id);
+   
+    loadDoc(currentDir+"_"+currentSortBy);
+}
+function buttonHover(id)
+    {
+//        this.style.backgroundColor="lightgray"
+     
+        if (id!=currentDir){ 
+            document.getElementById(id).style.background="darkgray";
+                }
+           
+        
+    }
+function buttonOut(id)
+    {  
+     
+      if (id!=currentDir){ 
+            document.getElementById(id).style.background="lightgray";
+                }
+    }
+function addSub(root)
+    {   
+        
+        var div_drop=document.getElementById(root+"dropdown-content");
+        // get the subdirectories from the Map
+        var subList=myMap.get(root);
+        var k=0;
+       // console.log(subList.length);
+         for (k=0;k<subList.length;k++)
+        {  // start populating it. with the content
+            var subDirName=subList[k];
+            var wrap_drop=document.createElement("div");
+            wrap_drop.setAttribute("class","wrapper_dir");
+           // button for the subdirectories
+            var sub_signDiv=document.createElement("div");
+            sub_signDiv.setAttribute("class","sign");
+            var sub_signButton=document.createElement("button");
+            sub_signButton.setAttribute("id",subDirName);
+            sub_signButton.setAttribute("class","drop_d");
+            //  sub_signButton.setAttribute("class","drop_d");
+            var i=document.createElement("i");
+           // check if the subdirectory is not nested
+           var SubSubDirList=myMap.get(subList[k]);
+           if (SubSubDirList.length>0)
+               {
+                    i.setAttribute("class","fa fa-angle-up");
+                   
+                   
+               }
+            else{
+                  i.setAttribute("class","fa fa-angle-double-right");
+               }
+           
+          // i.setAttribute("class","fa fa-angle-double-right");
+             sub_signButton.appendChild(i);
+           sub_signDiv.appendChild(sub_signButton);
+          wrap_drop.appendChild(sub_signDiv);
+          
+          
+          // actual button with subdirectory name
+          var sub_button=document.createElement("button");
+          var name_dir = document.createElement("p");
+          name_dir.appendChild(document.createTextNode(subDirName)); 
+          sub_button.appendChild(name_dir);
+          sub_button.setAttribute("class","dir");
+          sub_button.setAttribute("id",subDirName);
+          wrap_drop.appendChild(sub_button);
+          div_drop.appendChild(wrap_drop);
+         if (SubSubDirList.length>0)
+               {
+                   // create a divdrop down for sub directory
+                   
+                     var div_dropSub = document.createElement("div");
+                     div_dropSub.setAttribute("class","dropdown-content");
+                     div_dropSub.setAttribute("id",subList[k]+"dropdown-content"); 
+                   // add it outside div drop 
+                   
+                   div_drop.appendChild(div_dropSub);
+                  // console.log(subList[k]);
+                   
+               }
+       }
+            // console.log(subDirName);
+    }
+
+
+function addItem(sender,email_subject,html_filePath,Date){
+
+    
+    var ul = document.getElementById("dynamic-list"); 
+    var li = document.createElement("li");
+    li.setAttribute("class","listItem");
+    li.setAttribute("id",html_filePath);
+    
+    var Div = document.createElement("div");
+    Div.setAttribute("class","emailSummary");
+    var DivInner = document.createElement("div");
+     DivInner.setAttribute("class","firstLine");
+    var senderName= document.createElement("div");
+    senderName.setAttribute("class","listSender");
+    senderName.appendChild(document.createTextNode(sender));
+     senderName.style.fontWeight = 'bold';
+    senderName.setAttribute("id","sPadding");
+    var date= document.createElement("p");   
+    date.appendChild(document.createTextNode(Date));
+    date.style.color = 'Darkgray';
+    date.setAttribute("id","dPadding");
+    DivInner.appendChild(senderName);
+    DivInner.appendChild(date);
+    
+    var subject=document.createElement("div");
+    subject.appendChild(document.createTextNode(email_subject));
+    subject.setAttribute("class","listSubject");
+    Div.appendChild(DivInner);
+    Div.appendChild(subject);
+    
+    li.appendChild(Div);
+// setting the border is some how not working
+//    li.setAttribute("border-bottom-color","black");
+//    li.setAttribute("border-bottom-width","10px");
+    ul.appendChild(li);
+    
+    
+   
+    
+  
+}
+
+
+    
+ // Click on list item handler
+  $('#dynamic-list').on('click','li',function(){
+  // this.id   filepath
+     //alert(this.id);
+     $(".listItem").css("background-color","white");
+     this.style.background= 'lightblue';
+     clickedOpen(this.id);
+   
+    
+  });
+
+window.onload = function(){ 
+//console.log("dont you cry"); 
+
+ 
+//    style.backgroundColor
+    addDir("dir.txt");
+    
+    
+    var btn_group=document.getElementById("btn-group");
+    var direct_div= btn_group.firstElementChild;
+    var initialButton=direct_div.childNodes[1];
+    initialButton.style.backgroundColor= 'lightblue';
+    currentDir=initialButton.id;
+  
+
+    
+//    console.log(String(initialButton.id));
+//    initially sorted by date
+    currentSortBy="Date";
+    loadDoc(initialButton.id+"_"+currentSortBy);  // initially pass the first directory xml file with a list of emails.
+
+};
+function clickedOpen(path) {
+
+    //console.log("I am here");
+       var http_request = false;
+      if (window.XMLHttpRequest) 
+      { // Mozilla, Safari, ...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType) 
+         {
+            http_request.overrideMimeType('text/xml');
+         }
+      } 
+      else if (window.ActiveXObject) 
+      { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+
+      if (!http_request) 
+      {
+         alert('Giving up :( Cannot create an XMLHTTP instance');
+         return false;
+      }
+
+      // create and submit request
+    
+      http_request.open('GET',path, false);
+      try {
+         http_request.send(null);
+      }
+      catch (e) {
+        // continue;
+          alert(e);
+      }
+
+      var email= http_request.responseText;
+      //alert(email);
+     document.getElementById("content").innerHTML=" ";
+    document.getElementById("content").innerHTML=email;
+    
+}
+
+function SortFunction()
+{
+    document.getElementById("Sort_Dropdown").classList.toggle("DisplaySort");
+
+}
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+// code for handling the sort by 
+function onclickSort(id){
+    
+     // get the select element and show its the one that is currently selected.
+     var b= document.getElementById(id);
+     b.innerHTML=" ";
+     var icon= document.createElement("i");
+     icon.setAttribute("class","fa fa-check");
+     var text= document.createTextNode(" "+id);
+     var selector="#"+id;
+     $( selector ).append( icon);
+     $( selector ).append( text);
+   
+     // remove the icon from the previous 
+     var c= document.getElementById( currentSortBy);
+     c.innerHTML=" ";
+     var text= document.createTextNode( currentSortBy);
+     var selector="#"+currentSortBy;
+     $( selector ).append( text);
+     // update the current sort by  and load the necessary files.
+     currentSortBy=id;
+     modal.style.display = "none";
+     loadDoc(currentDir+"_"+currentSortBy);
+    
+}
+function  onOverSort(id){
+   
+            document.getElementById(id).style.background="darkgray";
+                
+}
+function  onOutSort(id){
+    
+            document.getElementById(id).style.background="lightgray";
+                
+} 
+    
+</script>
+
+</body>
+</html>
