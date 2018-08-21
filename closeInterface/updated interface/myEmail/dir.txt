@@ -1,0 +1,5 @@
+{ "root":["Inbox","Drafts","Sent Items"],
+  "Inbox":[],
+  "Drafts":[],
+  "Sent Items":[]
+}
