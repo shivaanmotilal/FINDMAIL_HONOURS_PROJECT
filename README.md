@@ -1,6 +1,6 @@
 # FINDMAIL
 
-This is a web application in python,javascript and HTML5 for a portable searchable email archive. It accepts mbox and maildir format archives and runs on python 2.7 and above. Created by Shivaan Motilal and Breyden Monyemoratho.
+This is a web application coded in Python,Javascript and HTML5 for a portable searchable email archive. It accepts mbox and maildir format archives and runs on Python 2.7 and above. Created by Shivaan Motilal and Breyden Monyemoratho.
 
 To Run:
 1. Execute email parser and indexer, run:
