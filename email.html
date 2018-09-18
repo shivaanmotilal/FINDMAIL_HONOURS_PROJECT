@@ -1,204 +1,657 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>email client interface</title>
-    <!-- style sheets -->
-    <link rel="stylesheet" type="text/css" href="header.css">
-      <link rel="stylesheet" type="text/css" href="email_content.css">
-    <!-- use jQuery from Google  -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <!-- use jQuery from Google-->
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <!-- jQuery functions in a separate .js file.  -->
+    <title>FINDMAIL</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- icon library -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> 
-    
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- style sheets -->
+   <link rel="stylesheet" type="text/css" href="./styling/main_page.css">
+   <link rel="stylesheet" type="text/css" href="./styling/email_content.css">
+   <link rel="stylesheet" type="text/css" href="./styling/dir.css">
+   <link rel="stylesheet" type="text/css" href="./styling/sort_css.css">
+   <link rel="stylesheet" type="text/css" href="./styling/searchbox.css">\
+   <link rel="stylesheet" href="./styling/fontawesome-free-5.3.1-web/css/all.css">
+   <link  rel="stylesheet" href="./styling/material-design-icons-master/iconfont/material-icons.css">
+    <!-- use jQuery from Google -->
+      <script src="./jquery-3.3.1.min.js"></script>
+      <!-- use for searching  -->
+     <script language ="JavaScript"  src="./search/search.js"></script>
+
 </head>
 <body>
 
-<!-- code for the header -->
-<div class="mainDiv">
-<!-- Header -->
-    <div class="topNav">
-        <div class=Icon_label>
-          <img src="images/logo.png" alt="FINDMAIL_ICON" width="40" height="40"> 
-           <p font size="80">
-                  <span style='color: blue'><em>F</em></span>
-                  <span style='color: red'><em>I</em></span>
-                  <span style='color: green'><em>N</em></span>
-                  <span style='color: blue'><em>D</em></span>
-                  <span style='color: green'><em>M</em></span>
-                  <span style='color: red'><em>A</em></span>
-                  <span style='color: red'><em>I</em></span>
-                  <span style='color: red'><em>L</em></span>
 
-                   </p>
-                </div>
-                <div>  
-                <nav>
-           <!--put the menu buttons here-->
-            <div class="btn-group">
-                <button id="All.txt" class="dir">All</button>
-                <button id="All.txt" class="dir">Inbox</button>
-                <button id="Sent" class="dir">Sent</button>
-                <button id="Trash" class="dir">Trash</button>
+<div class="mainDiv">
+
+    <div  class="topNav">
+        <div class=Icon_label>
+
+         
+            <div class="logoDiv">
+                    <img src="./logo/findmail2.png" alt="FINDMAIL" width="180" height="42">
             </div>
-          </nav>
-          </div>
+           
         </div>
+           <!--put the menu buttons here-->
+        <div class="btn-group" id="btn-group">
+
+
+
+
+
+        </div>
+
+    </div>
     <div class="sideNav">
         <div class="searchRow">
-            <form action="hello.py">
-                <input type="text" placeholder="Search.." name="search">
-            </form>
-            <button onclick="myFunction()" class="dropbtn"><i class="fa fa-search"></i></button>
+
+            
+
+
         </div>
+
+              <!-- Trigger/Open The Modal -->
+                <button id="myBtn">Sort By Date<i class="	fa fa-angle-down"></i></button>
+
+                <!-- The Modal -->
+                <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                    <!-- <span class="close">&times;</span> -->
+                    <!-- <p>Some text in the Modal..</p> "buttonClick(this.id);"-->
+                    <button id="Date" onclick="onclickSort(this.id)"  onmouseover="onOverSort(this.id)" onmouseout="onOutSort(this.id)" class="sortListButton"><i class="fa fa-check"></i>  Date</button>
+                    <button id="Subject" onclick="onclickSort(this.id)"  onmouseover="onOverSort(this.id)" onmouseout="onOutSort(this.id)"  class="sortListButton">Subject</button>
+                    <button id="From" onclick="onclickSort(this.id)"  onmouseover="onOverSort(this.id)" onmouseout="onOutSort(this.id)"  class="sortListButton">From</button>
+                </div>
+
+</div>
+
+
         <ul id="dynamic-list">
-                 
+<!--
+            <li class="listItem">
+            <div class="emailSummary">
+                 <div class="firstLine">
+                    <pre id="sPadding">Sender</pre>
+                    <div>
+                    <pre id="dPadding">2018/06/18  16:03</pre>
+                </div>
+                <pre id="subject">subject</pre>
+            </div>
+            </li>
+             <li class="listItem">
+            <div class="emailSummary">
+                <div class="firstLine">
+                    <pre id="sPadding">Sender</pre>
+                    <pre id="dPadding">2018/06/18  16:03</pre>
+                </div>
+                <pre id="subject">subject </pre>
+            </div>
+            </li>
+-->
          </ul>
-        
+
     </div>
     <div class="emails">
-        <div class="settings"> 
-            <button onclick="myFunction()" ><i class="fa fa-cog"></i></button>
-        </div>
-            
-            <div class="content" id="content">
+            <div class="searchRow">
                 
+                <form id="search-form_3" name="search" onSubmit="dosearch(''); return false">
+                    <input type="text"  placeholder="   Search  Mail..." class="search_3" id="myInput" name="search"/>
+                </form>
+                
+            <button  id="help_button" onclick="onclickHelp()"  onmouseover="onOverHelp(this.id)" onmouseout="onOutHelp(this.id)"  ><i class="material-icons" style="font-size:25px;color:gray;">help</i></button>
+          </div>
+
+         
+
+            <div class="content" id="content">
+
             </div>
     </div>
 
 
 </div>
-<!--put the menu buttons here and actaul emails--> 
 
-<!--read the file -->
 
 <script>
-// use for testing the middle sections
-var myArr;
-function loadDoc(file) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        myArr=this.responseText.split("\n");
-        console.log(myArr[0]);
-        var i=0;
-        for (i=0;i<myArr.length;i++)
-            {
-              readAdd(myArr[i]); 
-            }
- 
-  
-    
-    }
-  };
-  xhttp.open("GET",file ,true);
-  xhttp.send();
-//response.setContentType("text/plain"); 
+var currentDir;
+var currentSortBy;
+var listItemVar;
+
+function loadDoc(path) {
+      //console.log(path);
+     //console.log(path);
+     document.getElementById("dynamic-list").innerHTML=" ";
+       var http_request = false;
+      if (window.XMLHttpRequest)
+      { // Mozilla, Safari, ...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType)
+         {
+            http_request.overrideMimeType('text/xml');
+         }
+      }
+      else if (window.ActiveXObject)
+      { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+
+      if (!http_request)
+      {
+         alert('Giving up :( Cannot create an XMLHTTP instance');
+         return false;
+      }
+
+      // create and submit request
+
+
+      http_request.open('GET',path+".xml", false);
+      try {
+         http_request.send(null);
+      }
+      catch (e) {
+        // continue;
+          alert(e);
+      }
+
+      var xml_list = http_request.responseXML;
+      var emaillist = xml_list .getElementsByTagName ('tf');
+      //console.log(xml_list);
+      document.getElementById("dynamic-list").innerHTML=" ";
+      for ( var j=0; j<emaillist.length; j++ )
+      {
+          var sender=emaillist.item(j).getAttribute ('sender');
+          var email_subject=emaillist.item(j).getAttribute ('subject');
+          var html_filePath=emaillist.item(j).getAttribute ('file');
+          var Date=emaillist.item(j).getAttribute ('date');
+          var attachment=emaillist.item(j).getAttribute ('attachment');
+          //console.log(attachment);
+          addItem(sender,email_subject,html_filePath,Date,attachment);
+
+      }
+
 }
-//loadDoc();
-//addItem("bry","breyden","monyemoratho");
-//addItem("bry","breyden","monyemoratho");
-function addItem(sender_address,email_summary,xml_filePath){
+
+
+var json_dir;
+var jsonData;
+function addDir(path_dir)
+    {   var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+
+            var d_=this.responseText.split("\n");
+            for (var i=0;i<d_.length;i++)
+            {
+               createDir(d_[i].replace(/,/g,"/"),d_[i]);
+
+            }
+    }
+  }
+  xhttp.overrideMimeType("application/json");
+  xhttp.open("GET",path_dir ,false);
+  xhttp.send();
+
+    }
+
+
+
+function createDir(dir,path)
+    {
+
+
+//        <div class="directories">
+//                    <button id="Dropdown" onclick="myFunction()" class="dropbtn"><i class="fa fa-angle-up"></i></button>
+//                    <button class="dir">Dropdown</button>
+//        </div>
+                var btn_group = document.getElementById("btn-group");
+
+                var div_directory= document.createElement("div");
+                div_directory.setAttribute("class","directories");
+                var buttonDropDown= document.createElement("button");
+                buttonDropDown.setAttribute("class","dropbtn");
+
+
+
+                var DirectoryButton= document.createElement("button");
+                var icon=document.createElement("i");
+                icon.setAttribute("class","fa fa-inbox");
+                DirectoryButton.appendChild(icon);
+                DirectoryButton.appendChild(document.createTextNode( " "));
+                DirectoryButton.appendChild(document.createTextNode(  dir));
+                DirectoryButton.setAttribute("class","dir");
+                // set the id to the the list
+                DirectoryButton.setAttribute("id",path);
+                DirectoryButton.setAttribute("onclick", "buttonClick(this.id);");
+                DirectoryButton.setAttribute("onmouseover", "buttonHover(this.id);");
+                DirectoryButton.setAttribute("onmouseout", "buttonOut(this.id);");
+
+                div_directory.appendChild(buttonDropDown);
+                div_directory.appendChild(DirectoryButton);
+                btn_group.appendChild(div_directory);
+
+
+    }
+
+
+// create on click listener for the dropdown button
+$("button.dropbtn").click(function() {
+
+var innerNode=this.firstChild;
+var classChild=innerNode.className;
+  //alert("classChild");
+
+    if (classChild=="fa fa-angle-up")
+        { //console.log(classChild);
+           this.removeChild(innerNode);
+            var icon_ = document.createElement("i");
+           icon_.setAttribute("class","fa fa-angle-down");
+           this.appendChild(icon_);
+         // call a method to add all the subdirectories
+           document.getElementById(this.id+"dropdown-content").classList.toggle("show");
+
+
+        }
+    if (classChild=="fa fa-angle-down")
+        { this.removeChild(innerNode);
+          var icon_ = document.createElement("i");
+          icon_.setAttribute("class","fa fa-angle-up");
+          this.appendChild(icon_);
+          document.getElementById(this.id+"dropdown-content").classList.toggle("dropdown-content");
+        }
+
+});
+
+function buttonClick(id){
+    // get the previous button and change color
+    document.getElementById(currentDir).style.background="lightgray";
+     // change the clicked one to blue.
+    document.getElementById(id).style.background= 'lightblue';
+
+   currentDir=id;
+     //loadDoc(id);
+     document.getElementById("content").innerHTML=" ";
+    loadDoc(currentDir+"_"+currentSortBy);
+}
+function buttonHover(id)
+    {
+//        this.style.backgroundColor="lightgray"
+
+        if (id!=currentDir){
+            document.getElementById(id).style.background="darkgray";
+                }
+
+
+    }
+function buttonOut(id)
+    {
+
+      if (id!=currentDir){
+            document.getElementById(id).style.background="lightgray";
+                }
+    }
+    // browse view list item
+function addItem(sender,email_subject,html_filePath,Date,attachment_boolean){
+    
+
     var ul = document.getElementById("dynamic-list");
     var li = document.createElement("li");
     li.setAttribute("class","listItem");
-    li.setAttribute("id",xml_filePath);
-    var d = document.createElement("div");
-    d.setAttribute("class","emailSummary");
-     
-    //i
-    var i = document.createElement("i");
-    i.setAttribute("class","fa fa-user");
-    i.setAttribute("style","font-size:24px");
-    i.setAttribute("style","margin-right:20px");
-    li.appendChild(i);
+    li.setAttribute("id",html_filePath);
+
+    var Div = document.createElement("div");
+    Div.setAttribute("class","emailSummary");
+    var DivInner = document.createElement("div");
+     DivInner.setAttribute("class","firstLine");
+    var senderName= document.createElement("div");
+    senderName.setAttribute("class","listSender");
+    senderName.appendChild(document.createTextNode(sender));
+     senderName.style.fontWeight = 'bold';
+    senderName.setAttribute("id","sPadding");
+    var date= document.createElement("p");
+    date.appendChild(document.createTextNode(Date));
+    date.style.color = 'Darkgray';
+    date.setAttribute("id","dPadding");
+    DivInner.appendChild(senderName);
+    DivInner.appendChild(date);
+
+     var second_line = document.createElement("div");
+     second_line.setAttribute("class","secondLine");
    
-    // sender 
-    var sender_ = document.createElement("p");
-     sender_.appendChild(document.createTextNode(sender_address));   // add the text
-    d.appendChild(sender_);
-    // email summary
-    var summary= document.createElement("p");
-     summary.appendChild(document.createTextNode(email_summary));   // add the text
-     d.appendChild(summary);
-    
-    li.appendChild(d);
-    ul.appendChild(li);
+     
+    var subject=document.createElement("div");
+    subject.appendChild(document.createTextNode(email_subject));
+    subject.setAttribute("class","listSubject");
+    second_line.appendChild(subject);
+    //  var icon = document.createElement("i");
+   
+    //  icon.setAttribute("class","material-icons");
+
+if (attachment_boolean=="true"){
+    var p_icon=document.createElement("p");
+    p_icon.setAttribute("class","attachIcon");
+    p_icon.setAttribute("id","attachment");
+    //p_icon.innerHTML='<i class="material-icons" > attach_file</i>';
+    var icon=document.createElement("i");
+    icon.setAttribute("class","material-icons");
+     icon.innerHTML="attachment";
+    p_icon.appendChild(icon);
+    second_line.appendChild(p_icon);
+
   
-}
-  /// given the file open and call add
-  function readAdd(filePath){
- 
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-    
-        var txt=this.responseText;
-        parser=new DOMParser();
-htmlDoc=parser.parseFromString(txt, "text/html");
- var from =htmlDoc.getElementsByTagName('b');
-       //console.log(from.innerHTML);
-var s =htmlDoc.getElementsByTagName('font');
-        //console.log(s.innerHTML);
-addItem(from[0].innerHTML,s[0].innerHTML,filePath);
+     p_icon.setAttribute("class","attachIcon");
     }
-  };
-  xhttp.open("GET", filePath,true);
-  xhttp.send();
-  }
+    else{
+        // increase the size of the subject field to span the entire list.
+        subject.style.width="320px";
+    }
+     
+
+
+
+  
+
+  
+   
+
+   
+    Div.appendChild(DivInner);
     
+    Div.appendChild(second_line);
+
+    li.appendChild(Div);
+
+
+        
+               li.setAttribute("onmouseover", "liHover(this.id);");
+                li.setAttribute("onmouseout", "liOut(this.id);");
+                li.setAttribute("ondblclick", "liDouble(this.id);");
+    ul.appendChild(li);
+
+
+
+
+
+}
+// hover on list item handler
+function liHover(id)
+{
+    if (id!=listItemVar){
+            document.getElementById(id).style.background="lightgray";
+                }
+}
+function liOut(id)
+{
+    if (id!=listItemVar){
+            document.getElementById(id).style.background="white";
+                }
+}
+
  // Click on list item handler
   $('#dynamic-list').on('click','li',function(){
-     // this.id   filepath
-      clickedOpen(this.id);
-      
-      //alert(this.id);
-//    var li = document.createElement("div");
-//    li.setAttribute("class","listItem");
-//    li.setAttribute("id",xml_filePath);
+  // this.id   filepath
+     //alert(this.id);
+     listItemVar=this.id;
+     $(".listItem").css("background-color","white");
+     this.style.background= 'lightblue';
+     clickedOpen(this.id);
+
+
   });
-window.onload = function(){ 
-    //console.log("dont you cry"); 
- document.getElementById("/Users/breydenmonyemoratho/Desktop/myEmail/all.txt").style.backgroundColor = "lightblue";
-    //loadDoc("/Users/breydenmonyemoratho/Desktop/myEmail/test.txt");  // initially pass the inbox folder
-    // add listeners to the rest of the navigation directory buttons
+  // double click  on list item handler
+  function liDouble(id)
+  {  var myWindow;
+     
+     //myWindow.close();
+       myWindow = window.open("", "myWindow", "width=800,height=600");
+       var content=document.getElementById("content");
+       //read the content
+     var http_request = false;
+      if (window.XMLHttpRequest)
+      { // Mozilla, Safari, ...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType)
+         {
+            http_request.overrideMimeType('text/xml');
+         }
+      }
+      else if (window.ActiveXObject)
+      { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+
+      if (!http_request)
+      {
+         alert('Giving up :( Cannot create an XMLHTTP instance');
+         return false;
+      }
+
+      // create and submit request
+
+      http_request.open('GET',id, false);
+      try {
+         http_request.send(null);
+      }
+      catch (e) {
+        // continue;
+          alert(e);
+      }
+
+      var email= http_request.responseText;
+      console.log(email);
+    // 
+    
+     myWindow.document.body.innerHTML=" ";
+     myWindow.document.body.innerHTML=email;
+    // myWindow.document.body.append(text);
+  
+//    else{
+//        console.log("herh rhjere");
+      
+//        clickedOpen(id);
+//        myWindow = window.open("", "myWindow", "width=800,height=600");
+//        var content=document.getElementById("content");
+//        // addd the right content to content
+//        myWindow.document.body.appendChild(content);  
+//    }
+
    
+    // body.innerHTML="var elem";
+    // 
+    // var elem = myWindow.createElement("div");
+    // elem.innerHTML = "Demo Box"
+    
+  }
+
+window.onload = function(){
+//console.log("dont you cry");
+
+    //var f0 = performance.now();
+//    style.backgroundColor
+    addDir("dir.txt");
+
+
+    var btn_group=document.getElementById("btn-group");
+    var direct_div= btn_group.firstElementChild;
+    var initialButton=direct_div.childNodes[1];
+    initialButton.style.backgroundColor= 'lightblue';
+    currentDir=initialButton.id;
+
+
+
+//    console.log(String(initialButton.id));
+//    initially sorted by date
+    currentSortBy="Date";
+    var div_directory= document.createElement("div");
+   div_directory.setAttribute("class","directories");
+   var buttonDropDown= document.createElement("button");
+   buttonDropDown.setAttribute("class","dropbtn");
+
+   var DirectoryButton= document.createElement("button");
+   DirectoryButton.setAttribute("id","backSearch");
+   var icon =document.createElement("i");
+   icon.setAttribute("class","fa fa-arrow-circle-left");
+   var text= document.createTextNode("  Exit Search");
+   $( "#backSearch" ).append(icon);
+   $( "#backSearch" ).append(text);
+    DirectoryButton.setAttribute("class","dir");
+
+    DirectoryButton.setAttribute("onclick", "SearchBack(this.id);");
+
+   // DirectoryButton.setAttribute("onclick", "SearchBack(this.id);");
+    var button_group = document.getElementById("btn-group");
+    div_directory.appendChild(buttonDropDown);
+    div_directory.appendChild(DirectoryButton);
+
+    button_group.insertBefore(div_directory, button_group.childNodes[0]);
+    loadDoc(initialButton.id+"_"+currentSortBy);  // initially pass the first directory xml file with a list of emails.
+    var f1 = performance.now();
+  //  console.log(" window load " + (f1 - f0) + " milliseconds.")
 };
 function clickedOpen(path) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-        //myArr=this.responseText.split("\n");
-        var x = document.getElementById("content");  // add the document to the content section
-        x.innerHTML=this.responseText;
-        console.log(this.responseText);
-       // readAdd(myArr[0]);
-  
-    
-    }
-  };
-  xhttp.open("GET", path,true);
-  xhttp.send();
+
+    //console.log("I am here");
+       var http_request = false;
+      if (window.XMLHttpRequest)
+      { // Mozilla, Safari, ...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType)
+         {
+            http_request.overrideMimeType('text/xml');
+         }
+      }
+      else if (window.ActiveXObject)
+      { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+
+      if (!http_request)
+      {
+         alert('Giving up :( Cannot create an XMLHTTP instance');
+         return false;
+      }
+
+      // create and submit request
+
+      http_request.open('GET',path, false);
+      try {
+         http_request.send(null);
+      }
+      catch (e) {
+        // continue;
+          alert(e);
+      }
+
+      var email= http_request.responseText;
+      //alert(email);
+     document.getElementById("content").innerHTML=" ";
+    document.getElementById("content").innerHTML=email;
+
 }
-var buttons = $("button.dir");
-buttons.click(function() {
-  buttons.css('background-color', 'white');
-  $(this).css('background-color', 'lightblue');
-    // assign the content nothing
-    document.getElementById("content").innerHTML="";  // add the document to the content section
-     document.getElementById("dynamic-list").innerHTML=""
-    loadDoc(this.id);
-       
-});
-buttons.hover(function(){
-    $(this).css('background-color', 'red');  
-},function(){
-   $(this).css('background-color', 'white');   
-});
+
+function SortFunction()
+{
+    document.getElementById("Sort_Dropdown").classList.toggle("DisplaySort");
+
+}
+// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+
+
+// When the user clicks the button, open the modal
+btn.onclick = function() {
+    modal.style.display = "block";
+}
+
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+// code for handling the sort by
+function onclickSort(id){
+
+                // get the select element and show its the one that is currently selected.
+            if (id!=currentSortBy){
+                var b= document.getElementById(id);
+                b.innerHTML=" ";
+                var icon= document.createElement("i");
+                icon.setAttribute("class","fa fa-check");
+                var text= document.createTextNode(" "+id);
+                var selector="#"+id;
+                $( selector ).append( icon);
+                $( selector ).append( text);
+
+                // remove the icon from the previous
+                var c= document.getElementById( currentSortBy);
+                c.innerHTML=" ";
+                var text= document.createTextNode( currentSortBy);
+                var selector="#"+currentSortBy;
+                $( selector ).append( text);
+                // update the current sort by  and load the necessary files.
+                currentSortBy=id;
+                modal.style.display = "none";
+                loadDoc(currentDir+"_"+currentSortBy);
+                document.getElementById("myBtn").innerHTML="Sort By "+currentSortBy;
+            }
+            if (id==currentSortBy)
+            {   
+                modal.style.display = "none";
+            }
+
+}
+function  onOverSort(id){
+
+            document.getElementById(id).style.background="darkgray";
+
+}
+function  onOutSort(id){
+
+            document.getElementById(id).style.background="lightgray";
+
+}
+// onmouseover="onOverSettings(this.id)" onmouseout="onOutSettings(this.id)"
+function onOverHelp(id) {
+    document.getElementById(id).style.background="lightblue";
+}
+function onOutHelp(id)
+{
+    document.getElementById(id).style.background="whitesmoke";
+}
+function onclickHelp(){
+    var HelpWindow;
+    HelpWindow = window.open("mynewpage.html","help", "width=440,height=400");
+    //var content=document.getElementById("content");
+
+}
+
+
 </script>
 
 </body>

@@ -1,0 +1,236 @@
+// in-browser javascript IR system
+// hussein suleman
+// 26 october 2006
+
+var query;
+var terms;
+var prefix;
+var index;
+var accum;
+var filenames;
+var filetitles;
+var filesender;
+var filesubject;
+var fileDate;
+function SearchBack(id)
+{    // console.log("here here here ");
+   
+     document.getElementById("dynamic-list").innerHTML=" ";
+     document.getElementById("content").innerHTML=" ";
+    // remove the element
+    var button_group = document.getElementById("btn-group");
+    button_group.removeChild(  button_group.childNodes[1]);
+    loadDoc(currentDir+"_"+currentSortBy);
+    document.getElementById('myInput').value = '';
+    searchStarted=false;
+   // document.getElementById(currentDir).style.background="lightgray";
+    
+}
+var t0;
+var searchStarted=false;
+function dosearch (aprefix)
+{  //alert(aprefix);
+	//console.log(aprefix);
+     t0 = performance.now();
+   
+    if (searchStarted==false){  // prevents always adding the search back button.
+
+        var div_directory= document.createElement("div");
+        div_directory.setAttribute("class","directories");
+        var buttonDropDown= document.createElement("button");
+        buttonDropDown.setAttribute("class","dropbtn");
+     
+        var DirectoryButton= document.createElement("button");
+        DirectoryButton.setAttribute("id","backSearch");
+        var icon =document.createElement("i");
+        icon.setAttribute("class","fa fa-arrow-circle-left");
+        var text= document.createTextNode("  Exit Search");
+        $( "#backSearch" ).append(icon);
+        $( "#backSearch" ).append(text);
+         DirectoryButton.setAttribute("class","dir");
+       
+         DirectoryButton.setAttribute("onclick", "SearchBack(this.id);");
+       
+        // DirectoryButton.setAttribute("onclick", "SearchBack(this.id);");
+         var button_group = document.getElementById("btn-group");
+         div_directory.appendChild(buttonDropDown);
+         div_directory.appendChild(DirectoryButton);
+       
+         button_group.insertBefore(div_directory, button_group.childNodes[0]);
+         // add color to the exit button
+        // DirectoryButton.style.background="lightblue";
+
+    }
+  
+
+    document.getElementById("dynamic-list").innerHTML=" ";
+
+   //split query into terms and split out spaces
+   prefix = aprefix;
+   query = document.forms["search"].elements["search"].value;
+    //console.log(query);
+   query = query.toLowerCase ();
+   query = query.replace (/['"_\.]/g, " ");
+   query = query.replace (/^ +/, "");
+   query = query.replace (/ +$/, "");
+
+   //console.log(query);
+
+   //turn extended unicode characters into simple numbers
+//    var i;
+//    var j = query.length;
+//    var newquery = '';
+//    for ( i=j-1; i>=0; i-- )
+//    {
+//       var achar = query.charAt (i);
+//       if (achar.match(/[a-zA-Z0-9]/))
+//       {
+//          newquery = achar+newquery;
+//       }
+//       else
+//       {
+//          //newquery = '_'+query.charCodeAt (i)+'_'+newquery;
+//       }
+//    }
+   // split by white space between terms.
+   //console.log(newquery);
+   terms = query.split (/ +/);
+ //  console.log(terms[0]);
+//    
+  // create array
+   accum = new Array();
+   filenames = new Array();
+   filetitles = new Array();
+   filesender= new Array();
+   filesubject= new Array();
+   fileDate= new Array();
+   fileAttachment=new Array();
+    
+   //read term frequency files
+   for ( var i=0; i<terms.length; i++ )
+   {  //console.log(terms[i]);
+      var http_request = false;
+      if (window.XMLHttpRequest) 
+      { // Mozilla, Safari, ...
+         http_request = new XMLHttpRequest();
+         if (http_request.overrideMimeType) 
+         {
+            http_request.overrideMimeType('text/xml');
+         }
+      } 
+      else if (window.ActiveXObject) 
+      { // IE
+         try {
+            http_request = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               http_request = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+
+      if (!http_request) 
+      {
+         alert('Giving up :( Cannot create an XMLHTTP instance');
+         return false;
+      }
+
+      //create and submit request
+      http_request.open('GET',"index/"+terms[i]+".xml", false);
+      try {
+         http_request.send(null);
+      }
+      catch (e) {
+         continue;
+      }
+
+      var index = http_request.responseXML;
+      if (!index.documentElement && http_request.responseStream) 
+      {
+         index.load(http_request.responseStream);
+      }
+
+      var wordlist = index.getElementsByTagName ('tf');
+      var df = wordlist.length;
+      for ( var j=0; j<wordlist.length; j++ )
+      {
+         var value = wordlist.item(j).firstChild.data;
+         var fileid = wordlist.item(j).getAttribute ('id');
+         filenames[fileid] = wordlist.item(j).getAttribute ('file');
+
+          
+         filesender[fileid]=wordlist.item(j).getAttribute ('sender');
+         filesubject[fileid]=wordlist.item(j).getAttribute ('subject');
+         fileDate[fileid]=wordlist.item(j).getAttribute ('date');
+         fileAttachment[fileid]=wordlist.item(j).getAttribute ('attachment');
+         if (isNaN (accum[fileid]))
+            accum[fileid] = 0;
+         accum[fileid] += parseFloat(value) / df;
+      }
+   }
+
+   // selection sort based on weights, ignoring zero values
+   var ranked = new Array();
+   var weight = new Array();
+   var k = 0;
+   for ( var i=0; i<accum.length; i++ )
+   {
+      if (! isNaN (accum[i]))
+      {
+         ranked[k] = i;
+         weight[k] = accum[i];
+         k++;
+      }
+   }
+   for ( var i=0; i<ranked.length; i++ )
+   {
+      var max = i;
+      for ( var j=i+1; j<ranked.length; j++ )
+         if (weight[j] > weight[max])
+            max = j;
+      if (max != i)
+      {
+         var swap = weight[i];
+         weight[i] = weight[max];
+         weight[max] = swap;
+         swap = ranked[i];
+         ranked[i] = ranked[max];
+         ranked[max] = swap;
+      }
+   }
+
+
+if (ranked.length > 0){
+  
+
+   
+     for ( var i=0; i<ranked.length; i++ )
+          {
+         addItem(filesender[ranked[i]],filesubject[ranked[i]],filenames[ranked[i]],fileDate[ranked[i]],fileAttachment[ranked[i]
+        
+        ]);
+          }
+  
+ 
+}
+else{
+
+   
+   
+    
+    $("#dynamic-list").append($('<img>', { 
+        src : "./search/No_Results.png", 
+        width : 320, 
+        height : 280, 
+        alt : "Test Image", 
+        title : "Test Image"
+    }));
+
+
+}
+        
+        searchStarted=true;
+        var t1 = performance.now();
+        console.log(" search took " + (t1 - t0) + " milliseconds.")  
+}
+ 

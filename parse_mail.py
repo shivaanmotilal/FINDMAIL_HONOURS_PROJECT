@@ -166,6 +166,7 @@ class parseMbox:
         if not part:
             return None
         else:
+            part= part.decode('utf-8','ignore').encode("utf-8")
             strippedPart= part.replace('"', '') #Remove quote so decode_header can recognise encoding
             bytes, encoding = decode_header(strippedPart)[0]
             if not encoding:
@@ -218,8 +219,8 @@ class parseMbox:
             """+Cc+"""
             </div>
             """+fullbody+"""
-            """+Embedded+"""</div>
-            """+Attach+"""
+            """+Embedded.decode('utf-8','ignore').encode("utf-8")+"""</div>
+            """+Attach.decode('utf-8','ignore').encode("utf-8")+"""
         </div>"""
         return msgHTML
 
@@ -245,13 +246,13 @@ class parseMbox:
         formatTime=None
         mbox = mailbox.mbox(path)
         msgCC=""
-
         self.removeXML()
         if os.path.exists(os.path.join("FINDMAIL","XML_files")):
             #self.clearFolder(os.path.join("FINDMAIL","XML_files"))
             shutil.rmtree(os.path.join("FINDMAIL","XML_files"))
         for message in mbox:
             #print message
+            hasattach= "true"
             """Get from, to and subject field etc from email"""
             if not message["cc"]:
                 msgCC=""
@@ -270,6 +271,7 @@ class parseMbox:
                 msgSubject= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["subject"]))
             if not message["date"]:
                 msgTime=""
+                formatTime= "1970/01/01 00:00"
             else:
                 msgTime= re.sub(r"(=\?.*\?=)(?!$)", r"\1 ",self.decodeHeader(message["date"]))
                 """Convert date-time to usable time format"""
@@ -311,6 +313,8 @@ class parseMbox:
                     </a>"""
                     #<p><a target= "_blank" href= "Attachments/"""+ str(count2)+"""/"""+decodeFilename+""" "><img src="./icons/"""+ str(count2)+"""/"""+decodeFilename+""" " alt= " """+ att.get_filename()+ """ " style="width:150px"></a></p>"""
             msgATT=msgATT+"""</div>"""
+            if msgATT== """<div class="attachments_group"></div>""":
+                hasattach="false"
             msgHTML=self.createHTMLString(count2, msgFrom, msgTo, msgSubject, formatTime, chainBody, embedHTML, msgATT, msgCC)
 
             """-File paths"""
@@ -333,12 +337,13 @@ class parseMbox:
 
             #XML PrintToFile
             root = ET.Element("doc")
+            ET.SubElement(root, "attachment", name="ATTACHMENT").text = hasattach
             filepath=os.path.join("FINDMAIL/HTML_files/",str(count2)+".txt")
             ET.SubElement(root, "from", name="FROM").text = msgFrom.decode('utf-8','ignore').encode("utf-8")
             ET.SubElement(root, "to", name="TO").text = msgTo.decode('utf-8','ignore').encode("utf-8")
             ET.SubElement(root, "subject", name="SUBJECT").text = msgSubject
             ET.SubElement(root, "doc_id", name="DOC_ID").text =str(count2)
-            date={ 'sender': msgFrom ,'subject': msgSubject,'id': str(count2),'file': filepath, 'date': str(formatTime)}
+            date={'attachment': hasattach , 'sender': msgFrom ,'subject': msgSubject,'id': str(count2),'file': filepath, 'date': str(formatTime)}
             unsortedArray.append(date)
             ET.SubElement(root, "date", name="DATE").text = formatTime
             if chainBody:
@@ -359,11 +364,6 @@ class parseMbox:
             
             count2= count2+1
 
-        #Add to "All" directory
-        data["Root"]= [os.path.join("All")]
-        json_data = json.dumps(data)
-        open('dir.json', 'w').close()
-        self.append_to_file('dir.json',json_data,'a') #TO-D0 REMOVE Unecessary code last 4 lines
         open('dir.txt', 'w').close()
         self.append_to_file('dir.txt',"All",'a') #Add to dir.txt file
         #XML Processing
@@ -376,27 +376,13 @@ class parseMbox:
         leftoverDate=[]
         for item in sortedArrayDate:
             if str(item["date"]) :
-                ET.SubElement(rootDate, "tf",sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
-            else:
-                leftoverDate.append(item)
-        for last in leftoverDate:
-            ET.SubElement(rootDate, "tf",sender= last["sender"] ,subject= last["subject"],id= last["id"], file=str(last["file"]),date=str(last["date"]) ).text = str(0.001)
-        leftoverSubject=[]
+                ET.SubElement(rootDate, "tf",attachment=item["attachment"], sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
         for item in sortedArraySubject:
             if str(item["subject"]) :
-                ET.SubElement(rootSubject, "tf",sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
-            else:
-                leftoverSubject.append(item)
-        for last in leftoverSubject:
-            ET.SubElement(rootSubject, "tf",sender= last["sender"] ,subject= last["subject"],id= last["id"], file=str(last["file"]),date=str(last["date"]) ).text = str(0.001)
-        leftoverSender=[]
+                ET.SubElement(rootSubject,"tf",attachment=item["attachment"],sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
         for item in sortedArraySender:
             if str(item["sender"]) :
-                ET.SubElement(rootSender, "tf",sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
-            else:
-                leftoverSender.append(item)
-        for last in leftoverSender:
-            ET.SubElement(rootSender, "tf",sender= last["sender"] ,subject= last["subject"],id= last["id"], file=str(last["file"]),date=str(last["date"]) ).text = str(0.001)
+                ET.SubElement(rootSender, "tf",attachment=item["attachment"],sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
         tree2 = ET.ElementTree(rootDate)
         tree3 = ET.ElementTree(rootSubject)
         tree4 = ET.ElementTree(rootSender)
@@ -408,7 +394,6 @@ class parseMbox:
         tree3.write(filepath3)
         tree4.write(filepath4)
         print("Size of Archive: "+str(count2-1))
-        return json_data
 
     def createDirs(self,path):
         if not os.path.exists(os.path.dirname(path)):
@@ -427,7 +412,6 @@ class parseMbox:
     @staticmethod
     def main(self,path):
         """Multiprocessing allowed here as if _name_='main' not applicable"""
-        self.printToHTMLFiles(path)
         p = Process(target=self.printToHTMLFiles, args=( path,))
         p.start()
         p.join()
@@ -562,6 +546,7 @@ class parseMDIR:
         if not part:
             return None
         else:
+            part=part.decode('utf-8','ignore').encode("utf-8")
             strippedPart= part.replace('"', '') #Remove quote so decode_header can recognise encoding
             bytes, encoding = decode_header(strippedPart)[0]
             if not encoding:
@@ -614,31 +599,10 @@ class parseMDIR:
             """+Cc+"""
             </div>
             """+fullbody+"""
-            """+Embedded+"""
-            """+Attach+"""
+            """+Embedded.decode('utf-8','ignore').encode("utf-8")+"""
+            """+Attach.decode('utf-8','ignore').encode("utf-8")+"""
         </div>"""
         return msgHTML
-
-    def addToJSON(self, folder, data, folder_lst,fullname):
-        if folder not in data:##No Key
-            self.append_to_file(folder+'.txt',fullname+'.\n','a')
-            folder_lst.append(fullname)
-            data[folder] = folder_lst
-            folder_lst=[]
-        else:
-            if not data[folder]: #No value
-                self.append_to_file(folder+'.txt',fullname+'\n','a')
-                folder_lst.append(fullname)
-                data[folder] = folder_lst
-                folder_lst=[]
-            else:
-                #Check value exists
-                curr_lst=data[folder]
-                if fullname not in curr_lst:
-                    self.append_to_file(folder+'.txt',fullname+'\n','a')
-                    curr_lst.append(fullname)
-                data[folder] = curr_lst
-        return data
 
     """removes all xml files in current directory"""
     def removeXML(self):
@@ -656,13 +620,13 @@ class parseMDIR:
 
         for item in sortedArrayDate:
             if str(item["date"]) :
-                ET.SubElement(rootDate, "tf",sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
+                ET.SubElement(rootDate, "tf",attachment=item["attachment"],sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
         for item in sortedArraySubject:
             if str(item["subject"]) :
-                ET.SubElement(rootSubject, "tf",sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
+                ET.SubElement(rootSubject, "tf",attachment=item["attachment"],sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
         for item in sortedArraySender:
             if str(item["sender"]) :
-                ET.SubElement(rootSender, "tf",sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
+                ET.SubElement(rootSender, "tf",attachment=item["attachment"],sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
         tree2 = ET.ElementTree(rootDate)
         tree3 = ET.ElementTree(rootSubject)
         tree4 = ET.ElementTree(rootSender)
@@ -687,13 +651,13 @@ class parseMDIR:
         rootSender= ET.fromstring(text4)
         for item in sortedArrayDate:
             if str(item["date"]) :
-                ET.SubElement(rootDate, "tf",sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
+                ET.SubElement(rootDate, "tf",attachment=item["attachment"],sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
         for item in sortedArraySubject:
             if str(item["subject"]) :
-                ET.SubElement(rootSubject, "tf",sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
+                ET.SubElement(rootSubject, "tf",attachment=item["attachment"],sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
         for item in sortedArraySender:
             if str(item["sender"]) :
-                ET.SubElement(rootSender, "tf",sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
+                ET.SubElement(rootSender, "tf",attachment=item["attachment"],sender= item["sender"] ,subject= item["subject"],id= item["id"], file=str(item["file"]),date=str(item["date"]) ).text = str(0.001)
         tree2 = ET.ElementTree(rootDate)
         tree3 = ET.ElementTree(rootSubject)
         tree4 = ET.ElementTree(rootSender)
@@ -730,6 +694,7 @@ class parseMDIR:
             shutil.rmtree(os.path.join("FINDMAIL","XML_files"))
         for dirname, subdirs, files in os.walk(path):
             for name in files:
+                hasattach= "true"
                 fullname = os.path.join(dirname, name)
                 alldir= os.path.normpath(fullname).split(os.path.sep)
                 for i in range(0,len(alldir)-1):
@@ -805,6 +770,8 @@ class parseMDIR:
                         <pre class="attachment_Name"><i>"""+ att.get_filename()+ """ &nbsp;</i></pre>
                         </a>"""
                 msgATT=msgATT+"""</div>"""
+                if msgATT== """<div class="attachments_group"></div>""":
+                    hasattach="false"
                 msgHTML=self.createHTMLString(count5, msgFrom, msgTo.decode('utf-8','ignore').encode("utf-8"), msgSubject, msgTime, Body, embedHTML, msgATT, msgCC)
                 """File paths"""
                 filenamehtml = os.path.join(self.prePath,specpath, str(count5)+".txt")
@@ -845,6 +812,7 @@ class parseMDIR:
 
                 filename = os.path.join("FINDMAIL/XML_files/",specpath, str(count5)+".xml")
                 root2 = ET.Element("doc")
+                ET.SubElement(root2, "attachment", name="ATTACHMENT").text = hasattach
                 ET.SubElement(root2, "path", name="PATH").text = filenamehtml
                 if not msgFrom:
                     msgFrom= "No Sender"
@@ -860,12 +828,12 @@ class parseMDIR:
                 ET.SubElement(root2, "date", name="DATE").text = formatTime
                 if(count5==1):
                     prevFolder=curr_foldername
-                    date={ 'sender': msgFrom ,'subject': msgSubject,'id': str(count5),'file': filenamehtml, 'date': str(formatTime)}
+                    date={ 'attachment': hasattach,'sender': msgFrom ,'subject': msgSubject,'id': str(count5),'file': filenamehtml, 'date': str(formatTime)}
                     unsortedArray.append(date)
                 else:
                     #Continue  adding to dictionary if same folder
                     if(prevFolder==curr_foldername):
-                        date={ 'sender': msgFrom ,'subject': msgSubject,'id': str(count5),'file': filenamehtml, 'date': str(formatTime)}
+                        date={ 'attachment': hasattach,'sender': msgFrom ,'subject': msgSubject,'id': str(count5),'file': filenamehtml, 'date': str(formatTime)}
                         unsortedArray.append(date)
                     #Sort dictionary and add to xml
                     else:
@@ -877,14 +845,14 @@ class parseMDIR:
                         #If the xml structure file was not created
                         if not os.path.exists(prevFolder+"_Date.xml") :
                             self.xmlProcessFileUncreated(sortedArrayDate, sortedArraySubject, sortedArraySender, prevFolder)
-                            date={ 'sender': msgFrom ,'subject': msgSubject,'id': str(count5),'file': filenamehtml, 'date': str(formatTime)}
+                            date={ 'attachment': hasattach,'sender': msgFrom ,'subject': msgSubject,'id': str(count5),'file': filenamehtml, 'date': str(formatTime)}
                             unsortedArray.append(date)
                             prevFolder=curr_foldername
 
                         #XML Structure file already created
                         else:
                             self.xmlProcessFileCreated(sortedArrayDate, sortedArraySubject, sortedArraySender, prevFolder)
-                            date={ 'sender': msgFrom ,'subject': msgSubject,'id': str(count5),'file': filenamehtml, 'date': str(formatTime)}
+                            date={ 'attachment': hasattach,'sender': msgFrom ,'subject': msgSubject,'id': str(count5),'file': filenamehtml, 'date': str(formatTime)}
                             unsortedArray.append(date)
                             prevFolder=curr_foldername
                 
@@ -915,11 +883,8 @@ class parseMDIR:
             else:
                 self.xmlProcessFileCreated(sortedArrayDate, sortedArraySubject, sortedArraySender, prevFolder)
                 prevFolder=curr_foldername
-        json_data = json.dumps(collections.OrderedDict(data))
-        open('dir.json', 'w').close()
-        self.append_to_file('dir.json',json_data,'a')
+        
         print("Size of Archive: "+str(count5-1))
-        return json_data
 
     def createDirs(self,path):
         if not os.path.exists(os.path.dirname(path)):

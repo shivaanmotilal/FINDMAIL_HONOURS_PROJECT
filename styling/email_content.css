@@ -1,0 +1,115 @@
+/* width */
+::-webkit-scrollbar {
+    width: 7px;
+    /* height: 40px; */
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+}
+.Content_topNav{
+
+    border-bottom: 4px solid whitesmoke;
+      /* border-top: 2px solid whitesmoke; */
+      height: 10%;
+} 
+.st_line
+    {
+        display: flex;
+        flex-direction: row;
+        display: -webkit-flex;
+        justify-content: space-between;
+/*        padding-bottom: 2px;*/
+        padding-bottom: 0px;
+        margin-bottom: 0px;
+    }
+#sender_content, #datetime_content
+    {
+        padding-left: 0px;
+/*        padding-right: 540px;*/
+/*        padding-bottom: 0px 0px 0px 0px;*/
+          color: black;
+          font-size: medium;
+/*        height: 5mm;*/
+        padding-top: 20px;
+
+ }
+ 
+#sender_content{
+    margin-left:0px;
+    padding-left: 0px;
+}
+
+#datetime_content{
+    padding-right: 20px;
+    /* padding-top: 12px; */
+}
+p, pre
+    {
+        /* padding: 0px 1px 1px 1px; */
+        margin-top: 0px;
+         margin-bottom: 0px;
+   }
+
+
+/*    #datetime_content{ padding-left: 500px;}*/
+.middle_content
+        {
+            padding-top:1px; 
+            /* border-bottom: 2px solid whitesmoke; */
+            padding-right: 5px;   padding-left: 5px; 
+            width : inherit;
+            white-space:pre-wrap;
+            /* background-color: lightgray; */
+            margin-top: 5px;
+            
+            word-break: break-all;
+            white-space: pre-line;       /*put back to normal once you done experimenting please*/
+        
+        } 
+
+ .content_content
+    {   
+        overflow: hidden;
+       display:flex;
+        flex-direction:  column;
+      padding-right: 20px;
+      /* padding-top:10px; */
+    } 
+/*body
+    {   
+          overflow: auto;
+    display:flex;
+          flex-direction:  column;
+        height: 84vh;
+  padding: .5rem;
+   
+    } */
+
+.attachments_group{
+       border-bottom: 4px solid whitesmoke;
+      display:flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      /* justify-content: space-between; */
+      align-content: flex-start;
+}
+.attachment_Name{
+    padding-top: 0px;
+    margin-top: 0px;
+}
+#attachmentItem
+{
+    text-decoration:none;
+} 
