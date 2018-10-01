@@ -191,7 +191,10 @@ function addDir(path_dir)
             var d_=this.responseText.split("\n");
             for (var i=0;i<d_.length;i++)
             {
+                if(d_[i]!="")
+                {
                createDir(d_[i].replace(/,/g,"/"),d_[i]);
+                }
 
             }
     }
